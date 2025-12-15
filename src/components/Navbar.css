@@ -1,0 +1,141 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  padding: 18px 0;
+  transition: all 0.3s ease;
+}
+
+.navbar.sticky {
+  padding: 12px 0;
+  background: #281569;
+  box-shadow: 0 4px 20px rgba(43, 63, 167, 0.25);
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.navbar .logo {
+  font-size: 26px;
+  font-weight: 700;
+  color: #240391;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.navbar .logo a {
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.navbar .logo a:hover {
+  transform: scale(1.05);
+}
+
+.navbar.sticky .logo {
+  color: white;
+}
+
+.navbar .menu {
+  display: flex;
+  list-style: none;
+  gap: 8px;
+}
+
+.navbar .menu li {
+  margin: 0;
+}
+
+.navbar .menu li a {
+  color: rgb(38, 38, 172);
+  font-size: 17px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 25px;
+  position: relative;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.navbar .menu li a:hover,
+.navbar .menu li a.active {
+  background: rgba(19, 42, 156, 0.12);
+  color: var(--primary-color);
+  transform: translateY(-1px);
+}
+
+.navbar.sticky .menu li a {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar.sticky .menu li a:hover,
+.navbar.sticky .menu li a.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.menu-btn {
+  color: #1b0072;
+  font-size: 26px;
+  cursor: pointer;
+  display: none;
+  z-index: 1001;
+  transition: transform 0.3s ease;
+}
+
+.menu-btn:hover {
+  transform: scale(1.1);
+}
+
+.navbar.sticky .menu-btn {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .menu-btn {
+    display: block;
+  }
+  
+  .navbar .menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100vh;
+    width: 100%;
+    max-width: 350px;
+    background: white;
+    padding-top: 100px;
+    flex-direction: column;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.15);
+    gap: 0;
+  }
+  
+  .navbar .menu.active {
+    left: 0;
+  }
+  
+  .navbar .menu li {
+    margin: 12px 0;
+    text-align: center;
+  }
+  
+  .navbar .menu li a {
+    font-size: 20px;
+    padding: 14px 30px;
+    display: block;
+  }
+}
+

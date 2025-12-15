@@ -1,20 +1,44 @@
 {
   "name": "mathan-monishan-portfolio",
-  "version": "1.0.0",
-  "description": "Personal portfolio website of Mathan Monishan",
-  "main": "index.html",
+  "version": "2.0.0",
+  "description": "Personal portfolio website of Mathan Monishan - React Version",
+  "private": true,
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1"
+  },
   "scripts": {
-    "dev": "live-server --port=3000",
-    "build": "echo 'No build process needed for static site'",
-    "start": "live-server --port=3000"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "keywords": ["portfolio", "web-developer", "frontend"],
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "keywords": [
+    "portfolio",
+    "web-developer",
+    "frontend",
+    "react"
+  ],
   "author": "Mathan Monishan",
-  "license": "MIT",
-  "devDependencies": {
-    "live-server": "^1.2.2"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "license": "MIT"
 }

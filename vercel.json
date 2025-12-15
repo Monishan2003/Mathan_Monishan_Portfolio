@@ -1,19 +1,14 @@
 {
   "version": 2,
   "name": "mathan-monishan-portfolio",
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
   "routes": [
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
   ],
-  "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false
 }
