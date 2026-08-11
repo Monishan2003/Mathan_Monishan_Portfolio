@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# monishan-portfolio-v2
 
-## Getting Started
+Database-driven rebuild of [www.monishan.me](https://www.monishan.me) — Next.js 15 (App Router) + Supabase, with a private single-user admin panel at `/admin`.
 
-First, run the development server:
+The old CRA site lives in [`Mathan_Monishan_Portfolio`](https://github.com/Monishan2003/Mathan_Monishan_Portfolio) and keeps serving the domain until the Phase 8 DNS cutover.
+
+## Working docs
+
+| File                        | What it is                                                                                                       |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `PORTFOLIO_UPGRADE_PLAN.md` | The 8-phase spec. Schema, folder layout, API pattern, definition of done.                                        |
+| `MIGRATION_NOTES.md`        | Phase 0 audit of the old repo: component inventory, content → row mapping, extracted design tokens, defect list. |
+
+One phase per session. Read both docs before writing code; never let a phase run half-finished into the next.
+
+## Stack
+
+Next.js 15.5 · React 19 · TypeScript 5 (strict, no `any`) · Tailwind CSS v4 · Supabase (Postgres + Auth + Storage) · react-hook-form + yup · Resend · Sentry · Vercel
+
+### Documented exceptions to the Thriio standard
+
+Both are deliberate. Recorded here so they don't read as accidents later.
+
+1. **Tailwind instead of MUI v7.** This is a bespoke-design site. Tailwind maps almost 1:1 onto the CSS the old site already has, which makes the port mechanical instead of a redesign. Rebuilding a custom visual identity inside MUI's theming would mean fighting the component library on every section. (Plan §2.2)
+
+2. **FontAwesome for content icons, not lucide-react.** Every icon on the current site — skill tiles, education timeline, project cards — is FontAwesome, and the class strings are stored in the database. Switching to lucide would visibly change three sections, which §0.1 forbids. lucide is used for admin-panel chrome only. (MIGRATION_NOTES §6.3)
+
+A third decision worth knowing: **v1 is light-only.** The old site has never had a dark palette, so inventing one would be a redesign. The `site_settings.theme_mode` column exists for when that changes. (MIGRATION_NOTES §6.4)
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in the values
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`SUPABASE_SERVICE_ROLE_KEY` comes from the Supabase dashboard → Project Settings → API keys. It is server-only — never prefix it with `NEXT_PUBLIC_`, never import `src/lib/supabase/admin.ts` from a client component.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command             | Does                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| `npm run dev`       | Dev server (Turbopack)                                       |
+| `npm run build`     | Production build                                             |
+| `npm run typecheck` | `tsc --noEmit`                                               |
+| `npm run lint`      | ESLint                                                       |
+| `npm run format`    | Prettier write                                               |
+| `npm run verify`    | typecheck + lint + build — run before saying a phase is done |
 
-## Learn More
+## Database
 
-To learn more about Next.js, take a look at the following resources:
+`supabase/migrations/*.sql` is the single source of truth for schema. No Prisma: Supabase gives Postgres + Auth + Storage + RLS behind one client, and running migrations in two places would cost RLS as a safety net. (Plan §2.1)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+RLS is on for every table. Policies target roles directly (`to anon` / `to authenticated`) rather than calling `auth.role()` — that function is deprecated, and role targeting is evaluated once per statement instead of once per row.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Table group                | anon                        | authenticated |
+| -------------------------- | --------------------------- | ------------- |
+| Content tables             | select where `is_published` | all           |
+| `profile`, `site_settings` | select                      | all           |
+| `contact_messages`         | insert only                 | all           |
+| `page_views`               | insert only                 | all           |
 
-## Deploy on Vercel
+Regenerate types after every migration; `src/types/database.ts` is generated and must not be hand-edited.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Architecture
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Pages are thin and only compose. Business logic lives in `src/features/`. Supabase calls belong in Server Components, `src/lib/`, or route handlers — never inside a client component.
+
+Admin route handlers follow one order: **auth first → validate → query → respond.**
+
+```ts
+const auth = await requireAdmin(request)
+if ("errorResponse" in auth) return auth.errorResponse
+```
+
+Middleware guards `/admin`, but it is a redirect for humans, not the security boundary. Every `/api/admin/*` route re-checks with `requireAdmin`, and RLS is the final backstop.
+
+## Security checklist
+
+- [ ] Supabase public sign-ups **disabled** (the single most important switch — leaving it on opens the admin panel to anyone)
+- [ ] MFA enabled on the Supabase account
+- [ ] `SUPABASE_SERVICE_ROLE_KEY` set in Vercel as a server-only env var
+- [ ] `.env.local` gitignored (it is, via `.env*`)

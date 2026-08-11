@@ -1,0 +1,23 @@
+/*
+ * Design tokens for monishan.me.
+ *
+ * PHASE 2 FILLS THIS IN. The full extraction already exists — see
+ * MIGRATION_NOTES.md §3 in the old repo, which lists every colour (including the
+ * ~20 that live outside :root in the current component CSS), both font families,
+ * the four-step responsive type scale, the 100px section rhythm, radii, the
+ * shadow set, easing curves and stagger timings, and the four breakpoints.
+ *
+ * Only the two font-family hooks are wired here, because the root layout needs
+ * them to load the fonts at all. Everything else is deliberately absent so that
+ * Phase 2 ports the scale in one deliberate pass rather than accreting values.
+ *
+ * Rule from the plan §0.1: every component derives from these tokens. Do not
+ * invent a colour or a typeface.
+ */
+
+:root {
+  /* Bound to next/font in src/app/layout.tsx */
+  --font-body: var(--font-poppins), system-ui, sans-serif;
+  --font-heading:
+    var(--font-ubuntu), var(--font-poppins), system-ui, sans-serif;
+}
