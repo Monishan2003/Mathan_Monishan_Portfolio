@@ -18,6 +18,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      admins: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          note: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          note?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          note?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       certifications: {
         Row: {
           created_at: string | null

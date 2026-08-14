@@ -54,12 +54,21 @@ npm run dev
 
 RLS is on for every table. Policies target roles directly (`to anon` / `to authenticated`) rather than calling `auth.role()` — that function is deprecated, and role targeting is evaluated once per statement instead of once per row.
 
-| Table group                | anon                        | authenticated |
-| -------------------------- | --------------------------- | ------------- |
-| Content tables             | select where `is_published` | all           |
-| `profile`, `site_settings` | select                      | all           |
-| `contact_messages`         | insert only                 | all           |
-| `page_views`               | insert only                 | all           |
+| Table group                | anon                        | admin (allowlisted) |
+| -------------------------- | --------------------------- | ------------------- |
+| Content tables             | select where `is_published` | all                 |
+| `profile`, `site_settings` | select                      | all                 |
+| `contact_messages`         | insert only                 | all                 |
+| `page_views`               | insert only                 | all                 |
+
+**Admin is an allowlist, not a role.** Being signed in is not enough — write policies call `private.is_admin()`, which checks `public.admins` for the caller's uid. A stray account that registers gets an empty database rather than full control. Rows are added to `admins` out of band via SQL; nothing writes to it through the API.
+
+Enrol an account after creating it in the dashboard:
+
+```sql
+insert into public.admins (user_id, email)
+select id, email from auth.users where email = 'your@email.com';
+```
 
 Regenerate types after every migration; `src/types/database.ts` is generated and must not be hand-edited.
 
@@ -78,7 +87,9 @@ Middleware guards `/admin`, but it is a redirect for humans, not the security bo
 
 ## Security checklist
 
-- [ ] Supabase public sign-ups **disabled** (the single most important switch — leaving it on opens the admin panel to anyone)
+- [x] Admin access gated by the `public.admins` allowlist, not by `TO authenticated` alone (migration 0004)
+- [ ] Supabase public sign-ups **disabled** — still worth doing as defence in depth, though 0004 means forgetting is no longer catastrophic
+- [ ] Admin user created, and their uid inserted into `public.admins` (until then, nothing can write)
 - [ ] MFA enabled on the Supabase account
-- [ ] `SUPABASE_SERVICE_ROLE_KEY` set in Vercel as a server-only env var
-- [ ] `.env.local` gitignored (it is, via `.env*`)
+- [ ] `SUPABASE_SERVICE_ROLE_KEY` set in `.env.local` and in Vercel as a server-only env var
+- [x] `.env.local` gitignored, `.env.example` explicitly un-ignored
