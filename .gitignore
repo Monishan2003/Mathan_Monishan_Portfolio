@@ -32,8 +32,11 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-# ...but the template must be committed so a fresh clone knows what to fill in.
+# ...but the template must be committed so a fresh clone knows what to fill in,
+# and .env.production carries the two public NEXT_PUBLIC_ values so production
+# builds work without depending on dashboard state. Secrets stay out of both.
 !.env.example
+!.env.production
 
 # vercel
 .vercel

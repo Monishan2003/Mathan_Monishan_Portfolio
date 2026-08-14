@@ -35,7 +35,15 @@ cp .env.example .env.local   # then fill in the values
 npm run dev
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` comes from the Supabase dashboard → Project Settings → API keys. It is server-only — never prefix it with `NEXT_PUBLIC_`, never import `src/lib/supabase/admin.ts` from a client component.
+`SUPABASE_SERVICE_ROLE_KEY` is shown in the Supabase dashboard as **`SUPABASE_SECRET_KEY`** (`sb_secret_…`) under Connect, or Project Settings → API Keys. It replaces the legacy `service_role` JWT and has the same privileges. Server-only — never prefix it with `NEXT_PUBLIC_`, never import `src/lib/supabase/admin.ts` from a client component.
+
+Run `npm run check:env` to confirm the wiring. It reports presence and pass/fail only, never a key value.
+
+### Why `.env.production` is committed
+
+It holds the two `NEXT_PUBLIC_` values and nothing else. Those are inlined into the browser bundle at build time, so they are public the moment anyone opens devtools — the Supabase publishable key identifies the project, it does not authorise anything. RLS decides what `anon` can read and migration 0004 gates every write behind the allowlist, so hiding it would buy nothing while making production builds depend on dashboard state.
+
+Secrets — `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `SENTRY_AUTH_TOKEN` — are never committed. They live in `.env.local` locally and in the Vercel project settings for production.
 
 ### Scripts
 
