@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "check:env": "node --env-file=.env.local scripts/check-env.mjs",
     "verify": "npm run typecheck && npm run lint && npm run build"
   },
   "dependencies": {
