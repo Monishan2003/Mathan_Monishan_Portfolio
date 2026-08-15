@@ -27,6 +27,14 @@ export const metadata: Metadata = {
   title: "Mathan Monishan | Portfolio",
   description:
     "Mathan Monishan — full-stack developer, mobile app developer and UI/UX designer.",
+  icons: {
+    icon: [
+      { url: "/monishan.jpeg", type: "image/jpeg" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: "/monishan.jpeg",
+    apple: "/monishan.jpeg",
+  },
 }
 
 export default function RootLayout({
@@ -34,6 +42,11 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/monishan.jpeg" type="image/jpeg" />
+        <link rel="shortcut icon" href="/monishan.jpeg" />
+        <link rel="apple-touch-icon" href="/monishan.jpeg" />
+      </head>
       <body className={`${poppins.variable} ${ubuntu.variable}`}>
         {children}
       </body>

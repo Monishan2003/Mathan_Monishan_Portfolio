@@ -1,15 +1,16 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
 @import "tailwindcss";
 @import "../styles/tokens.css";
-
-/*
- * v1 is light-only by decision (MIGRATION_NOTES.md §6.4) — the current site has
- * never had a dark palette, and inventing one would be a redesign, not a port.
- * The site_settings.theme_mode column exists for when that changes.
- */
 
 @theme inline {
   --font-sans: var(--font-body);
   --font-heading: var(--font-heading);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -18,11 +19,159 @@ html {
 
 body {
   font-family: var(--font-body);
+  background-color: var(--bg-light);
+  color: #333333;
+  line-height: 1.6;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Phase 2 ports the real type scale, colours and section rhythm. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  max-width: 1300px;
+  padding: 0 30px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+section {
+  padding: 100px 0;
+  position: relative;
+}
+
+.section-title {
+  position: relative;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 60px;
+  padding-bottom: 20px;
+  color: var(--secondary-color);
+  font-family: var(--font-heading);
+}
+
+.section-title::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 180px;
+  height: 3px;
+  background: var(--primary-color);
+  transform: translateX(-50%);
+}
+
+.section-subtitle {
+  display: block;
+  font-size: 15px;
+  color: var(--accent-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--primary-color);
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 12px 36px;
+  border-radius: 6px;
+  border: 2px solid var(--primary-color);
+  transition: var(--transition);
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.btn:hover {
+  color: var(--primary-color);
+  background: transparent;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary-color);
+}
+
+.btn-outline:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 80px 0;
+  }
+  
+  .section-title {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0 20px;
+  }
+  
+  .section-title {
+    font-size: 28px;
+  }
+  
+  .btn {
+    padding: 10px 25px;
+    font-size: 16px;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html {
