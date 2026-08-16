@@ -31,66 +31,75 @@ export default function Projects({ projects = [] }: ProjectsProps) {
   const defaultProjects: ProjectItem[] = [
     {
       id: 1,
-      slug: "hotel-website",
-      title: "Hotel Website",
+      slug: "pynimox-ai-website",
+      title: "Pynimox AI Website",
       summary:
-        "A responsive website for a hotel showcasing rooms, amenities, and booking information with a clean, modern design.",
-      tech_stack: ["HTML5", "CSS"],
-      repo_url: "https://github.com/Monishan2003/Web-design-project1",
-      live_url: null,
-      icon: "fas fa-hotel",
-      accent_gradient: "linear-gradient(135deg, #4a6fc7 0%, #3f51b5 100%)",
+        "Modern business website for Pynimox featuring responsive UI, optimized performance, and an integrated AI Assistant for intelligent customer support.",
+      tech_stack: ["Next.js", "TypeScript", "Node.js", "Supabase", "LLM APIs"],
+      live_url: "https://www.pynimox.com",
+      cover_image_url: "/projects/pynimox.jpg",
+      icon: "fas fa-robot",
+      accent_gradient: "linear-gradient(135deg, #090642 0%, #1b0072 50%, #14b1ff 100%)",
     },
     {
       id: 2,
-      slug: "portfolio-website",
-      title: "Portfolio Website",
+      slug: "srmj-enterprises-ecommerce",
+      title: "SRMJ Enterprises – E-Commerce Platform",
       summary:
-        "A personal portfolio website showcasing skills, projects, and experience with interactive elements and responsive design.",
-      tech_stack: ["HTML5", "CSS", "JavaScript"],
-      repo_url: "https://github.com/Monishan2003/My-Portfolio-website-.git",
-      live_url: "https://www.monishan.me",
-      icon: "fas fa-user",
-      accent_gradient: "linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%)",
+        "Modern full-stack e-commerce platform for fashion and retail products with product catalog, cart, auth, and Stripe payment integration.",
+      tech_stack: ["Next.js", "Stripe", "PostgreSQL", "Prisma", "Supabase"],
+      live_url: "https://www.srmjenterprises.com",
+      cover_image_url: "/projects/srmj.jpg",
+      icon: "fas fa-shopping-bag",
+      accent_gradient: "linear-gradient(135deg, #2b3fa7 0%, #4a6fc7 100%)",
     },
     {
       id: 3,
-      slug: "personal-expense-tracker",
-      title: "Personal Expense Tracker",
+      slug: "medicross-ai-healthcare",
+      title: "MediCross AI – AI Healthcare Management",
       summary:
-        "A command-line application to track personal expenses, generate reports, and analyze spending patterns.",
-      tech_stack: ["Python", "CLI"],
-      repo_url: "https://github.com/Monishan2003/Personal-Expense-Tracker.git",
-      live_url: null,
-      icon: "fas fa-money-bill-wave",
-      accent_gradient: "linear-gradient(135deg, #20bf6b 0%, #01baef 100%)",
+        "Full-stack healthcare management system with secure authentication, patient registration, appointment scheduling, and medical records.",
+      tech_stack: ["Next.js", "React.js", "Node.js", "Supabase", "AWS"],
+      live_url: "https://medicross-wine.vercel.app",
+      cover_image_url: "/projects/medicross.jpg",
+      icon: "fas fa-heartbeat",
+      accent_gradient: "linear-gradient(135deg, #00b4d8 0%, #0077b6 100%)",
     },
     {
       id: 4,
       slug: "unisphere-lms",
-      title: "UniSphere LMS - Learning Management System",
+      title: "UniSphere LMS – Learning Management System",
       summary:
-        "A comprehensive Learning Management System built with C# supporting 4 user roles (Admin, Staff, Lecturers, Students). Features include course management, assignments, grading, and all essential learning activities for educational institutions.",
+        "Enterprise Learning Management System built with C# and .NET supporting 4 user roles (Admin, Staff, Lecturers, Students) with course management and grading.",
       tech_stack: ["C#", ".NET", "ASP.NET", "SQL Server"],
-      repo_url:
-        "https://github.com/Monishan2003/LMS_project_C-_-Learning_Management_Systam-.git",
-      live_url: null,
+      repo_url: "https://github.com/Monishan2003/LMS_project_C-_-Learning_Management_Systam-.git",
+      cover_image_url: "/projects/unisphere.jpg",
       icon: "fas fa-graduation-cap",
       accent_gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     },
     {
       id: 5,
-      slug: "community-project-uki-jaffna",
-      title: "Community Project (Uki/Jaffna)",
+      slug: "hotel-website",
+      title: "Hotel Website (Web Design Project)",
       summary:
-        "Tackling school dropout and drug abuse in Mannar via stakeholder engagement and community initiatives.",
-      tech_stack: [],
-      repo_url: null,
-      resource_url:
-        "https://drive.google.com/file/d/1sTs55D9uDlRDtzE3LrWYNdtZxZTJf6wu/view?usp=drive_link",
-      resource_label: "Project Folder",
-      icon: "fas fa-hands-helping",
-      accent_gradient: "linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%)",
+        "A responsive website for a hotel showcasing rooms, amenities, and booking information with clean, modern design.",
+      tech_stack: ["HTML5", "CSS3", "Web Design"],
+      repo_url: "https://github.com/Monishan2003/Web-design-project1",
+      cover_image_url: "/projects/hotel.jpg",
+      icon: "fas fa-hotel",
+      accent_gradient: "linear-gradient(135deg, #4a6fc7 0%, #3f51b5 100%)",
+    },
+    {
+      id: 6,
+      slug: "personal-expense-tracker",
+      title: "Personal Expense Tracker (Python CLI)",
+      summary:
+        "Python command-line application to track and manage personal daily expenses, generate reports, and analyze spending patterns.",
+      tech_stack: ["Python", "CLI", "Data Handling"],
+      repo_url: "https://github.com/Monishan2003/Personal-Expense-Tracker",
+      cover_image_url: "/projects/expense.jpg",
+      icon: "fas fa-money-bill-wave",
+      accent_gradient: "linear-gradient(135deg, #20bf6b 0%, #01baef 100%)",
     },
   ]
 
@@ -266,7 +275,7 @@ export default function Projects({ projects = [] }: ProjectsProps) {
         }
 
         .project-image-box {
-          height: 190px;
+          height: 200px;
           display: flex;
           align-items: center;
           justify-content: center;

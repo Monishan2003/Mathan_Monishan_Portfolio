@@ -20,23 +20,43 @@ export default function Certifications({ items = [] }: CertificationsProps) {
   const defaultItems: CertificationItem[] = [
     {
       id: 1,
-      title: "Introduction to Front-End Development",
+      title: "Diploma of Education in Project Management",
+      issuer: "Uki (Yarl IT Hub)",
+      issue_date: "Aug 2024",
+      description:
+        "Comprehensive training in Agile, Scrum, and Waterfall methodologies, cross-functional team leadership, stakeholder communication, and project delivery.",
+      icon: "fas fa-tasks",
+      credential_url: null,
+    },
+    {
+      id: 2,
+      title: "Python (Programming Language)",
+      issuer: "Uki (Yarl IT Hub)",
+      issue_date: "Mar 2025",
+      description:
+        "Intensive programming course covering core Python, OOP, data structures, algorithm design, file processing, and backend development.",
+      icon: "fab fa-python",
+      credential_url: null,
+    },
+    {
+      id: 3,
+      title: "Front-End Development",
       issuer: "Meta (via Coursera)",
       issue_date: "Oct 2024",
       description:
-        "Comprehensive training in HTML5, CSS3, JavaScript, React.js, UI/UX principles, and responsive web application design.",
+        "Professional front-end certification covering HTML5, CSS3, JavaScript, React.js, UI/UX design principles, and responsive web applications.",
       icon: "fab fa-react",
       credential_url:
         "https://www.coursera.org/account/accomplishments/verify/B9JH54BPHVSO",
     },
     {
-      id: 2,
-      title: "Diploma of Education in Project Management",
-      issuer: "Uki (Yarl IT Hub)",
-      issue_date: "2024",
+      id: 4,
+      title: "Artificial Intelligence with Python",
+      issuer: "NoviTech R&D Pvt Ltd",
+      issue_date: "Apr 2024",
       description:
-        "Practical training in modern Agile, Scrum, and Waterfall methodologies, cross-functional team collaboration, and stakeholder communication.",
-      icon: "fas fa-tasks",
+        "Practical course exploring artificial intelligence fundamentals, machine learning models, neural networks, and Python-based AI development.",
+      icon: "fas fa-brain",
       credential_url: null,
     },
   ]
@@ -140,7 +160,7 @@ export default function Certifications({ items = [] }: CertificationsProps) {
           color: var(--primary-color);
           display: flex;
           align-items: center;
-          justifyContent: center;
+          justify-content: center;
           font-size: 22px;
           flex-shrink: 0;
         }

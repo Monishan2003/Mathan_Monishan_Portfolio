@@ -25,17 +25,27 @@ export default function Education({ items = [] }: EducationProps) {
       year: "2024 – Present",
       status: "present",
       description:
-        "Currently pursuing a comprehensive degree program focused on scientific principles, modern technological applications, and computational science.",
-      icon: "fas fa-university",
+        "Currently pursuing a comprehensive degree program specializing in Mechatronics, automation, robotics, computational science, and emerging engineering technologies.",
+      icon: "fas fa-robot",
     },
     {
       id: 2,
-      title: "Bachelor of Information Technology (External)",
+      title: "Bachelor of Information Technology (External Degree)",
       institution: "University of Moratuwa",
       year: "2025 – Present",
       status: "present",
       description:
-        "External degree program focusing on core IT concepts, software engineering, databases, and enterprise information systems.",
+        "External degree program focusing on software engineering principles, database architecture, network systems, and enterprise application development.",
+      icon: "fas fa-laptop-code",
+    },
+    {
+      id: 3,
+      title: "G.C.E. A/L - Physical Science",
+      institution: "Mn/Thalaimannar Pier G.T.M.S",
+      year: "2009 – 2022",
+      status: "completed",
+      description:
+        "Completed secondary education with specialization in Physical Science (Combined Mathematics, Physics, and Chemistry).",
       icon: "fas fa-graduation-cap",
     },
   ]
