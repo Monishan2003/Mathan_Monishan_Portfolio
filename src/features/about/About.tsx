@@ -1,7 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
-import TypingEffect from "@/components/TypingEffect"
+import React from "react"
 
 interface AboutProps {
   avatarUrl?: string | null
@@ -13,146 +12,104 @@ interface AboutProps {
 
 export default function About({
   avatarUrl = "/monishan.jpeg",
-  roles = [
-    "Full Stack Developer",
-    "Mobile App Developer",
-    "Coder",
-    "UI/UX Designer",
-    "Project Management Enthusiast",
-    "Freelancer",
-  ],
-  bioShort = "Hello! I'm Monishan, an undergraduate Science and Technology student at Uva Wellassa University and a driven Information Technology student at the University of Moratuwa, with strong skills in frontend development, Python programming, and project management.",
-  bioLong = "I started my journey with HTML, CSS, and JavaScript, and have continued to deepen my expertise in building responsive, user-friendly web interfaces. With hands-on experience in managing projects and collaborating in team environments, I'm passionate about creating solutions that make a difference.\n\nI'm currently seeking an internship opportunity where I can apply and grow my skills while contributing to impactful and innovative projects.",
   resumeUrl = "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link",
 }: AboutProps) {
-  const [imgSrc, setImgSrc] = useState(avatarUrl || "/monishan.jpeg")
-
-  const paragraphs = bioLong
-    ? bioLong.split("\n\n")
-    : [
-        bioShort || "",
-        "I started my journey with HTML, CSS, and JavaScript, and have continued to deepen my expertise in building responsive, user-friendly web interfaces. With hands-on experience in managing projects and collaborating in team environments, I'm passionate about creating solutions that make a difference.",
-        "I'm currently seeking an internship opportunity where I can apply and grow my skills while contributing to impactful and innovative projects.",
-      ]
-
   return (
-    <section id="about" style={{ background: "transparent" }}>
+    <section id="about" className="section-wrapper bg-slate-50/50 border-b border-slate-200/80">
       <div className="container">
-        <h2 className="section-title">
-          About Me
-          <span className="section-subtitle">Who I Am</span>
-        </h2>
+        {/* Section Header */}
+        <div className="flex flex-col items-start mb-16">
+          <div className="section-label">
+            <i className="fas fa-user-astronaut text-blue-600 text-xs" />
+            <span>Engineering Profile & Philosophy</span>
+          </div>
+          <h2 className="section-headline">
+            About Mathan Monishan
+          </h2>
+          <p className="section-subtext">
+            Bridging computational intelligence with mechanical systems — an engineer building production software today and intelligent physical systems tomorrow.
+          </p>
+        </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1.5fr",
-            gap: "50px",
-            alignItems: "center",
-          }}
-          className="about-grid"
-        >
-          {/* Left Column: Full Image Display */}
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "360px",
-                borderRadius: "24px",
-                overflow: "hidden",
-                boxShadow: "0 15px 35px rgba(43, 63, 167, 0.22)",
-                border: "4px solid #ffffff",
-                background: "linear-gradient(135deg, #1b0072 0%, #2b3fa7 100%)",
-                position: "relative",
-                transition: "transform 0.4s ease, box-shadow 0.4s ease",
-              }}
-              className="about-image-card"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={imgSrc}
-                alt="Mathan Monishan"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "460px",
-                  objectFit: "contain",
-                  display: "block",
-                  transition: "transform 0.4s ease",
-                  backgroundColor: "#ffffff",
-                }}
-                onError={() => {
-                  setImgSrc(
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%232b3fa7' opacity='0.1' rx='20'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%2314b1ff' opacity='0.2'/%3E%3Crect x='120' y='250' width='160' height='20' rx='10' fill='%231b0072' opacity='0.3'/%3E%3Crect x='140' y='280' width='120' height='15' rx='7' fill='%231b0072' opacity='0.3'/%3E%3C/svg%3E"
-                  )
-                }}
-              />
+        {/* Narrative & Credentials Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          {/* Left Column: Portrait & Stats */}
+          <div className="lg:col-span-5 flex flex-col items-center lg:items-start">
+            <div className="w-full max-w-[360px] bg-white p-3 rounded-2xl border border-slate-200 shadow-md">
+              <div className="rounded-xl overflow-hidden bg-slate-100 aspect-[4/5] relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={avatarUrl || "/monishan.jpeg"}
+                  alt="Mathan Monishan Portrait"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+
+              <div className="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                <div className="font-bold text-slate-900 text-sm">
+                  Mathan Monishan
+                </div>
+                <div className="text-xs text-blue-600 font-semibold mt-0.5">
+                  AI & Full-Stack Engineer | Mechatronics
+                </div>
+                <div className="text-xs text-slate-500 mt-1">
+                  Based in Sri Lanka · Open to Global Roles
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Bio */}
-          <div>
-            <div
-              style={{
-                fontSize: "24px",
-                fontWeight: 600,
-                color: "var(--text-dark)",
-                marginBottom: "18px",
-              }}
-            >
-              I&apos;m Monishan and I&apos;m a{" "}
-              <span style={{ color: "var(--primary-color)" }}>
-                <TypingEffect strings={roles} typeSpeed={90} backSpeed={50} loop={true} />
-              </span>
-            </div>
+          {/* Right Column: Editorial Narrative */}
+          <div className="lg:col-span-7 space-y-6 text-slate-700 leading-relaxed text-[16px]">
+            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+              <h3 className="text-2xl font-bold text-slate-900 tracking-tight">
+                Software Rigor Meets Physical Engineering
+              </h3>
 
-            {paragraphs.map((p, idx) => (
-              <p
-                key={idx}
-                style={{
-                  fontSize: "16px",
-                  lineHeight: "1.8",
-                  color: "#4a5568",
-                  marginBottom: "16px",
-                }}
-              >
-                {p}
+              <p>
+                I am an engineer pursuing a dual-academic path: a <strong>BSc (Hons) in Science & Technology specializing in Mechatronics</strong> at Uva Wellassa University of Sri Lanka, and a <strong>Bachelor of Information Technology (External)</strong> at the University of Moratuwa.
               </p>
-            ))}
 
-            {resumeUrl && (
-              <div style={{ marginTop: "24px" }}>
+              <p>
+                Over the past several years, I have built and shipped commercial production software across diverse domains — from full-stack web applications and ERP modules at <strong>NF Group of Companies</strong>, to founding <strong>Pynimox</strong>, an AI automation studio where I engineer custom multi-agent LLM systems for global clients.
+              </p>
+
+              <p>
+                My work is driven by a deep conviction: true technical innovation happens at the intersection of intelligent software algorithms, robust cloud databases, and mechanical physical systems. Whether optimizing a Next.js server component, writing high-performance C# backend logic, or interfacing sensor arrays for robotics, I approach every challenge with systematic discipline and architectural clarity.
+              </p>
+
+              {/* Highlight Metrics Box */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-100">
+                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+                  <div className="text-xs text-slate-500 font-medium">Founder</div>
+                  <div className="text-base font-bold text-slate-900 mt-0.5">Pynimox AI</div>
+                </div>
+                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+                  <div className="text-xs text-slate-500 font-medium">Focus</div>
+                  <div className="text-base font-bold text-blue-600 mt-0.5">Mechatronics</div>
+                </div>
+                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 col-span-2 sm:col-span-1">
+                  <div className="text-xs text-slate-500 font-medium">Stack</div>
+                  <div className="text-base font-bold text-slate-900 mt-0.5">Full-Stack & AI</div>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div className="pt-4">
                 <a
-                  href={resumeUrl}
-                  className="btn btn-outline"
+                  href={resumeUrl || "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{
-                    borderWidth: "2px",
-                    fontWeight: 600,
-                  }}
+                  className="btn-primary"
                 >
-                  <i className="fas fa-file-download"></i> Download CV
+                  <i className="fas fa-file-pdf" />
+                  <span>Download Curriculum Vitae (CV)</span>
                 </a>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .about-image-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 20px 40px rgba(43, 63, 167, 0.3) !important;
-        }
-
-        @media (max-width: 900px) {
-          :global(.about-grid) {
-            grid-template-columns: 1fr !important;
-            gap: 40px !important;
-          }
-        }
-      `}</style>
     </section>
   )
 }

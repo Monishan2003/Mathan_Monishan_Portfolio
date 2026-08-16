@@ -1,309 +1,105 @@
 "use client"
 
 import React from "react"
+import Link from "next/link"
 
-interface SocialLink {
-  platform: string
-  label?: string | null
-  url: string
-  icon?: string | null
-}
-
-interface FooterProps {
-  fullName?: string
-  bioNote?: string
-  location?: string
-  email?: string
-  phone?: string
-  whatsappNumber?: string
-  socialLinks?: SocialLink[]
-}
-
-export default function Footer({
-  fullName = "Mathan Monishan",
-  bioNote = "A passionate IT student and web developer focused on creating meaningful digital experiences through innovative solutions.",
-  location = "Thalaimannar, Mannar, Sri Lanka",
-  email = "mathanmonishan@gmail.com",
-  phone = "+94 76 763 4359",
-  whatsappNumber = "94767634359",
-  socialLinks = [],
-}: FooterProps) {
+export default function Footer() {
   const currentYear = new Date().getFullYear()
 
-  const defaultSocials: SocialLink[] = [
-    {
-      platform: "linkedin",
-      url: "https://www.linkedin.com/in/mathan-monishan2003",
-      icon: "fab fa-linkedin-in",
-    },
-    {
-      platform: "github",
-      url: "https://github.com/Monishan2003",
-      icon: "fab fa-github",
-    },
-    {
-      platform: "x",
-      url: "https://x.com/Monishan2003",
-      icon: "fab fa-twitter",
-    },
-    {
-      platform: "instagram",
-      url: "https://www.instagram.com/monishan_2003",
-      icon: "fab fa-instagram",
-    },
-    {
-      platform: "whatsapp",
-      url: `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`,
-      icon: "fab fa-whatsapp",
-    },
+  const socialLinks = [
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/mathan-monishan2003", icon: "fab fa-linkedin-in" },
+    { label: "GitHub", href: "https://github.com/Monishan2003", icon: "fab fa-github" },
+    { label: "Twitter / X", href: "https://x.com/Monishan2003", icon: "fab fa-twitter" },
+    { label: "WhatsApp", href: "https://wa.me/94767634359", icon: "fab fa-whatsapp" },
+    { label: "Email", href: "mailto:mathanmonishan@gmail.com", icon: "fas fa-envelope" },
   ]
 
-  const linksToRender = socialLinks.length > 0 ? socialLinks : defaultSocials
-
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    sectionId: string
-  ) => {
-    e.preventDefault()
-    const element = document.getElementById(sectionId)
-    if (element) {
-      const offset = 80
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
-      window.scrollTo({
-        top: elementPosition - offset,
-        behavior: "smooth",
-      })
-    }
-  }
-
-  const quickLinks = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "education", label: "Education" },
-    { id: "certifications", label: "Certifications" },
-    { id: "projects", label: "Projects" },
-    { id: "skills", label: "Skills" },
-    { id: "contact", label: "Contact" },
+  const navLinks = [
+    { label: "Work", href: "#work" },
+    { label: "Experience", href: "#experience" },
+    { label: "How I Build", href: "#approach" },
+    { label: "Vlog & Logs", href: "#vlog" },
+    { label: "About", href: "#about" },
+    { label: "Education", href: "#education" },
+    { label: "Contact", href: "#contact" },
   ]
 
   return (
-    <footer
-      style={{
-        background: "linear-gradient(135deg, #090642 0%, #1b0072 100%)",
-        color: "#ffffff",
-        padding: "70px 0 25px",
-        position: "relative",
-        zIndex: 1,
-      }}
-    >
+    <footer className="bg-slate-900 text-white pt-16 pb-12 border-t border-slate-800">
       <div className="container">
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "40px",
-            marginBottom: "50px",
-          }}
-        >
-          {/* Column 1: Info & Socials */}
-          <div>
-            <h3
-              style={{
-                fontSize: "24px",
-                color: "#ffffff",
-                marginBottom: "16px",
-                fontFamily: "var(--font-heading)",
-              }}
-            >
-              {fullName}
-            </h3>
-            <p
-              style={{
-                color: "rgba(255, 255, 255, 0.75)",
-                fontSize: "15px",
-                lineHeight: "1.7",
-                marginBottom: "24px",
-              }}
-            >
-              {bioNote}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
+          {/* Brand & Positioning */}
+          <div className="md:col-span-6 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+                M
+              </div>
+              <h3 className="text-xl font-bold text-white tracking-tight">
+                Mathan Monishan
+              </h3>
+            </div>
+
+            <p className="text-slate-400 text-sm leading-relaxed max-w-md">
+              AI & Full-Stack Engineer specializing in Mechatronics. Building production software systems today and engineering intelligent physical systems for tomorrow. Founder @ Pynimox.
             </p>
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              {linksToRender.map((s, idx) => (
-                <a
-                  key={idx}
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label || s.platform}
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "50%",
-                    background: "rgba(255, 255, 255, 0.1)",
-                    color: "#ffffff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "18px",
-                    transition: "all 0.3s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "var(--accent-color)"
-                    e.currentTarget.style.transform = "translateY(-3px)"
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)"
-                    e.currentTarget.style.transform = "translateY(0)"
-                  }}
-                >
-                  <i className={s.icon || "fas fa-link"}></i>
-                </a>
-              ))}
+
+            <div className="text-xs text-slate-400">
+              📍 Thalaimannar, Mannar, Sri Lanka · Global Collaborations
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
-          <div>
-            <h3
-              style={{
-                fontSize: "20px",
-                color: "#ffffff",
-                marginBottom: "16px",
-                fontFamily: "var(--font-heading)",
-              }}
-            >
-              Quick Links
-            </h3>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              {quickLinks.map((item) => (
-                <li key={item.id} style={{ marginBottom: "10px" }}>
+          {/* Quick Links */}
+          <div className="md:col-span-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 mb-4">
+              Navigation
+            </h4>
+            <ul className="space-y-2.5">
+              {navLinks.map((link, idx) => (
+                <li key={idx}>
                   <a
-                    href={`#${item.id}`}
-                    onClick={(e) => handleNavClick(e, item.id)}
-                    style={{
-                      color: "rgba(255, 255, 255, 0.75)",
-                      fontSize: "15px",
-                      transition: "color 0.3s ease",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "8px",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = "var(--accent-color)"
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = "rgba(255, 255, 255, 0.75)"
-                    }}
+                    href={link.href}
+                    className="text-xs text-slate-400 hover:text-white transition-colors"
                   >
-                    <i
-                      className="fas fa-chevron-right"
-                      style={{ fontSize: "11px", color: "var(--accent-color)" }}
-                    ></i>
-                    {item.label}
+                    {link.label}
                   </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 3: Contact Info */}
-          <div>
-            <h3
-              style={{
-                fontSize: "20px",
-                color: "#ffffff",
-                marginBottom: "16px",
-                fontFamily: "var(--font-heading)",
-              }}
-            >
-              Contact Info
-            </h3>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              <li
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "12px",
-                  marginBottom: "14px",
-                  color: "rgba(255, 255, 255, 0.75)",
-                  fontSize: "15px",
-                }}
-              >
-                <i
-                  className="fas fa-map-marker-alt"
-                  style={{ color: "var(--accent-color)", marginTop: "4px" }}
-                ></i>
-                <span>{location}</span>
-              </li>
-              <li
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "12px",
-                  marginBottom: "14px",
-                  color: "rgba(255, 255, 255, 0.75)",
-                  fontSize: "15px",
-                }}
-              >
-                <i
-                  className="fas fa-envelope"
-                  style={{ color: "var(--accent-color)", marginTop: "4px" }}
-                ></i>
+          {/* Social Links */}
+          <div className="md:col-span-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 mb-4">
+              Connect & Follow
+            </h4>
+            <div className="flex flex-wrap gap-2.5">
+              {socialLinks.map((s, idx) => (
                 <a
-                  href={`mailto:${email}`}
-                  style={{ color: "inherit", wordBreak: "break-all" }}
-                >
-                  {email}
-                </a>
-              </li>
-              <li
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "12px",
-                  marginBottom: "14px",
-                  color: "rgba(255, 255, 255, 0.75)",
-                  fontSize: "15px",
-                }}
-              >
-                <i
-                  className="fab fa-whatsapp"
-                  style={{ color: "#25d366", marginTop: "4px", fontSize: "17px" }}
-                ></i>
-                <a
-                  href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`}
+                  key={idx}
+                  href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: "inherit" }}
+                  aria-label={s.label}
+                  className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center text-sm transition-all shadow-xs"
                 >
-                  {phone} (WhatsApp)
+                  <i className={s.icon} />
                 </a>
-              </li>
-            </ul>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Bottom copyright */}
-        <div
-          style={{
-            borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-            paddingTop: "25px",
-            textAlign: "center",
-            fontSize: "14px",
-            color: "rgba(255, 255, 255, 0.6)",
-          }}
-        >
-          <span>
-            Created By{" "}
-            <a
-              href="#home"
-              onClick={(e) => handleNavClick(e, "home")}
-              style={{ color: "var(--accent-color)", fontWeight: 600 }}
-            >
-              {fullName}
-            </a>{" "}
-            | © {currentYear} All rights reserved.
-          </span>
+        {/* Bottom Copyright */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+          <div>
+            © {currentYear} Mathan Monishan. All rights reserved.
+          </div>
+          <div className="flex items-center gap-6">
+            <span>Engineered with Next.js 15 & Supabase</span>
+            <Link href="/login" className="text-slate-400 hover:text-slate-200">
+              Admin Portal
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

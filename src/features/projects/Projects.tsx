@@ -7,7 +7,11 @@ export interface ProjectItem {
   id: string | number
   slug?: string
   title: string
+  subtitle?: string | null
   summary: string
+  problem?: string | null
+  solution?: string | null
+  outcome?: string | null
   tech_stack?: string[] | null
   repo_url?: string | null
   live_url?: string | null
@@ -16,15 +20,12 @@ export interface ProjectItem {
   icon?: string | null
   accent_gradient?: string | null
   cover_image_url?: string | null
+  is_featured?: boolean
+  role?: string | null
 }
 
 interface ProjectsProps {
   projects?: ProjectItem[]
-}
-
-function isVideo(url?: string | null) {
-  if (!url) return false
-  return url.endsWith(".mp4") || url.endsWith(".webm") || url.endsWith(".mov") || url.includes("video")
 }
 
 export default function Projects({ projects = [] }: ProjectsProps) {
@@ -32,361 +33,339 @@ export default function Projects({ projects = [] }: ProjectsProps) {
     {
       id: 1,
       slug: "pynimox-ai-website",
-      title: "Pynimox AI Website",
+      title: "Pynimox AI Studio",
+      subtitle: "AI Automation & Full-Stack Engineering Studio (Founder Venture)",
       summary:
-        "Modern business website for Pynimox featuring responsive UI, optimized performance, and an integrated AI Assistant for intelligent customer support.",
-      tech_stack: ["Next.js", "TypeScript", "Node.js", "Supabase", "LLM APIs"],
+        "Engineered an automated AI studio platform enabling global clients to orchestrate intelligent AI agent workflows, dynamic LLM integrations, and production web systems.",
+      problem:
+        "International clients needed an intuitive, production-ready interface to deploy custom AI assistants, automate repetitive business workflows, and manage full-stack systems.",
+      solution:
+        "Architected a Next.js and Supabase web app with server-side LLM streaming, interactive AI chat widgets, secure cloud endpoints, and instant client onboarding.",
+      outcome:
+        "Successfully launched studio serving international clients with low-latency AI responses, robust authentication, and high performance.",
+      tech_stack: ["Next.js", "TypeScript", "Node.js", "Supabase", "LLM APIs", "Tailwind CSS"],
       live_url: "https://www.pynimox.com",
       cover_image_url: "/projects/pynimox.jpg",
-      icon: "fas fa-robot",
-      accent_gradient: "linear-gradient(135deg, #090642 0%, #1b0072 50%, #14b1ff 100%)",
+      role: "Founder & Lead Engineer",
+      is_featured: true,
     },
     {
       id: 2,
-      slug: "srmj-enterprises-ecommerce",
-      title: "SRMJ Enterprises – E-Commerce Platform",
+      slug: "medicross-ai-healthcare",
+      title: "MediCross AI — Healthcare Platform",
+      subtitle: "Clinical Operations & Patient Management System",
       summary:
-        "Modern full-stack e-commerce platform for fashion and retail products with product catalog, cart, auth, and Stripe payment integration.",
-      tech_stack: ["Next.js", "Stripe", "PostgreSQL", "Prisma", "Supabase"],
-      live_url: "https://www.srmjenterprises.com",
-      cover_image_url: "/projects/srmj.jpg",
-      icon: "fas fa-shopping-bag",
-      accent_gradient: "linear-gradient(135deg, #2b3fa7 0%, #4a6fc7 100%)",
+        "Full-stack healthcare management system with multi-role access control, patient record indexing, appointment scheduling, and health metrics analytics.",
+      problem:
+        "Medical clinics required a centralized, secure digital system to manage patient histories, doctor availability, and diagnostic records without data fragmentation.",
+      solution:
+        "Developed a responsive health portal with strict role-based authorization, calendar booking engine, patient vitals tracking, and cloud database storage on AWS.",
+      outcome:
+        "Streamlined patient appointment lifecycle, eliminated paper records, and ensured encrypted HIPAA-aware data flows.",
+      tech_stack: ["Next.js", "React.js", "Node.js", "PostgreSQL", "Prisma", "AWS", "Vercel"],
+      live_url: "https://medicross-wine.vercel.app",
+      cover_image_url: "/projects/medicross.jpg",
+      role: "Lead Full-Stack Developer",
+      is_featured: true,
     },
     {
       id: 3,
-      slug: "medicross-ai-healthcare",
-      title: "MediCross AI – AI Healthcare Management",
+      slug: "srmj-enterprises-ecommerce",
+      title: "SRMJ Enterprises E-Commerce",
+      subtitle: "Modern Fashion & Retail Digital Storefront",
       summary:
-        "Full-stack healthcare management system with secure authentication, patient registration, appointment scheduling, and medical records.",
-      tech_stack: ["Next.js", "React.js", "Node.js", "Supabase", "AWS"],
-      live_url: "https://medicross-wine.vercel.app",
-      cover_image_url: "/projects/medicross.jpg",
-      icon: "fas fa-heartbeat",
-      accent_gradient: "linear-gradient(135deg, #00b4d8 0%, #0077b6 100%)",
+        "Production-grade e-commerce web application featuring high-speed catalog filtering, interactive cart drawer, secure authentication, and Stripe payment processing.",
+      problem:
+        "Fashion retailer needed a fast, scalable mobile-first storefront capable of handling dynamic inventory, seasonal discounts, and instant checkout.",
+      solution:
+        "Built with Next.js, Prisma ORM, and PostgreSQL database with Stripe webhooks for automated order confirmation and Supabase auth.",
+      outcome:
+        "Achieved sub-second page transitions, 99+ Lighthouse performance score, and automated checkout fulfillment.",
+      tech_stack: ["Next.js", "Stripe", "PostgreSQL", "Prisma", "Supabase", "Tailwind CSS"],
+      live_url: "https://www.srmjenterprises.com",
+      cover_image_url: "/projects/srmj.jpg",
+      role: "Full-Stack Developer",
+      is_featured: true,
     },
     {
       id: 4,
       slug: "unisphere-lms",
-      title: "UniSphere LMS – Learning Management System",
+      title: "UniSphere LMS — Academic Portal",
+      subtitle: "Enterprise Learning Management System (C# & .NET)",
       summary:
-        "Enterprise Learning Management System built with C# and .NET supporting 4 user roles (Admin, Staff, Lecturers, Students) with course management and grading.",
-      tech_stack: ["C#", ".NET", "ASP.NET", "SQL Server"],
+        "Comprehensive educational management system supporting 4 distinct user tiers (Admin, Staff, Lecturers, Students) with course workflows, assignments, and grading.",
+      problem:
+        "Institutions required an enterprise-grade solution to administer semester curriculums, student gradebooks, and assignment submissions with strict permissions.",
+      solution:
+        "Architected using C#, ASP.NET, and SQL Server with normalized relational schemas, role authorization, and assignment evaluation pipelines.",
+      outcome:
+        "Demonstrated enterprise OOP design patterns, transaction safety, and clean software architecture.",
+      tech_stack: ["C#", ".NET", "ASP.NET", "SQL Server", "Architecture"],
       repo_url: "https://github.com/Monishan2003/LMS_project_C-_-Learning_Management_Systam-.git",
       cover_image_url: "/projects/unisphere.jpg",
-      icon: "fas fa-graduation-cap",
-      accent_gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      role: "Software Developer",
+      is_featured: true,
     },
     {
       id: 5,
       slug: "hotel-website",
-      title: "Hotel Website (Web Design Project)",
+      title: "Luxury Hotel Web Platform",
+      subtitle: "Responsive Boutique Resort Showcase",
       summary:
-        "A responsive website for a hotel showcasing rooms, amenities, and booking information with clean, modern design.",
-      tech_stack: ["HTML5", "CSS3", "Web Design"],
+        "Fully responsive booking and amenities showcase website built with HTML5, CSS3, and modern UI best practices.",
+      tech_stack: ["HTML5", "CSS3", "Responsive UI", "Web Design"],
       repo_url: "https://github.com/Monishan2003/Web-design-project1",
       cover_image_url: "/projects/hotel.jpg",
-      icon: "fas fa-hotel",
-      accent_gradient: "linear-gradient(135deg, #4a6fc7 0%, #3f51b5 100%)",
+      is_featured: false,
     },
     {
       id: 6,
       slug: "personal-expense-tracker",
-      title: "Personal Expense Tracker (Python CLI)",
+      title: "Personal Expense Tracker",
+      subtitle: "Python CLI Financial Management Tool",
       summary:
-        "Python command-line application to track and manage personal daily expenses, generate reports, and analyze spending patterns.",
-      tech_stack: ["Python", "CLI", "Data Handling"],
+        "Command-line application to track personal expenses, categorize spending, and generate visual financial reports.",
+      tech_stack: ["Python", "CLI", "Data Handling", "File I/O"],
       repo_url: "https://github.com/Monishan2003/Personal-Expense-Tracker",
       cover_image_url: "/projects/expense.jpg",
-      icon: "fas fa-money-bill-wave",
-      accent_gradient: "linear-gradient(135deg, #20bf6b 0%, #01baef 100%)",
+      is_featured: false,
     },
   ]
 
   const projectList = projects.length > 0 ? projects : defaultProjects
+  const featuredProjects = projectList.slice(0, 4)
+  const additionalProjects = projectList.slice(4)
 
   return (
-    <section id="projects" style={{ background: "transparent" }}>
+    <section id="work" className="section-wrapper bg-white border-y border-slate-200/80">
       <div className="container">
-        <h2 className="section-title">
-          My Projects
-          <span className="section-subtitle">My Work</span>
-        </h2>
+        {/* Section Header */}
+        <div className="flex flex-col items-start mb-16">
+          <div className="section-label">
+            <i className="fas fa-layer-group text-blue-600 text-xs" />
+            <span>Selected Work & Case Studies</span>
+          </div>
+          <h2 className="section-headline">
+            Engineering Production Systems
+          </h2>
+          <p className="section-subtext">
+            A curated selection of production applications, AI systems, and enterprise software built with focus on architecture, performance, and real-world impact.
+          </p>
+        </div>
 
-        <div className="projects-grid">
-          {projectList.map((project, index) => {
-            const hasTech = project.tech_stack && project.tech_stack.length > 0
-            const gradient =
-              project.accent_gradient ||
-              "linear-gradient(135deg, #2b3fa7 0%, #14b1ff 100%)"
-
+        {/* Featured Case Studies Grid (Large Cards) */}
+        <div className="space-y-16">
+          {featuredProjects.map((project, index) => {
             const projectSlug = project.slug || `project-${project.id}`
-            const hasCover = Boolean(project.cover_image_url)
-            const isCoverVid = isVideo(project.cover_image_url)
+            const isEven = index % 2 === 1
 
             return (
               <div
                 key={project.id}
-                className="project-card"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="bg-slate-50/70 border border-slate-200/90 rounded-2xl overflow-hidden hover:border-blue-300 hover:shadow-xl transition-all duration-300 group"
               >
-                {/* Clickable Card Header */}
-                <Link
-                  href={`/projects/${projectSlug}`}
-                  style={{ textDecoration: "none", display: "block" }}
-                >
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch">
+                  {/* Image Column */}
                   <div
-                    className="project-image-box"
-                    style={{
-                      background: hasCover && !isCoverVid ? "none" : gradient,
-                    }}
+                    className={`lg:col-span-6 overflow-hidden bg-slate-900 relative min-h-[300px] lg:min-h-[420px] ${
+                      isEven ? "lg:order-2" : "lg:order-1"
+                    }`}
                   >
-                    {hasCover ? (
-                      isCoverVid ? (
-                        <div style={{ position: "relative", width: "100%", height: "100%" }}>
-                          <video
-                            src={project.cover_image_url!}
-                            muted
-                            playsInline
-                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                          />
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "10px",
-                              right: "10px",
-                              background: "rgba(0,0,0,0.6)",
-                              color: "#fff",
-                              borderRadius: "20px",
-                              padding: "2px 8px",
-                              fontSize: "11px",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "4px",
-                            }}
-                          >
-                            <i className="fas fa-play" style={{ fontSize: "9px" }} /> Video
-                          </div>
-                        </div>
-                      ) : (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={project.cover_image_url!}
-                          alt={project.title}
-                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                        />
-                      )
-                    ) : (
-                      <i className={project.icon || "fas fa-code"} />
-                    )}
-                  </div>
-                </Link>
-
-                {/* Project Body */}
-                <div className="project-body">
-                  <Link
-                    href={`/projects/${projectSlug}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <h3 className="project-title">{project.title}</h3>
-                  </Link>
-                  <p className="project-desc">{project.summary}</p>
-
-                  {hasTech && (
-                    <div className="tech-tags">
-                      {project.tech_stack!.map((tech, techIdx) => (
-                        <span key={techIdx} className="tech-tag">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="project-links">
                     <Link
                       href={`/projects/${projectSlug}`}
-                      className="project-btn detail-btn"
+                      className="block w-full h-full relative"
                     >
-                      <i className="fas fa-info-circle" /> Details
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={project.cover_image_url || "/projects/pynimox.jpg"}
+                        alt={project.title}
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                        <span className="text-white text-sm font-semibold inline-flex items-center gap-2 bg-blue-600 px-3.5 py-1.5 rounded-lg shadow-md">
+                          <span>Read Full Case Study</span>
+                          <i className="fas fa-arrow-right text-xs" />
+                        </span>
+                      </div>
                     </Link>
+                  </div>
 
-                    {project.live_url && (
-                      <a
-                        href={project.live_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="project-btn live-btn"
-                      >
-                        <i className="fas fa-external-link-alt" /> Demo
-                      </a>
-                    )}
+                  {/* Details Column */}
+                  <div
+                    className={`lg:col-span-6 p-8 sm:p-10 flex flex-col justify-between ${
+                      isEven ? "lg:order-1" : "lg:order-2"
+                    }`}
+                  >
+                    <div>
+                      {/* Top Meta */}
+                      <div className="flex items-center justify-between gap-3 mb-3">
+                        <span className="text-xs font-bold text-blue-600 tracking-wider uppercase bg-blue-50 border border-blue-200/60 px-2.5 py-1 rounded-md">
+                          0{index + 1} / Case Study
+                        </span>
+                        {project.role && (
+                          <span className="text-xs text-slate-500 font-medium">
+                            Role: <strong className="text-slate-700">{project.role}</strong>
+                          </span>
+                        )}
+                      </div>
 
-                    {project.repo_url && (
-                      <a
-                        href={project.repo_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="project-btn repo-btn"
-                      >
-                        <i className="fab fa-github" /> Code
-                      </a>
-                    )}
+                      {/* Title */}
+                      <Link href={`/projects/${projectSlug}`} className="text-decoration-none">
+                        <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-2">
+                          {project.title}
+                        </h3>
+                      </Link>
 
-                    {project.resource_url && (
-                      <a
-                        href={project.resource_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="project-btn resource-btn"
+                      {project.subtitle && (
+                        <p className="text-sm font-semibold text-slate-500 mb-4">
+                          {project.subtitle}
+                        </p>
+                      )}
+
+                      {/* Summary */}
+                      <p className="text-slate-600 text-[15px] leading-relaxed mb-6">
+                        {project.summary}
+                      </p>
+
+                      {/* Problem & Solution Snippet */}
+                      {project.solution && (
+                        <div className="bg-white border border-slate-200/80 rounded-xl p-4 mb-6 shadow-xs">
+                          <div className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-1 flex items-center gap-1.5">
+                            <i className="fas fa-cogs text-blue-600 text-xs" />
+                            <span>Architecture & Solution</span>
+                          </div>
+                          <p className="text-xs text-slate-600 leading-normal">
+                            {project.solution}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Tech Chips */}
+                      {project.tech_stack && project.tech_stack.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mb-8">
+                          {project.tech_stack.map((tech, tIdx) => (
+                            <span
+                              key={tIdx}
+                              className="text-xs font-medium bg-white text-slate-700 px-2.5 py-1 rounded-md border border-slate-200"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Action Links */}
+                    <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-slate-200/70">
+                      <Link
+                        href={`/projects/${projectSlug}`}
+                        className="inline-flex items-center gap-2 bg-slate-900 hover:bg-blue-600 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-colors"
                       >
-                        <i className="fas fa-folder-open" /> Folder
-                      </a>
-                    )}
+                        <i className="fas fa-file-alt text-xs" />
+                        <span>Case Study Details</span>
+                      </Link>
+
+                      {project.live_url && (
+                        <a
+                          href={project.live_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-800 bg-blue-50/80 hover:bg-blue-100/80 border border-blue-200 text-xs font-semibold px-3.5 py-2.5 rounded-lg transition-colors"
+                        >
+                          <i className="fas fa-external-link-alt text-xs" />
+                          <span>Live Site</span>
+                        </a>
+                      )}
+
+                      {project.repo_url && (
+                        <a
+                          href={project.repo_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-200 text-xs font-semibold px-3.5 py-2.5 rounded-lg transition-colors"
+                        >
+                          <i className="fab fa-github text-xs" />
+                          <span>Source Code</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             )
           })}
         </div>
+
+        {/* Additional Projects (Secondary Grid) */}
+        {additionalProjects.length > 0 && (
+          <div className="mt-20">
+            <div className="border-t border-slate-200 pt-12 mb-8">
+              <h3 className="text-xl font-bold text-slate-900">
+                Additional Technical Projects
+              </h3>
+              <p className="text-sm text-slate-500">
+                Foundational explorations in web design, algorithms, and CLI automation.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {additionalProjects.map((proj) => {
+                const projSlug = proj.slug || `project-${proj.id}`
+                return (
+                  <div
+                    key={proj.id}
+                    className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-md hover:border-slate-300 transition-all flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="text-lg font-bold text-slate-900">
+                          {proj.title}
+                        </h4>
+                        {proj.repo_url && (
+                          <a
+                            href={proj.repo_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-slate-500 hover:text-slate-900"
+                            aria-label="GitHub Repository"
+                          >
+                            <i className="fab fa-github text-lg" />
+                          </a>
+                        )}
+                      </div>
+                      <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+                        {proj.summary}
+                      </p>
+                      {proj.tech_stack && (
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {proj.tech_stack.map((t, idx) => (
+                            <span
+                              key={idx}
+                              className="text-[11px] font-medium bg-slate-100 text-slate-700 px-2 py-0.5 rounded"
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                      <Link
+                        href={`/projects/${projSlug}`}
+                        className="text-xs font-semibold text-blue-600 hover:text-blue-800 inline-flex items-center gap-1"
+                      >
+                        <span>View Details</span>
+                        <i className="fas fa-chevron-right text-[10px]" />
+                      </Link>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
       </div>
-
-      <style jsx>{`
-        .projects-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-          gap: 30px;
-        }
-
-        .project-card {
-          background: #ffffff;
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-          border: 1px solid rgba(43, 63, 167, 0.08);
-          transition: all 0.3s ease;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .project-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 12px 30px rgba(43, 63, 167, 0.16);
-          border-color: rgba(43, 63, 167, 0.25);
-        }
-
-        .project-image-box {
-          height: 200px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #ffffff;
-          font-size: 56px;
-          overflow: hidden;
-          background-position: center;
-          background-size: cover;
-        }
-
-        .project-body {
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          flex: 1;
-        }
-
-        .project-title {
-          font-size: 20px;
-          color: var(--secondary-color);
-          margin-bottom: 10px;
-          font-family: var(--font-heading);
-          font-weight: 700;
-          transition: color 0.2s ease;
-          cursor: pointer;
-        }
-
-        .project-title:hover {
-          color: var(--primary-color);
-        }
-
-        .project-desc {
-          font-size: 14.5px;
-          color: #4a5568;
-          line-height: 1.6;
-          margin-bottom: 16px;
-          flex: 1;
-        }
-
-        .tech-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 20px;
-        }
-
-        .tech-tag {
-          font-size: 12px;
-          font-weight: 600;
-          padding: 4px 10px;
-          background: rgba(43, 63, 167, 0.08);
-          color: var(--primary-color);
-          border-radius: 6px;
-        }
-
-        .project-links {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-top: auto;
-        }
-
-        .project-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 13px;
-          font-weight: 600;
-          padding: 8px 14px;
-          border-radius: 6px;
-          transition: all 0.2s ease;
-          text-decoration: none;
-        }
-
-        .detail-btn {
-          background: var(--primary-color);
-          color: #ffffff;
-        }
-
-        .detail-btn:hover {
-          background: var(--secondary-color);
-        }
-
-        .repo-btn {
-          background: #1e293b;
-          color: #ffffff;
-        }
-
-        .repo-btn:hover {
-          background: #0f172a;
-        }
-
-        .live-btn,
-        .resource-btn {
-          background: transparent;
-          color: var(--primary-color);
-          border: 1px solid var(--primary-color);
-        }
-
-        .live-btn:hover,
-        .resource-btn:hover {
-          background: var(--primary-color);
-          color: #ffffff;
-        }
-
-        @media (max-width: 480px) {
-          .projects-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </section>
   )
 }

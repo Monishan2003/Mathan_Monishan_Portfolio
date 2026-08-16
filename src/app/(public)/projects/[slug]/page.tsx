@@ -560,14 +560,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
         )}
       </main>
 
-      <Footer
-        fullName={fullName}
-        location={profile?.location || undefined}
-        email={profile?.email || undefined}
-        phone={profile?.phone || undefined}
-        whatsappNumber={profile?.whatsapp_number || undefined}
-        bioNote={profile?.bio_short || undefined}
-      />
+      <Footer />
       <ScrollToTop />
     </div>
   )

@@ -4,165 +4,149 @@ import React from "react"
 import TypingEffect from "@/components/TypingEffect"
 
 interface HeroProps {
-  intro?: string
   name?: string
   roles?: string[]
+  resumeUrl?: string
 }
 
 export default function Hero({
-  intro = "Hello, my name is",
   name = "Mathan Monishan",
   roles = [
-    "Full Stack Developer",
-    "Mobile App Developer",
-    "Coder",
-    "UI/UX Designer",
-    "Project Management Enthusiast",
-    "Freelancer",
+    "AI & Full-Stack Engineer",
+    "Founder of Pynimox",
+    "Mechatronics Engineer",
+    "Automation & Robotics Builder",
+    "Next.js & C# Developer",
   ],
+  resumeUrl = "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link",
 }: HeroProps) {
-  const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-    const element = document.getElementById("contact")
-    if (element) {
-      const offset = 80
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
-      window.scrollTo({
-        top: elementPosition - offset,
-        behavior: "smooth",
-      })
-    }
-  }
-
   return (
     <section
       id="home"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        minHeight: "100vh",
-        position: "relative",
-        overflow: "hidden",
-        padding: "120px 0 80px",
-      }}
+      className="relative min-h-[92vh] flex items-center pt-32 pb-20 overflow-hidden"
     >
-      {/* Background Image & Overlay */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: -2,
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1454117096348-e4abbeba002c?q=80&w=1170&auto=format&fit=crop')",
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          backgroundAttachment: "fixed",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: -1,
-          background:
-            "linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(248, 249, 250, 0.88) 50%, rgba(255, 255, 255, 0.85) 100%)",
-        }}
-      />
+      <div className="container relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Left Column: Editorial Headline & Positioning */}
+          <div className="lg:col-span-7 flex flex-col items-start animate-fadeInUp">
+            {/* Availability Pill */}
+            <div className="inline-flex items-center gap-2.5 bg-emerald-50 text-emerald-800 border border-emerald-200/80 px-3.5 py-1.5 rounded-full text-[12.5px] font-medium mb-6 shadow-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span>Open to engineering internships, graduate roles & collaborations</span>
+            </div>
 
-      <div className="container" style={{ position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: "850px", animation: "fadeInUp 1s ease-out" }}>
-          <div
-            style={{
-              fontSize: "26px",
-              marginBottom: "12px",
-              color: "var(--primary-color)",
-              fontWeight: 500,
-              letterSpacing: "0.5px",
-            }}
-            className="hero-text-1"
-          >
-            {intro}
+            {/* Name */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 leading-[1.08] mb-3">
+              {name}
+            </h1>
+
+            {/* Sub-headline & Typewriter */}
+            <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-slate-800 mb-5 flex flex-wrap items-center gap-2">
+              <span>AI & Full-Stack Engineer</span>
+              <span className="text-slate-300 hidden sm:inline">|</span>
+              <span className="text-blue-600">
+                <TypingEffect strings={roles} typeSpeed={70} backSpeed={45} loop={true} />
+              </span>
+            </div>
+
+            {/* Tagline / Positioning */}
+            <p className="text-lg sm:text-xl font-medium text-slate-700 italic mb-4 border-l-2 border-blue-600 pl-3.5">
+              &ldquo;Building intelligent software systems today and engineering intelligent physical systems for tomorrow.&rdquo;
+            </p>
+
+            {/* Short Narrative Summary */}
+            <p className="text-slate-600 text-[16px] sm:text-[17px] leading-relaxed mb-8 max-w-xl">
+              I design and build production-ready full-stack applications, AI-powered systems, and automation solutions while pursuing my dual specialization in Mechatronics at Uva Wellassa University and IT at University of Moratuwa. Founder & Lead Engineer at <strong>Pynimox</strong>.
+            </p>
+
+            {/* Dual CTAs */}
+            <div className="flex flex-wrap items-center gap-4 mb-8">
+              <a href="#work" className="btn-primary">
+                <span>View Selected Work</span>
+                <i className="fas fa-arrow-down text-xs" />
+              </a>
+
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary"
+              >
+                <i className="fas fa-file-pdf text-red-500 text-sm" />
+                <span>Download CV</span>
+              </a>
+            </div>
+
+            {/* Tech Badges Row */}
+            <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-slate-500">
+              <span className="text-slate-400">Core Focus:</span>
+              <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md border border-slate-200">
+                AI / LLM APIs
+              </span>
+              <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md border border-slate-200">
+                Next.js & React
+              </span>
+              <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md border border-slate-200">
+                C# & .NET Core
+              </span>
+              <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md border border-slate-200">
+                Supabase & Postgres
+              </span>
+              <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md border border-slate-200">
+                Mechatronics & Robotics
+              </span>
+            </div>
           </div>
-          <h1
-            style={{
-              fontSize: "72px",
-              fontWeight: 700,
-              marginBottom: "12px",
-              lineHeight: 1.1,
-              background: "linear-gradient(135deg, #1b0072 0%, #2b3fa7 50%, #14b1ff 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              letterSpacing: "-1px",
-              fontFamily: "var(--font-heading)",
-            }}
-            className="hero-text-2"
-          >
-            {name}
-          </h1>
-          <div
-            style={{
-              fontSize: "36px",
-              margin: "8px 0 35px",
-              fontWeight: 500,
-              color: "var(--text-dark)",
-            }}
-            className="hero-text-3"
-          >
-            And I&apos;m a{" "}
-            <span style={{ color: "var(--primary-color)", fontWeight: 600 }}>
-              <TypingEffect strings={roles} typeSpeed={90} backSpeed={50} loop={true} />
-            </span>
-          </div>
-          <div>
-            <a
-              href="#contact"
-              onClick={handleContactClick}
-              className="btn"
-              style={{
-                boxShadow: "0 6px 20px rgba(43, 63, 167, 0.35)",
-              }}
-            >
-              <i className="fas fa-paper-plane"></i> Hire Me
-            </a>
+
+          {/* Right Column: High-Tech Technical Portrait Card */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-[390px]">
+              {/* Outer Glow */}
+              <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl blur-lg opacity-20 transition duration-1000 group-hover:opacity-30" />
+
+              {/* Portrait Container */}
+              <div className="relative bg-white rounded-2xl p-3 border border-slate-200 shadow-xl overflow-hidden">
+                {/* Image */}
+                <div className="relative rounded-xl overflow-hidden bg-slate-100 aspect-[4/5] flex items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/monishan.jpeg"
+                    alt="Mathan Monishan - AI & Mechatronics Engineer"
+                    className="w-full h-full object-cover object-top"
+                  />
+
+                  {/* Gradient Overlay at bottom */}
+                  <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent flex flex-col justify-end p-4 text-white">
+                    <span className="font-bold text-lg leading-tight">Mathan Monishan</span>
+                    <span className="text-xs text-blue-300 font-medium">
+                      Founder @ Pynimox · Mechatronics & AI
+                    </span>
+                  </div>
+                </div>
+
+                {/* Technical Highlights Bar */}
+                <div className="grid grid-cols-3 gap-2 mt-3 text-center">
+                  <div className="bg-slate-50 border border-slate-100 rounded-lg py-2 px-1">
+                    <div className="font-bold text-slate-900 text-sm">Founder</div>
+                    <div className="text-[11px] text-slate-500">Pynimox AI</div>
+                  </div>
+                  <div className="bg-slate-50 border border-slate-100 rounded-lg py-2 px-1">
+                    <div className="font-bold text-blue-600 text-sm">6+</div>
+                    <div className="text-[11px] text-slate-500">Production Apps</div>
+                  </div>
+                  <div className="bg-slate-50 border border-slate-100 rounded-lg py-2 px-1">
+                    <div className="font-bold text-emerald-600 text-sm">Dual Deg.</div>
+                    <div className="text-[11px] text-slate-500">Tech & IT</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @media (max-width: 1100px) {
-          :global(.hero-text-2) {
-            font-size: 60px !important;
-          }
-          :global(.hero-text-3) {
-            font-size: 30px !important;
-          }
-        }
-        @media (max-width: 768px) {
-          :global(.hero-text-1) {
-            font-size: 20px !important;
-          }
-          :global(.hero-text-2) {
-            font-size: 44px !important;
-          }
-          :global(.hero-text-3) {
-            font-size: 24px !important;
-          }
-        }
-        @media (max-width: 480px) {
-          :global(.hero-text-2) {
-            font-size: 36px !important;
-          }
-          :global(.hero-text-3) {
-            font-size: 20px !important;
-          }
-        }
-      `}</style>
     </section>
   )
 }

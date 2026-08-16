@@ -1,219 +1,151 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import Link from "next/link"
 
 interface NavbarProps {
   name?: string
+  resumeUrl?: string
 }
 
-export default function Navbar({ name = "Mathan Monishan" }: NavbarProps) {
-  const [scrollY, setScrollY] = useState(0)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+export default function Navbar({
+  name = "Mathan Monishan",
+  resumeUrl = "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link",
+}: NavbarProps) {
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY)
+      setScrolled(window.scrollY > 20)
 
-      const sections = ["home", "about", "education", "certifications", "projects", "skills", "contact"]
-      const current = sections.find((section) => {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          return rect.top <= 120 && rect.bottom >= 120
+      const sections = ["home", "work", "experience", "approach", "vlog", "about", "education", "contact"]
+      const scrollPosition = window.scrollY + 200
+
+      for (const section of sections) {
+        const el = document.getElementById(section)
+        if (el) {
+          const top = el.offsetTop
+          const height = el.offsetHeight
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section)
+            break
+          }
         }
-        return false
-      })
-      if (current) setActiveSection(current)
+      }
     }
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    sectionId: string
-  ) => {
-    e.preventDefault()
-    const element = document.getElementById(sectionId)
-    if (element) {
-      const offset = 80
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
-      window.scrollTo({
-        top: elementPosition - offset,
-        behavior: "smooth",
-      })
-    }
-    setIsMenuOpen(false)
-  }
-
-  const isSticky = scrollY > 20
-
-  const navItems = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "education", label: "Education" },
-    { id: "certifications", label: "Certifications" },
-    { id: "projects", label: "Projects" },
-    { id: "skills", label: "Skills" },
-    { id: "contact", label: "Contact" },
+  const navLinks = [
+    { label: "Work", href: "#work", id: "work" },
+    { label: "Experience", href: "#experience", id: "experience" },
+    { label: "How I Build", href: "#approach", id: "approach" },
+    { label: "Vlog & Logs", href: "#vlog", id: "vlog" },
+    { label: "About", href: "#about", id: "about" },
+    { label: "Education", href: "#education", id: "education" },
+    { label: "Contact", href: "#contact", id: "contact" },
   ]
 
   return (
-    <nav
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        zIndex: 999,
-        padding: isSticky ? "15px 0" : "25px 0",
-        background: isSticky ? "var(--primary-color)" : "transparent",
-        boxShadow: isSticky ? "0 4px 20px rgba(0, 0, 0, 0.15)" : "none",
-        transition: "all 0.3s ease",
-      }}
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200/80 py-3.5"
+          : "bg-transparent py-5"
+      }`}
     >
-      <div
-        className="container"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <div style={{ fontSize: "28px", fontWeight: 700 }}>
+      <div className="container flex items-center justify-between">
+        {/* Brand */}
+        <Link href="#home" className="flex items-center gap-2.5 text-decoration-none group">
+          <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-sm group-hover:bg-blue-700 transition-colors">
+            M
+          </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-slate-900 text-[16px] leading-tight tracking-tight group-hover:text-blue-600 transition-colors">
+              {name}
+            </span>
+            <span className="text-[11px] font-medium text-slate-500 tracking-wide uppercase">
+              AI & Mechatronics
+            </span>
+          </div>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-7">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id
+            return (
+              <a
+                key={link.id}
+                href={link.href}
+                className={`text-[14px] font-medium transition-colors duration-200 ${
+                  isActive ? "text-blue-600 font-semibold" : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                {link.label}
+              </a>
+            )
+          })}
+        </nav>
+
+        {/* Right Action */}
+        <div className="hidden sm:flex items-center gap-3">
           <a
-            href="#home"
-            onClick={(e) => handleNavClick(e, "home")}
-            style={{
-              color: isSticky ? "#ffffff" : "var(--secondary-color)",
-              fontFamily: "var(--font-heading)",
-              transition: "color 0.3s ease",
-            }}
+            href={resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-[13.5px] font-medium px-4 py-2 rounded-lg transition-all shadow-sm hover:shadow"
           >
-            {name}
+            <i className="fas fa-file-alt text-[12px] text-blue-400" />
+            <span>Download CV</span>
           </a>
         </div>
 
-        {/* Desktop Menu */}
-        <ul
-          style={{
-            display: "flex",
-            alignItems: "center",
-            listStyle: "none",
-            gap: "24px",
-          }}
-          className="desktop-menu"
+        {/* Mobile Menu Toggle */}
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="lg:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none"
+          aria-label="Toggle navigation menu"
         >
-          {navItems.map((item) => {
-            const isActive = activeSection === item.id
-            return (
-              <li key={item.id}>
-                <a
-                  href={`#${item.id}`}
-                  onClick={(e) => handleNavClick(e, item.id)}
-                  style={{
-                    color: isSticky
-                      ? isActive
-                        ? "var(--accent-color)"
-                        : "#ffffff"
-                      : isActive
-                      ? "var(--primary-color)"
-                      : "var(--text-dark)",
-                    fontSize: "16px",
-                    fontWeight: 500,
-                    transition: "color 0.3s ease",
-                    position: "relative",
-                    padding: "4px 0",
-                    borderBottom: isActive
-                      ? isSticky
-                        ? "2px solid var(--accent-color)"
-                        : "2px solid var(--primary-color)"
-                      : "2px solid transparent",
-                  }}
-                >
-                  {item.label}
-                </a>
-              </li>
-            )
-          })}
-        </ul>
-
-        {/* Mobile Hamburger Button */}
-        <div
-          className="mobile-btn"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          style={{
-            display: "none",
-            fontSize: "24px",
-            color: isSticky ? "#ffffff" : "var(--secondary-color)",
-            cursor: "pointer",
-          }}
-        >
-          <i className={`fas ${isMenuOpen ? "fa-times" : "fa-bars"}`}></i>
-        </div>
+          <i className={`fas ${mobileMenuOpen ? "fa-times" : "fa-bars"} text-xl`} />
+        </button>
       </div>
 
-      {/* Mobile Drawer Menu */}
-      {isMenuOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100vh",
-            background: "rgba(27, 0, 114, 0.98)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "26px",
-            zIndex: 998,
-          }}
-        >
-          <div
-            onClick={() => setIsMenuOpen(false)}
-            style={{
-              position: "absolute",
-              top: "25px",
-              right: "30px",
-              fontSize: "28px",
-              color: "#ffffff",
-              cursor: "pointer",
-            }}
-          >
-            <i className="fas fa-times"></i>
+      {/* Mobile Dropdown Menu */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden bg-white/98 backdrop-blur-xl border-b border-slate-200 px-6 py-5 shadow-lg animate-fadeIn">
+          <div className="flex flex-col gap-3.5">
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`text-[15px] py-1.5 font-medium ${
+                  activeSection === link.id ? "text-blue-600 font-semibold" : "text-slate-700"
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
+            <div className="pt-3 border-t border-slate-100">
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 bg-blue-600 text-white font-medium py-2.5 rounded-lg text-sm"
+              >
+                <i className="fas fa-file-download" />
+                <span>Download CV</span>
+              </a>
+            </div>
           </div>
-
-          {navItems.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              onClick={(e) => handleNavClick(e, item.id)}
-              style={{
-                color: activeSection === item.id ? "var(--accent-color)" : "#ffffff",
-                fontSize: "20px",
-                fontWeight: 600,
-              }}
-            >
-              {item.label}
-            </a>
-          ))}
         </div>
       )}
-
-      <style jsx>{`
-        @media (max-width: 900px) {
-          :global(.desktop-menu) {
-            display: none !important;
-          }
-          :global(.mobile-btn) {
-            display: block !important;
-          }
-        }
-      `}</style>
-    </nav>
+    </header>
   )
 }

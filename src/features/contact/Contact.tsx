@@ -11,7 +11,6 @@ interface ContactProps {
 }
 
 export default function Contact({
-  fullName = "Mathan Monishan",
   location = "Thalaimannar, Mannar, Sri Lanka",
   email = "mathanmonishan@gmail.com",
   phone = "+94 76 763 4359",
@@ -23,423 +22,262 @@ export default function Contact({
     subject: "",
     message: "",
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle")
-  const [statusMessage, setStatusMessage] = useState("")
+  const [submitting, setSubmitting] = useState(false)
+  const [status, setStatus] = useState<{ type: "success" | "error" | null; msg: string }>({
+    type: null,
+    msg: "",
+  })
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
-    setStatus("idle")
+    setSubmitting(true)
+    setStatus({ type: null, msg: "" })
 
     try {
-      const response = await fetch("/api/public/contact", {
+      const res = await fetch("/api/public/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       })
 
-      const data = await response.json()
+      const data = await res.json()
 
-      if (response.ok && data.success) {
-        setStatus("success")
-        setStatusMessage(
-          "Thank you! Your message has been sent successfully. I'll get back to you soon."
-        )
+      if (res.ok && data.success) {
+        setStatus({
+          type: "success",
+          msg: "Thank you! Your message has been sent successfully. I will get back to you shortly.",
+        })
         setFormData({ name: "", email: "", subject: "", message: "" })
-        setTimeout(() => setStatus("idle"), 6000)
       } else {
-        throw new Error(data.error || "Failed to submit form")
+        setStatus({
+          type: "error",
+          msg: data.error || "Failed to send message. Please try emailing me directly.",
+        })
       }
-    } catch (err) {
-      console.error("Contact submit error:", err)
-      // Fallback: offer mailto or show error
-      setStatus("error")
-      setStatusMessage(
-        "Could not send directly via server. Opening your email client instead..."
-      )
-      const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
-        formData.subject || "Contact from Portfolio"
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`
-      window.location.href = mailtoLink
-      setTimeout(() => setStatus("idle"), 7000)
+    } catch {
+      setStatus({
+        type: "error",
+        msg: "An unexpected error occurred. Please reach out via WhatsApp or email.",
+      })
     } finally {
-      setIsSubmitting(false)
+      setSubmitting(false)
     }
   }
 
-  const handleWhatsAppClick = () => {
-    const cleanNumber = whatsappNumber.replace(/[^0-9]/g, "")
-    const msg = encodeURIComponent(
-      "Hello! I visited your portfolio and would like to get in touch."
-    )
-    window.open(`https://wa.me/${cleanNumber}?text=${msg}`, "_blank")
-  }
-
   return (
-    <section id="contact" style={{ background: "transparent" }}>
+    <section id="contact" className="section-wrapper bg-white">
       <div className="container">
-        <h2 className="section-title">
-          Contact Me
-          <span className="section-subtitle">Get In Touch</span>
-        </h2>
+        {/* Section Header */}
+        <div className="flex flex-col items-start mb-16">
+          <div className="section-label">
+            <i className="fas fa-paper-plane text-blue-600 text-xs" />
+            <span>Initiate Collaboration</span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight mb-4">
+            Let&apos;s build something meaningful.
+          </h2>
+          <p className="section-subtext">
+            Whether you have an engineering role, an ambitious software project, or an AI automation challenge, I am always open to exploring high-impact collaborations.
+          </p>
+        </div>
 
-        <div className="contact-grid">
-          {/* Left Column: Contact Details */}
-          <div className="contact-info-panel">
-            <h3 className="contact-subhead">Get in Touch</h3>
-            <p className="contact-text">
-              Feel free to reach out to me for any inquiries, collaboration
-              opportunities, or just to say hello. I&apos;m always open to
-              discussing new projects and ideas.
-            </p>
+        {/* Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          {/* Left Column: Direct Communication Channels */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-7 space-y-6">
+              <h3 className="text-xl font-bold text-slate-900">
+                Direct Channels
+              </h3>
 
-            <div className="contact-details-list">
-              <div className="detail-item">
-                <div className="detail-icon">
-                  <i className="fas fa-user" />
-                </div>
-                <div>
-                  <h4 className="detail-label">Name</h4>
-                  <p className="detail-value">{fullName}</p>
-                </div>
-              </div>
-
-              <div className="detail-item">
-                <div className="detail-icon">
-                  <i className="fas fa-map-marker-alt" />
-                </div>
-                <div>
-                  <h4 className="detail-label">Location</h4>
-                  <p className="detail-value">{location}</p>
-                </div>
-              </div>
-
-              <div className="detail-item">
-                <div className="detail-icon">
+              {/* Email */}
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center shrink-0 text-sm">
                   <i className="fas fa-envelope" />
                 </div>
                 <div>
-                  <h4 className="detail-label">Email</h4>
-                  <a href={`mailto:${email}`} className="detail-value">
+                  <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                    Email
+                  </div>
+                  <a
+                    href={`mailto:${email}`}
+                    className="text-base font-bold text-slate-900 hover:text-blue-600 transition-colors"
+                  >
                     {email}
                   </a>
                 </div>
               </div>
 
-              <div className="detail-item">
-                <div className="detail-icon whatsapp-icon-bg">
-                  <i className="fab fa-whatsapp" />
+              {/* WhatsApp */}
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center shrink-0 text-sm">
+                  <i className="fab fa-whatsapp text-base" />
                 </div>
                 <div>
-                  <h4 className="detail-label">WhatsApp</h4>
+                  <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                    WhatsApp & Phone
+                  </div>
                   <a
-                    href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`}
+                    href={`https://wa.me/${whatsappNumber}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="detail-value"
+                    className="text-base font-bold text-slate-900 hover:text-emerald-600 transition-colors"
                   >
                     {phone}
                   </a>
                 </div>
               </div>
-            </div>
 
-            <div style={{ marginTop: "24px" }}>
-              <button
-                type="button"
-                onClick={handleWhatsAppClick}
-                className="whatsapp-action-btn"
-              >
-                <i className="fab fa-whatsapp" /> Message me on WhatsApp
-              </button>
+              {/* Location */}
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 text-slate-600 flex items-center justify-center shrink-0 text-sm">
+                  <i className="fas fa-map-marker-alt" />
+                </div>
+                <div>
+                  <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                    Location
+                  </div>
+                  <div className="text-base font-medium text-slate-800">
+                    {location}
+                  </div>
+                </div>
+              </div>
+
+              {/* Instant WhatsApp Action */}
+              <div className="pt-4 border-t border-slate-200/70">
+                <a
+                  href={`https://wa.me/${whatsappNumber}?text=Hello%20Monishan!%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20collaborate.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm py-3 rounded-xl shadow-xs hover:shadow-md transition-all"
+                >
+                  <i className="fab fa-whatsapp text-lg" />
+                  <span>Start Instant Chat on WhatsApp</span>
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Contact Form */}
-          <div className="contact-form-panel">
-            <h3 className="contact-subhead">Send a Message</h3>
+          {/* Right Column: Fast Inquiry Form */}
+          <div className="lg:col-span-7">
+            <div className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-8 shadow-xs">
+              <h3 className="text-xl font-bold text-slate-900 mb-2">
+                Send a Direct Message
+              </h3>
+              <p className="text-sm text-slate-600 mb-6">
+                Fill out the form below, and I will respond to your inquiry within 24 hours.
+              </p>
 
-            {status === "success" && (
-              <div className="form-alert success">
-                <i className="fas fa-check-circle" />
-                <span>{statusMessage}</span>
-              </div>
-            )}
+              {status.type && (
+                <div
+                  className={`p-4 rounded-xl mb-6 text-sm font-medium flex items-center gap-2.5 ${
+                    status.type === "success"
+                      ? "bg-emerald-50 border border-emerald-200 text-emerald-800"
+                      : "bg-red-50 border border-red-200 text-red-800"
+                  }`}
+                >
+                  <i
+                    className={`fas ${
+                      status.type === "success" ? "fa-check-circle" : "fa-exclamation-triangle"
+                    }`}
+                  />
+                  <span>{status.msg}</span>
+                </div>
+              )}
 
-            {status === "error" && (
-              <div className="form-alert error">
-                <i className="fas fa-info-circle" />
-                <span>{statusMessage}</span>
-              </div>
-            )}
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="contact-name" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      id="contact-name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="e.g. Alex Johnson"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all"
+                    />
+                  </div>
 
-            <form onSubmit={handleSubmit} className="contact-form">
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="name">Your Name</label>
+                  <div>
+                    <label htmlFor="contact-email" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                      Your Email
+                    </label>
+                    <input
+                      type="email"
+                      id="contact-email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="e.g. alex@company.com"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="contact-subject" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                    Subject / Project Nature
+                  </label>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
+                    id="contact-subject"
+                    name="subject"
                     required
-                    disabled={isSubmitting}
-                    placeholder="Enter your name"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    placeholder="e.g. Engineering Role / AI Automation Inquiry"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all"
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="email">Your Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
+
+                <div>
+                  <label htmlFor="contact-message" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                    Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows={5}
                     required
-                    disabled={isSubmitting}
-                    placeholder="Enter your email"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Describe your project, team requirements, or objectives..."
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all resize-y"
                   />
                 </div>
-              </div>
 
-              <div className="form-group">
-                <label htmlFor="subject">Subject</label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  disabled={isSubmitting}
-                  placeholder="What is this regarding?"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="message">Your Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  disabled={isSubmitting}
-                  placeholder="Write your message here..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn"
-                disabled={isSubmitting}
-                style={{
-                  width: "100%",
-                  justifyContent: "center",
-                  marginTop: "10px",
-                }}
-              >
-                {isSubmitting ? (
-                  <>
-                    <i className="fas fa-spinner fa-spin" /> Sending Message...
-                  </>
-                ) : (
-                  <>
-                    <i className="fas fa-paper-plane" /> Send Message
-                  </>
-                )}
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full btn-primary py-3.5 text-sm"
+                >
+                  {submitting ? (
+                    <>
+                      <i className="fas fa-spinner fa-spin" />
+                      <span>Sending Message...</span>
+                    </>
+                  ) : (
+                    <>
+                      <i className="fas fa-paper-plane text-xs" />
+                      <span>Send Inquiry Message</span>
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .contact-grid {
-          display: grid;
-          grid-template-columns: 1fr 1.3fr;
-          gap: 50px;
-        }
-
-        .contact-info-panel,
-        .contact-form-panel {
-          background: #ffffff;
-          padding: 36px;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-          border: 1px solid rgba(43, 63, 167, 0.08);
-        }
-
-        .contact-subhead {
-          font-size: 22px;
-          color: var(--secondary-color);
-          margin-bottom: 16px;
-          font-family: var(--font-heading);
-        }
-
-        .contact-text {
-          font-size: 15px;
-          color: #4a5568;
-          line-height: 1.7;
-          margin-bottom: 25px;
-        }
-
-        .contact-details-list {
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-        }
-
-        .detail-item {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
-
-        .detail-icon {
-          width: 46px;
-          height: 46px;
-          border-radius: 12px;
-          background: rgba(43, 63, 167, 0.1);
-          color: var(--primary-color);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 20px;
-          flex-shrink: 0;
-        }
-
-        .whatsapp-icon-bg {
-          background: rgba(37, 211, 102, 0.15);
-          color: #25d366;
-        }
-
-        .detail-label {
-          font-size: 13px;
-          color: #718096;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          margin-bottom: 2px;
-        }
-
-        .detail-value {
-          font-size: 15px;
-          color: var(--text-dark);
-          font-weight: 600;
-          text-decoration: none;
-        }
-
-        .whatsapp-action-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: #25d366;
-          color: #ffffff;
-          border: none;
-          padding: 12px 24px;
-          border-radius: 8px;
-          font-size: 15px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          width: 100%;
-          justify-content: center;
-        }
-
-        .whatsapp-action-btn:hover {
-          background: #20ba59;
-          transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
-        }
-
-        .contact-form {
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-        }
-
-        .form-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 16px;
-        }
-
-        .form-group {
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-        }
-
-        .form-group label {
-          font-size: 14px;
-          font-weight: 600;
-          color: var(--text-dark);
-        }
-
-        .form-group input,
-        .form-group textarea {
-          width: 100%;
-          padding: 12px 16px;
-          border: 1.5px solid #e2e8f0;
-          border-radius: 8px;
-          font-size: 14.5px;
-          font-family: inherit;
-          color: var(--text-dark);
-          background: #f8fafc;
-          transition: all 0.2s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-          outline: none;
-          border-color: var(--primary-color);
-          background: #ffffff;
-          box-shadow: 0 0 0 3px rgba(43, 63, 167, 0.15);
-        }
-
-        .form-alert {
-          padding: 14px 18px;
-          border-radius: 8px;
-          margin-bottom: 18px;
-          font-size: 14px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .form-alert.success {
-          background: #e6f9ed;
-          color: #1b873f;
-          border: 1px solid #c2eecf;
-        }
-
-        .form-alert.error {
-          background: #f0f4ff;
-          color: var(--primary-color);
-          border: 1px solid #d4e0ff;
-        }
-
-        @media (max-width: 868px) {
-          .contact-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .form-row {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </section>
   )
 }
