@@ -20,7 +20,7 @@ export default function Navbar({
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
 
-      const sections = ["home", "work", "experience", "approach", "vlog", "about", "education", "contact"]
+      const sections = ["home", "work", "experience", "approach", "vlog", "skills", "about", "education", "contact"]
       const scrollPosition = window.scrollY + 200
 
       for (const section of sections) {
@@ -45,46 +45,33 @@ export default function Navbar({
     { label: "Experience", href: "#experience", id: "experience" },
     { label: "How I Build", href: "#approach", id: "approach" },
     { label: "Vlog & Logs", href: "#vlog", id: "vlog" },
+    { label: "Skills", href: "#skills", id: "skills" },
     { label: "About", href: "#about", id: "about" },
     { label: "Education", href: "#education", id: "education" },
     { label: "Contact", href: "#contact", id: "contact" },
   ]
 
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200/80 py-3.5"
-          : "bg-transparent py-5"
-      }`}
-    >
-      <div className="container flex items-center justify-between">
+    <header className={`navbar-header ${scrolled ? "scrolled" : ""}`}>
+      <div className="container nav-container">
         {/* Brand */}
-        <Link href="#home" className="flex items-center gap-2.5 text-decoration-none group">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-sm group-hover:bg-blue-700 transition-colors">
-            M
-          </div>
-          <div className="flex flex-col">
-            <span className="font-bold text-slate-900 text-[16px] leading-tight tracking-tight group-hover:text-blue-600 transition-colors">
-              {name}
-            </span>
-            <span className="text-[11px] font-medium text-slate-500 tracking-wide uppercase">
-              AI & Mechatronics
-            </span>
+        <Link href="#home" className="nav-brand">
+          <div className="brand-badge">M</div>
+          <div className="brand-text">
+            <span className="brand-name">{name}</span>
+            <span className="brand-tag">AI & Mechatronics</span>
           </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-7">
+        <nav className="desktop-nav">
           {navLinks.map((link) => {
             const isActive = activeSection === link.id
             return (
               <a
                 key={link.id}
                 href={link.href}
-                className={`text-[14px] font-medium transition-colors duration-200 ${
-                  isActive ? "text-blue-600 font-semibold" : "text-slate-600 hover:text-slate-900"
-                }`}
+                className={`nav-link ${isActive ? "active" : ""}`}
               >
                 {link.label}
               </a>
@@ -93,59 +80,232 @@ export default function Navbar({
         </nav>
 
         {/* Right Action */}
-        <div className="hidden sm:flex items-center gap-3">
+        <div className="nav-action">
           <a
             href={resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-[13.5px] font-medium px-4 py-2 rounded-lg transition-all shadow-sm hover:shadow"
+            className="nav-cv-btn"
           >
-            <i className="fas fa-file-alt text-[12px] text-blue-400" />
+            <i className="fas fa-file-pdf" style={{ color: "#f87171" }} />
             <span>Download CV</span>
           </a>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Toggle */}
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none"
+          className="mobile-toggle-btn"
           aria-label="Toggle navigation menu"
         >
-          <i className={`fas ${mobileMenuOpen ? "fa-times" : "fa-bars"} text-xl`} />
+          <i className={`fas ${mobileMenuOpen ? "fa-times" : "fa-bars"}`} />
         </button>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white/98 backdrop-blur-xl border-b border-slate-200 px-6 py-5 shadow-lg animate-fadeIn">
-          <div className="flex flex-col gap-3.5">
+        <div className="mobile-menu-drawer">
+          <div className="mobile-menu-links">
             {navLinks.map((link) => (
               <a
                 key={link.id}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`text-[15px] py-1.5 font-medium ${
-                  activeSection === link.id ? "text-blue-600 font-semibold" : "text-slate-700"
-                }`}
+                className={`mobile-nav-link ${activeSection === link.id ? "active" : ""}`}
               >
                 {link.label}
               </a>
             ))}
-            <div className="pt-3 border-t border-slate-100">
+            <div style={{ paddingTop: "12px", borderTop: "1px solid #f1f5f9" }}>
               <a
                 href={resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 bg-blue-600 text-white font-medium py-2.5 rounded-lg text-sm"
+                className="btn-primary"
+                style={{ width: "100%", justifyContent: "center" }}
               >
-                <i className="fas fa-file-download" />
+                <i className="fas fa-file-pdf" />
                 <span>Download CV</span>
               </a>
             </div>
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        .navbar-header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 999;
+          padding: 20px 0;
+          background: transparent;
+          transition: all 0.3s ease;
+        }
+
+        .navbar-header.scrolled {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          padding: 12px 0;
+          box-shadow: 0 1px 15px rgba(0, 0, 0, 0.06);
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        .nav-container {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .nav-brand {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          text-decoration: none;
+        }
+
+        .brand-badge {
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
+          background: #2563eb;
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 16px;
+          box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .brand-text {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .brand-name {
+          font-size: 16px;
+          font-weight: 700;
+          color: #0f172a;
+          line-height: 1.2;
+        }
+
+        .brand-tag {
+          font-size: 11px;
+          font-weight: 600;
+          color: #64748b;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        .desktop-nav {
+          display: flex;
+          align-items: center;
+          gap: 28px;
+        }
+
+        .nav-link {
+          font-size: 14.5px;
+          font-weight: 500;
+          color: #475569;
+          text-decoration: none;
+          transition: all 0.2s ease;
+          position: relative;
+          padding: 4px 0;
+        }
+
+        .nav-link:hover {
+          color: #2563eb;
+        }
+
+        .nav-link.active {
+          color: #2563eb;
+          font-weight: 600;
+        }
+
+        .nav-action {
+          display: flex;
+          align-items: center;
+        }
+
+        .nav-cv-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: #0f172a;
+          color: #ffffff !important;
+          font-size: 13.5px;
+          font-weight: 600;
+          padding: 9px 18px;
+          border-radius: 8px;
+          text-decoration: none;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15);
+        }
+
+        .nav-cv-btn:hover {
+          background: #2563eb;
+          transform: translateY(-1px);
+        }
+
+        .mobile-toggle-btn {
+          display: none;
+          background: none;
+          border: none;
+          font-size: 22px;
+          color: #0f172a;
+          cursor: pointer;
+          padding: 6px;
+        }
+
+        .mobile-menu-drawer {
+          display: none;
+        }
+
+        @media (max-width: 992px) {
+          .desktop-nav {
+            display: none;
+          }
+
+          .nav-action {
+            display: none;
+          }
+
+          .mobile-toggle-btn {
+            display: block;
+          }
+
+          .mobile-menu-drawer {
+            display: block;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 20px 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+          }
+
+          .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+          }
+
+          .mobile-nav-link {
+            font-size: 16px;
+            font-weight: 500;
+            color: #334155;
+            text-decoration: none;
+            padding: 6px 0;
+          }
+
+          .mobile-nav-link.active {
+            color: #2563eb;
+            font-weight: 700;
+          }
+        }
+      `}</style>
     </header>
   )
 }

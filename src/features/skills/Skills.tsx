@@ -2,17 +2,15 @@
 
 import React from "react"
 
-export interface SkillItem {
-  id: string | number
-  name: string
-  icon?: string | null
-}
-
 export interface SkillCategoryItem {
   id: string | number
   name: string
   icon?: string | null
-  skills: SkillItem[]
+  skills: Array<{
+    id: string | number
+    name: string
+    icon?: string | null
+  }>
 }
 
 interface SkillsProps {
@@ -22,66 +20,63 @@ interface SkillsProps {
 export default function Skills({ categories = [] }: SkillsProps) {
   const defaultCategories: SkillCategoryItem[] = [
     {
-      id: 1,
+      id: "ai-ml",
       name: "AI & Machine Learning",
       icon: "fas fa-brain",
       skills: [
-        { id: 101, name: "LLM APIs (OpenAI, Claude)", icon: "fas fa-robot" },
-        { id: 102, name: "AI Automation Agents", icon: "fas fa-network-wired" },
-        { id: 103, name: "Prompt Engineering", icon: "fas fa-terminal" },
-        { id: 104, name: "Neural Networks & ML (Python)", icon: "fas fa-project-diagram" },
-        { id: 105, name: "Vector Databases & Embeddings", icon: "fas fa-database" },
+        { id: "ai-1", name: "LLM APIs (OpenAI / Claude / Gemini)", icon: "fas fa-robot" },
+        { id: "ai-2", name: "Multi-Agent Workflows", icon: "fas fa-project-diagram" },
+        { id: "ai-3", name: "Python & NumPy", icon: "fab fa-python" },
+        { id: "ai-4", name: "RAG & Vector Embeddings", icon: "fas fa-database" },
+        { id: "ai-5", name: "Prompt Engineering", icon: "fas fa-terminal" },
       ],
     },
     {
-      id: 2,
+      id: "frontend",
       name: "Frontend Engineering",
       icon: "fas fa-laptop-code",
       skills: [
-        { id: 201, name: "Next.js 15 (App Router)", icon: "fab fa-react" },
-        { id: 202, name: "React.js", icon: "fab fa-react" },
-        { id: 203, name: "TypeScript / JavaScript", icon: "fab fa-js" },
-        { id: 204, name: "Tailwind CSS & UI/UX", icon: "fab fa-css3-alt" },
-        { id: 205, name: "Flutter (Cross-Platform Mobile)", icon: "fab fa-android" },
-        { id: 206, name: "Angular", icon: "fab fa-angular" },
+        { id: "fe-1", name: "Next.js 15 & React.js", icon: "fab fa-react" },
+        { id: "fe-2", name: "TypeScript / Modern JS", icon: "fab fa-js" },
+        { id: "fe-3", name: "Tailwind CSS & CSS Modules", icon: "fab fa-css3-alt" },
+        { id: "fe-4", name: "State Management (Zustand/Redux)", icon: "fas fa-code-branch" },
+        { id: "fe-5", name: "Responsive UI / UX Design", icon: "fas fa-mobile-alt" },
       ],
     },
     {
-      id: 3,
+      id: "backend",
       name: "Backend & Systems",
       icon: "fas fa-server",
       skills: [
-        { id: 301, name: "Python", icon: "fab fa-python" },
-        { id: 302, name: "C# & .NET Core", icon: "fab fa-microsoft" },
-        { id: 303, name: "ASP.NET Core Web APIs", icon: "fas fa-code" },
-        { id: 304, name: "Node.js & Express", icon: "fab fa-node-js" },
-        { id: 305, name: "C Programming", icon: "fas fa-microchip" },
-        { id: 306, name: "Prisma ORM", icon: "fas fa-layer-group" },
+        { id: "be-1", name: "C# & .NET Core / ASP.NET", icon: "fas fa-cube" },
+        { id: "be-2", name: "Node.js & Express.js", icon: "fab fa-node-js" },
+        { id: "be-3", name: "RESTful & Streaming APIs", icon: "fas fa-network-wired" },
+        { id: "be-4", name: "PostgreSQL & SQL Server", icon: "fas fa-database" },
+        { id: "be-5", name: "Supabase & Prisma ORM", icon: "fas fa-bolt" },
       ],
     },
     {
-      id: 4,
-      name: "Cloud & Databases",
+      id: "cloud-devops",
+      name: "Cloud & DevOps",
       icon: "fas fa-cloud",
       skills: [
-        { id: 401, name: "PostgreSQL & Supabase", icon: "fas fa-database" },
-        { id: 402, name: "MySQL & SQL Server", icon: "fas fa-database" },
-        { id: 403, name: "MongoDB", icon: "fas fa-database" },
-        { id: 404, name: "AWS & Google Cloud", icon: "fab fa-aws" },
-        { id: 405, name: "Git & CI/CD Pipelines", icon: "fab fa-git-alt" },
-        { id: 406, name: "RESTful Architecture", icon: "fas fa-exchange-alt" },
+        { id: "cl-1", name: "Amazon Web Services (AWS)", icon: "fab fa-aws" },
+        { id: "cl-2", name: "Vercel Cloud Deployment", icon: "fas fa-globe" },
+        { id: "cl-3", name: "Docker & Containerization", icon: "fab fa-docker" },
+        { id: "cl-4", name: "Git & GitHub CI/CD", icon: "fab fa-github" },
+        { id: "cl-5", name: "Agile & Scrum Methodologies", icon: "fas fa-tasks" },
       ],
     },
     {
-      id: 5,
+      id: "mechatronics",
       name: "Hardware & Mechatronics",
-      icon: "fas fa-cogs",
+      icon: "fas fa-microchip",
       skills: [
-        { id: 501, name: "Electronics & Circuit Fundamentals", icon: "fas fa-microchip" },
-        { id: 502, name: "Sensors & Actuator Interfaces", icon: "fas fa-bolt" },
-        { id: 503, name: "Microcontrollers & Embedded Logic", icon: "fas fa-memory" },
-        { id: 504, name: "Automation & Robotics Concepts", icon: "fas fa-robot" },
-        { id: 505, name: "Project Management (Agile/Scrum)", icon: "fas fa-tasks" },
+        { id: "me-1", name: "Microcontrollers (Arduino / STM32)", icon: "fas fa-microchip" },
+        { id: "me-2", name: "Sensor & Actuator Interfacing", icon: "fas fa-wave-square" },
+        { id: "me-3", name: "Circuit Design & Prototyping", icon: "fas fa-plug" },
+        { id: "me-4", name: "Control Systems & Robotics", icon: "fas fa-cogs" },
+        { id: "me-5", name: "MATLAB & Simulation", icon: "fas fa-calculator" },
       ],
     },
   ]
@@ -89,59 +84,168 @@ export default function Skills({ categories = [] }: SkillsProps) {
   const catList = categories.length > 0 ? categories : defaultCategories
 
   return (
-    <section id="skills" className="section-wrapper bg-white">
+    <section id="skills" className="section-wrapper skills-section">
       <div className="container">
         {/* Section Header */}
-        <div className="flex flex-col items-start mb-16">
+        <div className="section-header">
           <div className="section-label">
-            <i className="fas fa-cubes text-blue-600 text-xs" />
+            <i className="fas fa-tools" />
             <span>Technical Capabilities</span>
           </div>
           <h2 className="section-headline">
             Technology Stack & Toolkit
           </h2>
           <p className="section-subtext">
-            Specialized toolset bridging modern cloud software, intelligent AI systems, and mechatronics engineering fundamentals.
+            A comprehensive overview of programming languages, modern frameworks, cloud architectures, and hardware disciplines I actively use to engineer intelligent systems.
           </p>
         </div>
 
-        {/* Grouped Categories */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {catList.map((category) => (
-            <div
-              key={category.id}
-              className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-7 hover:border-blue-300 hover:shadow-md transition-all duration-300 flex flex-col justify-between"
-            >
-              <div>
-                {/* Category Header */}
-                <div className="flex items-center gap-3 mb-6 pb-3 border-b border-slate-200/70">
-                  <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-200/60 text-blue-600 flex items-center justify-center text-sm shadow-xs">
-                    <i className={category.icon || "fas fa-code"} />
+        {/* Skills Grid */}
+        <div className="skills-categories-grid">
+          {catList.map((cat) => (
+            <div key={cat.id} className="skill-cat-card">
+              {/* Category Header */}
+              <div className="cat-card-header">
+                <div className="cat-title-group">
+                  <div className="cat-icon-box">
+                    <i className={cat.icon || "fas fa-layer-group"} />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900">
-                    {category.name}
-                  </h3>
+                  <h3 className="cat-name">{cat.name}</h3>
                 </div>
+                <span className="cat-badge">{cat.skills.length} tools</span>
+              </div>
 
-                {/* Chips Grid */}
-                <div className="flex flex-wrap gap-2">
-                  {category.skills.map((skill) => (
-                    <div
-                      key={skill.id}
-                      className="inline-flex items-center gap-2 bg-white border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 px-3 py-2 rounded-lg text-xs font-semibold shadow-2xs transition-all cursor-default"
-                    >
-                      {skill.icon && (
-                        <i className={`${skill.icon} text-slate-400 group-hover:text-blue-600 text-xs`} />
-                      )}
-                      <span>{skill.name}</span>
-                    </div>
-                  ))}
-                </div>
+              {/* Skills Chips */}
+              <div className="skills-chips-wrapper">
+                {cat.skills.map((s) => (
+                  <div key={s.id} className="skill-chip">
+                    <i className={s.icon || "fas fa-check"} />
+                    <span>{s.name}</span>
+                  </div>
+                ))}
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        .skills-section {
+          background: #ffffff;
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        .skills-categories-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+        }
+
+        .skill-cat-card {
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 18px;
+          padding: 24px;
+          display: flex;
+          flex-direction: column;
+          transition: all 0.3s ease;
+        }
+
+        .skill-cat-card:hover {
+          background: #ffffff;
+          border-color: #93c5fd;
+          box-shadow: 0 10px 25px rgba(37, 99, 235, 0.08);
+          transform: translateY(-3px);
+        }
+
+        .cat-card-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 18px;
+          padding-bottom: 14px;
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        .cat-title-group {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .cat-icon-box {
+          width: 36px;
+          height: 36px;
+          border-radius: 8px;
+          background: rgba(37, 99, 235, 0.08);
+          color: #2563eb;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 15px;
+        }
+
+        .cat-name {
+          font-size: 16px;
+          font-weight: 700;
+          color: #0f172a;
+          margin: 0;
+          font-family: var(--font-heading, 'Ubuntu', sans-serif);
+        }
+
+        .cat-badge {
+          font-size: 11px;
+          font-weight: 600;
+          color: #64748b;
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          padding: 2px 8px;
+          border-radius: 100px;
+        }
+
+        .skills-chips-wrapper {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+
+        .skill-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          padding: 7px 12px;
+          border-radius: 8px;
+          font-size: 12.5px;
+          font-weight: 600;
+          color: #334155;
+          transition: all 0.2s ease;
+        }
+
+        .skill-chip i {
+          color: #2563eb;
+          font-size: 13px;
+        }
+
+        .skill-chip:hover {
+          border-color: #2563eb;
+          color: #2563eb;
+          transform: translateY(-1px);
+        }
+
+        @media (max-width: 992px) {
+          .skills-categories-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 600px) {
+          .skills-categories-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </section>
   )
 }

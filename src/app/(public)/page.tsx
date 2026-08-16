@@ -165,8 +165,8 @@ export default async function HomePage() {
       <About
         avatarUrl={avatarUrl}
         roles={roles}
-        bioShort={profile?.bio_short}
-        bioLong={profile?.bio_long}
+        bioShort={profile?.bio_short || undefined}
+        bioLong={profile?.bio_long || undefined}
         resumeUrl={resumeUrl}
       />
       <Education items={educationItems.length > 0 ? educationItems : undefined} />

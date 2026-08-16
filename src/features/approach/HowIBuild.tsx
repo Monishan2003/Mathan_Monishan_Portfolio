@@ -9,19 +9,17 @@ export default function HowIBuild() {
       title: "Discover & Frame",
       subtitle: "Understand the real problem",
       description:
-        "Deep-dive into domain requirements, user bottlenecks, and technical constraints before writing a single line of code. Define clear functional boundaries and data flow models.",
+        "Deep-dive into domain requirements, user bottlenecks, and technical constraints before writing code. Define clear functional boundaries and data models.",
       icon: "fas fa-search",
-      accent: "from-blue-600 to-cyan-500",
       points: ["Requirement modeling", "Data flow analysis", "Scope & feasibility"],
     },
     {
       step: "02",
       title: "Architect & Design",
-      subtitle: "Scalable architecture & intuitive UX",
+      subtitle: "Scalable architecture & UX",
       description:
         "Design normalized database schemas, type-safe API contracts, and clean component hierarchies. Plan for high throughput, security, and effortless user interactions.",
       icon: "fas fa-drafting-compass",
-      accent: "from-indigo-600 to-blue-600",
       points: ["Relational & vector schemas", "REST / GraphQL APIs", "Ergonomic UI interfaces"],
     },
     {
@@ -29,10 +27,9 @@ export default function HowIBuild() {
       title: "Build & Automate",
       subtitle: "Robust, production-grade code",
       description:
-        "Implement solutions using modern frameworks (Next.js, TypeScript, C#, Python) and integrate intelligent AI agent pipelines with low-latency streaming and error boundaries.",
+        "Implement solutions using modern frameworks (Next.js, TypeScript, C#, Python) and integrate intelligent AI agent pipelines with low-latency streaming.",
       icon: "fas fa-code",
-      accent: "from-blue-600 to-indigo-600",
-      points: ["Type-safe development", "LLM API pipelines", "Automated unit & integration testing"],
+      points: ["Type-safe development", "LLM API pipelines", "Automated testing"],
     },
     {
       step: "04",
@@ -41,18 +38,17 @@ export default function HowIBuild() {
       description:
         "Deploy to resilient cloud infrastructure (AWS, Vercel, Supabase) with automated CI/CD workflows, real-time logging, security headers, and sub-second performance.",
       icon: "fas fa-rocket",
-      accent: "from-cyan-600 to-blue-600",
       points: ["Automated CI/CD deployment", "Telemetry & performance", "Iterative enhancements"],
     },
   ]
 
   return (
-    <section id="approach" className="section-wrapper bg-white border-b border-slate-200/80">
+    <section id="approach" className="section-wrapper approach-section">
       <div className="container">
         {/* Section Header */}
-        <div className="flex flex-col items-start mb-16">
+        <div className="section-header">
           <div className="section-label">
-            <i className="fas fa-microchip text-blue-600 text-xs" />
+            <i className="fas fa-microchip" />
             <span>Engineering Discipline</span>
           </div>
           <h2 className="section-headline">
@@ -64,45 +60,31 @@ export default function HowIBuild() {
         </div>
 
         {/* 4 Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="pillars-grid">
           {pillars.map((pillar) => (
-            <div
-              key={pillar.step}
-              className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-7 hover:border-blue-300 hover:bg-white hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
-            >
+            <div key={pillar.step} className="pillar-card">
               <div>
                 {/* Step & Icon */}
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-3xl font-black text-slate-300 font-mono group-hover:text-blue-600 transition-colors">
-                    {pillar.step}
-                  </span>
-                  <div className="w-11 h-11 rounded-xl bg-white border border-slate-200 shadow-xs flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                    <i className={`${pillar.icon} text-base`} />
+                <div className="pillar-header">
+                  <span className="pillar-step">{pillar.step}</span>
+                  <div className="pillar-icon-box">
+                    <i className={pillar.icon} />
                   </div>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-xl font-bold text-slate-900 mb-1">
-                  {pillar.title}
-                </h3>
-                <div className="text-xs font-semibold text-blue-600 mb-3.5">
-                  {pillar.subtitle}
-                </div>
+                {/* Title & Subtitle */}
+                <h3 className="pillar-title">{pillar.title}</h3>
+                <div className="pillar-subtitle">{pillar.subtitle}</div>
 
                 {/* Description */}
-                <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                  {pillar.description}
-                </p>
+                <p className="pillar-desc">{pillar.description}</p>
               </div>
 
               {/* Bullet Points */}
-              <div className="pt-4 border-t border-slate-200/70 space-y-1.5">
+              <div className="pillar-points">
                 {pillar.points.map((pt, pIdx) => (
-                  <div
-                    key={pIdx}
-                    className="flex items-center gap-2 text-xs font-medium text-slate-500"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                  <div key={pIdx} className="point-item">
+                    <span className="point-bullet" />
                     <span>{pt}</span>
                   </div>
                 ))}
@@ -111,6 +93,136 @@ export default function HowIBuild() {
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        .approach-section {
+          background: #ffffff;
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        .pillars-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 24px;
+        }
+
+        .pillar-card {
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 18px;
+          padding: 28px 24px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          transition: all 0.3s ease;
+        }
+
+        .pillar-card:hover {
+          background: #ffffff;
+          border-color: #93c5fd;
+          box-shadow: 0 12px 30px rgba(37, 99, 235, 0.08);
+          transform: translateY(-4px);
+        }
+
+        .pillar-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 20px;
+        }
+
+        .pillar-step {
+          font-size: 32px;
+          font-weight: 800;
+          color: #cbd5e1;
+          font-family: monospace;
+          line-height: 1;
+        }
+
+        .pillar-card:hover .pillar-step {
+          color: #2563eb;
+        }
+
+        .pillar-icon-box {
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          color: #2563eb;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 17px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+          transition: all 0.25s ease;
+        }
+
+        .pillar-card:hover .pillar-icon-box {
+          background: #2563eb;
+          color: #ffffff;
+          border-color: #2563eb;
+        }
+
+        .pillar-title {
+          font-size: 18px;
+          font-weight: 700;
+          color: #0f172a;
+          margin-bottom: 4px;
+          font-family: var(--font-heading, 'Ubuntu', sans-serif);
+        }
+
+        .pillar-subtitle {
+          font-size: 12.5px;
+          font-weight: 600;
+          color: #2563eb;
+          margin-bottom: 14px;
+        }
+
+        .pillar-desc {
+          font-size: 14px;
+          line-height: 1.6;
+          color: #64748b;
+          margin-bottom: 20px;
+        }
+
+        .pillar-points {
+          padding-top: 16px;
+          border-top: 1px solid #e2e8f0;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .point-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 12px;
+          font-weight: 500;
+          color: #475569;
+        }
+
+        .point-bullet {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #2563eb;
+          flex-shrink: 0;
+        }
+
+        @media (max-width: 1024px) {
+          .pillars-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 600px) {
+          .pillars-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </section>
   )
 }

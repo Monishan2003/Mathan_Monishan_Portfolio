@@ -15,64 +15,51 @@ export default function Footer() {
   ]
 
   const navLinks = [
-    { label: "Work", href: "#work" },
-    { label: "Experience", href: "#experience" },
+    { label: "Work & Projects", href: "#work" },
+    { label: "Experience & Ventures", href: "#experience" },
     { label: "How I Build", href: "#approach" },
     { label: "Vlog & Logs", href: "#vlog" },
-    { label: "About", href: "#about" },
+    { label: "Skills & Stack", href: "#skills" },
+    { label: "About Me", href: "#about" },
     { label: "Education", href: "#education" },
     { label: "Contact", href: "#contact" },
   ]
 
   return (
-    <footer className="bg-slate-900 text-white pt-16 pb-12 border-t border-slate-800">
-      <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
-          {/* Brand & Positioning */}
-          <div className="md:col-span-6 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
-                M
-              </div>
-              <h3 className="text-xl font-bold text-white tracking-tight">
-                Mathan Monishan
-              </h3>
+    <footer className="site-footer">
+      <div className="container footer-container">
+        <div className="footer-top-grid">
+          {/* Brand Column */}
+          <div className="footer-brand-col">
+            <div className="footer-brand-title">
+              <div className="footer-brand-badge">M</div>
+              <span className="footer-brand-name">Mathan Monishan</span>
             </div>
-
-            <p className="text-slate-400 text-sm leading-relaxed max-w-md">
+            <p className="footer-tagline">
               AI & Full-Stack Engineer specializing in Mechatronics. Building production software systems today and engineering intelligent physical systems for tomorrow. Founder @ Pynimox.
             </p>
-
-            <div className="text-xs text-slate-400">
-              📍 Thalaimannar, Mannar, Sri Lanka · Global Collaborations
+            <div className="footer-location">
+              <i className="fas fa-map-marker-alt" style={{ color: "#60a5fa" }} />
+              <span>Thalaimannar, Mannar, Sri Lanka · Global Collaborations</span>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="md:col-span-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 mb-4">
-              Navigation
-            </h4>
-            <ul className="space-y-2.5">
+          {/* Quick Links Column */}
+          <div className="footer-nav-col">
+            <h4 className="footer-heading">Navigation</h4>
+            <div className="footer-nav-grid">
               {navLinks.map((link, idx) => (
-                <li key={idx}>
-                  <a
-                    href={link.href}
-                    className="text-xs text-slate-400 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
+                <a key={idx} href={link.href} className="footer-link">
+                  {link.label}
+                </a>
               ))}
-            </ul>
+            </div>
           </div>
 
-          {/* Social Links */}
-          <div className="md:col-span-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 mb-4">
-              Connect & Follow
-            </h4>
-            <div className="flex flex-wrap gap-2.5">
+          {/* Connect Column */}
+          <div className="footer-connect-col">
+            <h4 className="footer-heading">Connect & Socials</h4>
+            <div className="footer-social-icons">
               {socialLinks.map((s, idx) => (
                 <a
                   key={idx}
@@ -80,28 +67,193 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center text-sm transition-all shadow-xs"
+                  className="footer-social-btn"
                 >
                   <i className={s.icon} />
                 </a>
               ))}
             </div>
+
+            <div className="footer-admin-box">
+              <Link href="/login" className="footer-admin-link">
+                <i className="fas fa-lock" style={{ fontSize: "11px" }} />
+                <span>Admin Portal</span>
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Bottom Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <div>
-            © {currentYear} Mathan Monishan. All rights reserved.
-          </div>
-          <div className="flex items-center gap-6">
+        {/* Bottom Bar */}
+        <div className="footer-bottom-bar">
+          <div>© {currentYear} Mathan Monishan. All rights reserved.</div>
+          <div className="footer-built-with">
             <span>Engineered with Next.js 15 & Supabase</span>
-            <Link href="/login" className="text-slate-400 hover:text-slate-200">
-              Admin Portal
-            </Link>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .site-footer {
+          background: #0f172a;
+          color: #ffffff;
+          padding: 80px 0 40px;
+          border-top: 1px solid #1e293b;
+        }
+
+        .footer-top-grid {
+          display: grid;
+          grid-template-columns: 1.4fr 1.2fr 0.9fr;
+          gap: 48px;
+          padding-bottom: 50px;
+          border-bottom: 1px solid #1e293b;
+        }
+
+        .footer-brand-title {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+
+        .footer-brand-badge {
+          width: 34px;
+          height: 34px;
+          border-radius: 8px;
+          background: #2563eb;
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 15px;
+        }
+
+        .footer-brand-name {
+          font-size: 18px;
+          font-weight: 700;
+          color: #ffffff;
+        }
+
+        .footer-tagline {
+          font-size: 14px;
+          line-height: 1.7;
+          color: #94a3b8;
+          margin-bottom: 18px;
+          max-width: 440px;
+        }
+
+        .footer-location {
+          font-size: 12.5px;
+          color: #cbd5e1;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .footer-heading {
+          font-size: 12px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: #cbd5e1;
+          margin-bottom: 20px;
+        }
+
+        .footer-nav-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px 16px;
+        }
+
+        .footer-link {
+          font-size: 13.5px;
+          color: #94a3b8;
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+          color: #ffffff;
+        }
+
+        .footer-social-icons {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-bottom: 24px;
+        }
+
+        .footer-social-btn {
+          width: 38px;
+          height: 38px;
+          border-radius: 8px;
+          background: #1e293b;
+          color: #cbd5e1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 15px;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .footer-social-btn:hover {
+          background: #2563eb;
+          color: #ffffff;
+          transform: translateY(-2px);
+        }
+
+        .footer-admin-link {
+          font-size: 12.5px;
+          color: #64748b;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          transition: color 0.2s ease;
+        }
+
+        .footer-admin-link:hover {
+          color: #94a3b8;
+        }
+
+        .footer-bottom-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-top: 32px;
+          font-size: 13px;
+          color: #64748b;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        @media (max-width: 992px) {
+          .footer-top-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+
+          .footer-brand-col {
+            grid-column: span 2;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .footer-top-grid {
+            grid-template-columns: 1fr;
+            gap: 36px;
+          }
+
+          .footer-brand-col {
+            grid-column: span 1;
+          }
+
+          .footer-bottom-bar {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+        }
+      `}</style>
     </footer>
   )
 }

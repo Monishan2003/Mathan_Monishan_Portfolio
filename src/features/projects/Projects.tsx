@@ -137,12 +137,12 @@ export default function Projects({ projects = [] }: ProjectsProps) {
   const additionalProjects = projectList.slice(4)
 
   return (
-    <section id="work" className="section-wrapper bg-white border-y border-slate-200/80">
+    <section id="work" className="section-wrapper work-section">
       <div className="container">
         {/* Section Header */}
-        <div className="flex flex-col items-start mb-16">
+        <div className="section-header">
           <div className="section-label">
-            <i className="fas fa-layer-group text-blue-600 text-xs" />
+            <i className="fas fa-layer-group" />
             <span>Selected Work & Case Studies</span>
           </div>
           <h2 className="section-headline">
@@ -153,142 +153,117 @@ export default function Projects({ projects = [] }: ProjectsProps) {
           </p>
         </div>
 
-        {/* Featured Case Studies Grid (Large Cards) */}
-        <div className="space-y-16">
+        {/* Featured Case Studies Grid */}
+        <div className="case-studies-list">
           {featuredProjects.map((project, index) => {
             const projectSlug = project.slug || `project-${project.id}`
-            const isEven = index % 2 === 1
+            const isReversed = index % 2 === 1
 
             return (
               <div
                 key={project.id}
-                className="bg-slate-50/70 border border-slate-200/90 rounded-2xl overflow-hidden hover:border-blue-300 hover:shadow-xl transition-all duration-300 group"
+                className={`case-card ${isReversed ? "reversed" : ""}`}
               >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch">
-                  {/* Image Column */}
-                  <div
-                    className={`lg:col-span-6 overflow-hidden bg-slate-900 relative min-h-[300px] lg:min-h-[420px] ${
-                      isEven ? "lg:order-2" : "lg:order-1"
-                    }`}
-                  >
-                    <Link
-                      href={`/projects/${projectSlug}`}
-                      className="block w-full h-full relative"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={project.cover_image_url || "/projects/pynimox.jpg"}
-                        alt={project.title}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                        <span className="text-white text-sm font-semibold inline-flex items-center gap-2 bg-blue-600 px-3.5 py-1.5 rounded-lg shadow-md">
-                          <span>Read Full Case Study</span>
-                          <i className="fas fa-arrow-right text-xs" />
+                {/* Media Image Box */}
+                <div className="case-media">
+                  <Link href={`/projects/${projectSlug}`} className="case-media-link">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={project.cover_image_url || "/projects/pynimox.jpg"}
+                      alt={project.title}
+                      className="case-img"
+                    />
+                    <div className="case-hover-overlay">
+                      <span className="case-hover-btn">
+                        <span>Read Case Study</span>
+                        <i className="fas fa-arrow-right" />
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+
+                {/* Content Box */}
+                <div className="case-content">
+                  <div>
+                    {/* Top Meta */}
+                    <div className="case-meta-row">
+                      <span className="case-number-badge">
+                        0{index + 1} / CASE STUDY
+                      </span>
+                      {project.role && (
+                        <span className="case-role">
+                          Role: <strong>{project.role}</strong>
                         </span>
-                      </div>
+                      )}
+                    </div>
+
+                    {/* Title & Subtitle */}
+                    <Link href={`/projects/${projectSlug}`} className="case-title-link">
+                      <h3 className="case-title">{project.title}</h3>
                     </Link>
+                    {project.subtitle && (
+                      <div className="case-subtitle">{project.subtitle}</div>
+                    )}
+
+                    {/* Summary */}
+                    <p className="case-summary">{project.summary}</p>
+
+                    {/* Architecture Box */}
+                    {project.solution && (
+                      <div className="case-arch-box">
+                        <div className="arch-header">
+                          <i className="fas fa-cogs text-blue" />
+                          <span>Architecture & Solution</span>
+                        </div>
+                        <p className="arch-text">{project.solution}</p>
+                      </div>
+                    )}
+
+                    {/* Tech Chips */}
+                    {project.tech_stack && project.tech_stack.length > 0 && (
+                      <div className="tech-chips-row">
+                        {project.tech_stack.map((tech, tIdx) => (
+                          <span key={tIdx} className="tech-badge">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  {/* Details Column */}
-                  <div
-                    className={`lg:col-span-6 p-8 sm:p-10 flex flex-col justify-between ${
-                      isEven ? "lg:order-1" : "lg:order-2"
-                    }`}
-                  >
-                    <div>
-                      {/* Top Meta */}
-                      <div className="flex items-center justify-between gap-3 mb-3">
-                        <span className="text-xs font-bold text-blue-600 tracking-wider uppercase bg-blue-50 border border-blue-200/60 px-2.5 py-1 rounded-md">
-                          0{index + 1} / Case Study
-                        </span>
-                        {project.role && (
-                          <span className="text-xs text-slate-500 font-medium">
-                            Role: <strong className="text-slate-700">{project.role}</strong>
-                          </span>
-                        )}
-                      </div>
+                  {/* Actions Bar */}
+                  <div className="case-actions-row">
+                    <Link
+                      href={`/projects/${projectSlug}`}
+                      className="btn-dark"
+                    >
+                      <i className="fas fa-file-alt" />
+                      <span>Case Study Details</span>
+                    </Link>
 
-                      {/* Title */}
-                      <Link href={`/projects/${projectSlug}`} className="text-decoration-none">
-                        <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-2">
-                          {project.title}
-                        </h3>
-                      </Link>
-
-                      {project.subtitle && (
-                        <p className="text-sm font-semibold text-slate-500 mb-4">
-                          {project.subtitle}
-                        </p>
-                      )}
-
-                      {/* Summary */}
-                      <p className="text-slate-600 text-[15px] leading-relaxed mb-6">
-                        {project.summary}
-                      </p>
-
-                      {/* Problem & Solution Snippet */}
-                      {project.solution && (
-                        <div className="bg-white border border-slate-200/80 rounded-xl p-4 mb-6 shadow-xs">
-                          <div className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-1 flex items-center gap-1.5">
-                            <i className="fas fa-cogs text-blue-600 text-xs" />
-                            <span>Architecture & Solution</span>
-                          </div>
-                          <p className="text-xs text-slate-600 leading-normal">
-                            {project.solution}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Tech Chips */}
-                      {project.tech_stack && project.tech_stack.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mb-8">
-                          {project.tech_stack.map((tech, tIdx) => (
-                            <span
-                              key={tIdx}
-                              className="text-xs font-medium bg-white text-slate-700 px-2.5 py-1 rounded-md border border-slate-200"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Action Links */}
-                    <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-slate-200/70">
-                      <Link
-                        href={`/projects/${projectSlug}`}
-                        className="inline-flex items-center gap-2 bg-slate-900 hover:bg-blue-600 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-colors"
+                    {project.live_url && (
+                      <a
+                        href={project.live_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-blue-outline"
                       >
-                        <i className="fas fa-file-alt text-xs" />
-                        <span>Case Study Details</span>
-                      </Link>
+                        <i className="fas fa-external-link-alt" />
+                        <span>Live Site</span>
+                      </a>
+                    )}
 
-                      {project.live_url && (
-                        <a
-                          href={project.live_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-800 bg-blue-50/80 hover:bg-blue-100/80 border border-blue-200 text-xs font-semibold px-3.5 py-2.5 rounded-lg transition-colors"
-                        >
-                          <i className="fas fa-external-link-alt text-xs" />
-                          <span>Live Site</span>
-                        </a>
-                      )}
-
-                      {project.repo_url && (
-                        <a
-                          href={project.repo_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-200 text-xs font-semibold px-3.5 py-2.5 rounded-lg transition-colors"
-                        >
-                          <i className="fab fa-github text-xs" />
-                          <span>Source Code</span>
-                        </a>
-                      )}
-                    </div>
+                    {project.repo_url && (
+                      <a
+                        href={project.repo_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-outline"
+                      >
+                        <i className="fab fa-github" />
+                        <span>Source Code</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -296,53 +271,41 @@ export default function Projects({ projects = [] }: ProjectsProps) {
           })}
         </div>
 
-        {/* Additional Projects (Secondary Grid) */}
+        {/* Additional Projects Section */}
         {additionalProjects.length > 0 && (
-          <div className="mt-20">
-            <div className="border-t border-slate-200 pt-12 mb-8">
-              <h3 className="text-xl font-bold text-slate-900">
-                Additional Technical Projects
-              </h3>
-              <p className="text-sm text-slate-500">
+          <div className="additional-projects-wrapper">
+            <div className="addl-header">
+              <h3 className="addl-title">Additional Technical Projects</h3>
+              <p className="addl-subtitle">
                 Foundational explorations in web design, algorithms, and CLI automation.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="addl-grid">
               {additionalProjects.map((proj) => {
                 const projSlug = proj.slug || `project-${proj.id}`
                 return (
-                  <div
-                    key={proj.id}
-                    className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-md hover:border-slate-300 transition-all flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="text-lg font-bold text-slate-900">
-                          {proj.title}
-                        </h4>
+                  <div key={proj.id} className="addl-card">
+                    <div className="addl-card-top">
+                      <div className="addl-card-header">
+                        <h4 className="addl-card-title">{proj.title}</h4>
                         {proj.repo_url && (
                           <a
                             href={proj.repo_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-slate-500 hover:text-slate-900"
+                            className="addl-repo-link"
                             aria-label="GitHub Repository"
                           >
-                            <i className="fab fa-github text-lg" />
+                            <i className="fab fa-github" />
                           </a>
                         )}
                       </div>
-                      <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-                        {proj.summary}
-                      </p>
+                      <p className="addl-card-desc">{proj.summary}</p>
                       {proj.tech_stack && (
-                        <div className="flex flex-wrap gap-1.5 mb-4">
+                        <div className="tech-chips-row">
                           {proj.tech_stack.map((t, idx) => (
-                            <span
-                              key={idx}
-                              className="text-[11px] font-medium bg-slate-100 text-slate-700 px-2 py-0.5 rounded"
-                            >
+                            <span key={idx} className="tech-badge-sm">
                               {t}
                             </span>
                           ))}
@@ -350,13 +313,13 @@ export default function Projects({ projects = [] }: ProjectsProps) {
                       )}
                     </div>
 
-                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                    <div className="addl-card-bottom">
                       <Link
                         href={`/projects/${projSlug}`}
-                        className="text-xs font-semibold text-blue-600 hover:text-blue-800 inline-flex items-center gap-1"
+                        className="addl-details-btn"
                       >
                         <span>View Details</span>
-                        <i className="fas fa-chevron-right text-[10px]" />
+                        <i className="fas fa-chevron-right" style={{ fontSize: "11px" }} />
                       </Link>
                     </div>
                   </div>
@@ -366,6 +329,365 @@ export default function Projects({ projects = [] }: ProjectsProps) {
           </div>
         )}
       </div>
+
+      <style jsx>{`
+        .work-section {
+          background: #ffffff;
+          border-top: 1px solid #e2e8f0;
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        .case-studies-list {
+          display: flex;
+          flex-direction: column;
+          gap: 48px;
+        }
+
+        .case-card {
+          display: grid;
+          grid-template-columns: 1.1fr 1.2fr;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+          transition: all 0.3s ease;
+        }
+
+        .case-card:hover {
+          border-color: #93c5fd;
+          box-shadow: 0 16px 36px rgba(37, 99, 235, 0.1);
+          transform: translateY(-4px);
+        }
+
+        .case-card.reversed {
+          grid-template-columns: 1.2fr 1.1fr;
+        }
+
+        .case-card.reversed .case-media {
+          order: 2;
+        }
+
+        .case-card.reversed .case-content {
+          order: 1;
+        }
+
+        .case-media {
+          position: relative;
+          background: #0f172a;
+          min-height: 380px;
+          overflow: hidden;
+        }
+
+        .case-media-link {
+          display: block;
+          width: 100%;
+          height: 100%;
+          position: relative;
+        }
+
+        .case-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          display: block;
+          transition: transform 0.5s ease;
+        }
+
+        .case-card:hover .case-img {
+          transform: scale(1.04);
+        }
+
+        .case-hover-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, 0.7) 100%);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          display: flex;
+          align-items: flex-end;
+          padding: 24px;
+        }
+
+        .case-card:hover .case-hover-overlay {
+          opacity: 1;
+        }
+
+        .case-hover-btn {
+          background: #2563eb;
+          color: #ffffff;
+          font-size: 13px;
+          font-weight: 600;
+          padding: 8px 16px;
+          border-radius: 8px;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .case-content {
+          padding: 36px 40px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          background: #f8fafc;
+        }
+
+        .case-meta-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-bottom: 12px;
+        }
+
+        .case-number-badge {
+          font-size: 11.5px;
+          font-weight: 700;
+          color: #2563eb;
+          background: rgba(37, 99, 235, 0.08);
+          border: 1px solid rgba(37, 99, 235, 0.2);
+          padding: 4px 10px;
+          border-radius: 6px;
+          letter-spacing: 0.05em;
+        }
+
+        .case-role {
+          font-size: 12.5px;
+          color: #64748b;
+        }
+
+        .case-role strong {
+          color: #1e293b;
+        }
+
+        .case-title-link {
+          text-decoration: none;
+        }
+
+        .case-title {
+          font-size: 26px;
+          font-weight: 700;
+          color: #0f172a;
+          margin-bottom: 6px;
+          font-family: var(--font-heading, 'Ubuntu', sans-serif);
+          transition: color 0.2s ease;
+        }
+
+        .case-title:hover {
+          color: #2563eb;
+        }
+
+        .case-subtitle {
+          font-size: 13.5px;
+          font-weight: 600;
+          color: #64748b;
+          margin-bottom: 16px;
+        }
+
+        .case-summary {
+          font-size: 15px;
+          line-height: 1.7;
+          color: #475569;
+          margin-bottom: 20px;
+        }
+
+        .case-arch-box {
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          border-radius: 12px;
+          padding: 16px;
+          margin-bottom: 20px;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        .arch-header {
+          font-size: 12px;
+          font-weight: 700;
+          color: #334155;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 6px;
+        }
+
+        .text-blue {
+          color: #2563eb;
+        }
+
+        .arch-text {
+          font-size: 13px;
+          line-height: 1.6;
+          color: #64748b;
+          margin: 0;
+        }
+
+        .tech-chips-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+          margin-bottom: 24px;
+        }
+
+        .tech-badge {
+          font-size: 12px;
+          font-weight: 600;
+          color: #334155;
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          padding: 4px 10px;
+          border-radius: 6px;
+        }
+
+        .case-actions-row {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 12px;
+          padding-top: 20px;
+          border-top: 1px solid #e2e8f0;
+        }
+
+        /* Additional Projects */
+        .additional-projects-wrapper {
+          margin-top: 70px;
+          padding-top: 40px;
+          border-top: 1px solid #e2e8f0;
+        }
+
+        .addl-header {
+          margin-bottom: 28px;
+        }
+
+        .addl-title {
+          font-size: 22px;
+          font-weight: 700;
+          color: #0f172a;
+          margin-bottom: 6px;
+        }
+
+        .addl-subtitle {
+          font-size: 14px;
+          color: #64748b;
+        }
+
+        .addl-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 24px;
+        }
+
+        .addl-card {
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          border-radius: 16px;
+          padding: 24px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+          transition: all 0.25s ease;
+        }
+
+        .addl-card:hover {
+          border-color: #93c5fd;
+          box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
+          transform: translateY(-2px);
+        }
+
+        .addl-card-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 10px;
+        }
+
+        .addl-card-title {
+          font-size: 17px;
+          font-weight: 700;
+          color: #0f172a;
+          margin: 0;
+        }
+
+        .addl-repo-link {
+          color: #64748b;
+          font-size: 20px;
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+
+        .addl-repo-link:hover {
+          color: #0f172a;
+        }
+
+        .addl-card-desc {
+          font-size: 14px;
+          line-height: 1.6;
+          color: #64748b;
+          margin-bottom: 16px;
+        }
+
+        .tech-badge-sm {
+          font-size: 11px;
+          font-weight: 600;
+          color: #475569;
+          background: #f1f5f9;
+          padding: 2px 8px;
+          border-radius: 4px;
+        }
+
+        .addl-card-bottom {
+          padding-top: 16px;
+          border-top: 1px solid #f1f5f9;
+        }
+
+        .addl-details-btn {
+          font-size: 13px;
+          font-weight: 600;
+          color: #2563eb;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          transition: gap 0.2s ease;
+        }
+
+        .addl-details-btn:hover {
+          gap: 10px;
+          color: #1d4ed8;
+        }
+
+        @media (max-width: 992px) {
+          .case-card,
+          .case-card.reversed {
+            grid-template-columns: 1fr;
+          }
+
+          .case-card.reversed .case-media {
+            order: 1;
+          }
+
+          .case-card.reversed .case-content {
+            order: 2;
+          }
+
+          .case-media {
+            min-height: 280px;
+          }
+
+          .case-content {
+            padding: 28px 24px;
+          }
+
+          .addl-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </section>
   )
 }
