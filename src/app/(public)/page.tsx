@@ -167,7 +167,6 @@ export default async function HomePage() {
 
   const fullName = profile?.full_name || "Mathan Monishan"
   const headline = profile?.headline || "Software Developer & Full-Stack / AI Engineer"
-  const heroIntro = profile?.hero_intro || "Hello, my name is"
   const roles = profile?.roles && profile.roles.length > 0 ? profile.roles : [
     "Full-Stack Developer",
     "Founder of Pynimox",
@@ -200,17 +199,19 @@ export default async function HomePage() {
       <main className="main">
         {/* 1. Hero Section */}
         <Hero
-          greeting={customHero?.greeting || heroIntro}
           name={fullName}
           headline={headline}
-          description={customHero?.description || "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at Pynimox."}
-          roles={roles}
+          description={customHero?.description || "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Combining software engineering rigor with mechatronics and AI innovation."}
           avatarUrl={heroAvatarUrl}
           resumeUrl={resumeUrl}
           socialLinks={socialLinks.length > 0 ? socialLinks : undefined}
           cards={customHero?.cards}
           imagePosition={customHero?.avatar_position || "top center"}
           imageScale={customHero?.avatar_scale || 1.0}
+          location={location}
+          phone={phone}
+          email={email}
+          whatsappNumber={whatsappNumber}
         />
 
         {/* 2. About Me */}

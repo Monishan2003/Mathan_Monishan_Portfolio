@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-import Link from "next/link"
 
 export interface HeroCardItem {
   icon: string
@@ -30,46 +29,48 @@ interface HeroProps {
   imagePosition?: string
   imageScale?: number
   imageBorderRadius?: string
+  email?: string
+  phone?: string
+  whatsappNumber?: string
+  location?: string
 }
 
 export default function Hero({
-  greeting,
   name = "Mathan Monishan",
-  headline = "Software Developer & Full-Stack / AI Engineer",
-  description = "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at Pynimox.",
-  heroIntro,
+  headline = "AI & Full-Stack Engineer | Mechatronics Engineer",
+  description = "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Combining software engineering rigor with mechatronics and AI innovation.",
   avatarUrl = "/monishan.jpeg",
-  resumeUrl = "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link",
   socialLinks,
   cards,
   imagePosition = "top center",
   imageScale = 1.0,
-  imageBorderRadius,
+  email = "mathanmonishan@gmail.com",
+  phone = "+94 76 763 4359",
+  location = "Mannar, Sri Lanka",
 }: HeroProps) {
   const defaultSocials = [
+    { platform: "facebook", url: "https://facebook.com", icon: "fab fa-facebook-f" },
+    { platform: "instagram", url: "https://instagram.com", icon: "fab fa-instagram" },
     { platform: "github", url: "https://github.com/Monishan2003", icon: "fab fa-github" },
     { platform: "linkedin", url: "https://www.linkedin.com/in/mathan-monishan2003", icon: "fab fa-linkedin-in" },
-    { platform: "twitter", url: "https://x.com/Monishan2003", icon: "fab fa-twitter" },
-    { platform: "whatsapp", url: "https://wa.me/94767634359", icon: "fab fa-whatsapp" },
   ]
 
-  const defaultCards: HeroCardItem[] = [
-    { icon: "fas fa-crown", title: "Founder", subtitle: "Pynimox AI Studio" },
-    { icon: "fas fa-laptop-code", title: "Specialization", subtitle: "AI, Next.js & .NET" },
-    { icon: "fas fa-graduation-cap", title: "Dual Degree", subtitle: "Mechatronics & IT" },
+  const defaultBottomInfo: HeroCardItem[] = [
+    { icon: "fab fa-facebook-messenger", title: "Location", subtitle: location || "Mannar, Sri Lanka" },
+    { icon: "fab fa-whatsapp", title: "WhatsApp", subtitle: phone || "+94 76 763 4359" },
+    { icon: "far fa-envelope", title: "Email", subtitle: email || "mathanmonishan@gmail.com" },
   ]
 
   const links = socialLinks && socialLinks.length > 0 ? socialLinks : defaultSocials
-  const heroCards = cards && cards.length > 0 ? cards : defaultCards
-  const topGreeting = greeting || heroIntro || "Hello, my name is"
-  const bioDescription = description || (heroIntro && heroIntro !== topGreeting ? heroIntro : "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at Pynimox.")
+  const bottomCards = cards && cards.length > 0 ? cards : defaultBottomInfo
 
   return (
     <section className="home" id="home">
-      <div className="home__container container grid">
-        {/* Top Social Follow Bar */}
+      <div className="home__container container">
+        {/* 1. Top Social Follow Bar */}
         <div className="home__social">
-          <span className="home__social-follow">{name}</span>
+          <span className="home__social-name">{name}</span>
+          <span className="home__social-dash">—</span>
           <div className="home__social-links">
             {links.map((link, idx) => (
               <a
@@ -86,52 +87,44 @@ export default function Hero({
           </div>
         </div>
 
-        {/* Hero Vignette Blended Profile Image */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={avatarUrl || "/monishan.jpeg"}
-          alt={name}
-          className="home__img"
-          style={{
-            objectPosition: imagePosition,
-            transform: `scale(${imageScale})`,
-            borderRadius: imageBorderRadius || undefined,
-          }}
-        />
+        {/* 2. Hero Vignette Blended Profile Image */}
+        <div className="home__img-wrapper">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={avatarUrl || "/monishan.jpeg"}
+            alt={name}
+            className="home__img"
+            style={{
+              objectPosition: imagePosition,
+              transform: `scale(${imageScale})`,
+            }}
+          />
+        </div>
 
-        {/* Hero Text Information */}
+        {/* 3. Hero Main Content */}
         <div className="home__data">
-          <span className="home__greeting">{topGreeting}</span>
           <h1 className="home__title">{name}</h1>
           <h3 className="home__subtitle">{headline}</h3>
-          <p className="home__description">{bioDescription}</p>
+          <p className="home__description">{description}</p>
 
-          <div className="home__buttons">
-            <Link href="#contact" className="button">
-              <i className="fas fa-paper-plane" />
-              <span>Contact Me</span>
-            </Link>
-
-            <a
-              href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="button button--outline"
-            >
-              <i className="fas fa-download" />
-              <span>Download CV</span>
+          <div className="home__actions">
+            <a href="#about" className="home__btn-primary">
+              <i className="far fa-user" />
+              <span>About Me..</span>
             </a>
           </div>
         </div>
 
-        {/* Bottom Info Bar */}
-        <div className="my__info">
-          {heroCards.map((c, i) => (
+        {/* 4. Bottom Contact / Feature Info Bar */}
+        <div className="home__info-bar">
+          {bottomCards.map((c, i) => (
             <div key={i} className="info__item">
-              <i className={`${c.icon} info__icon`} />
-              <div>
-                <h3 className="info__title">{c.title}</h3>
-                <span className="info__subtitle">{c.subtitle}</span>
+              <div className="info__icon-wrap">
+                <i className={c.icon} />
+              </div>
+              <div className="info__text-wrap">
+                <span className="info__label">{c.title}</span>
+                <span className="info__val">{c.subtitle}</span>
               </div>
             </div>
           ))}
@@ -146,164 +139,192 @@ export default function Hero({
           overflow: hidden;
           display: flex;
           align-items: center;
-          padding: 80px 0;
+          padding: 0;
         }
 
         .home__container {
           position: relative;
-          height: 100%;
-          min-height: 80vh;
-          align-items: center;
-          display: flex;
           width: 100%;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding-top: 5rem;
+          padding-bottom: 6rem;
         }
 
+        /* Top Social Header */
         .home__social {
           position: absolute;
-          top: 1.8rem;
+          top: 2.8rem;
           left: 0;
           display: flex;
           align-items: center;
-          column-gap: 3.5rem;
-          z-index: 10;
-          animation: fadeInLeft 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+          gap: 1.25rem;
+          z-index: 15;
+          animation: fadeInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
         }
 
-        .home__social-follow {
-          font-weight: var(--font-medium, 500);
-          position: relative;
-          color: var(--title-color, rgb(241, 241, 243));
+        .home__social-name {
+          font-weight: 600;
+          color: var(--title-color, #ffffff);
           font-size: 0.95rem;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.4px;
         }
 
-        .home__social-follow::after {
-          content: "";
-          position: absolute;
-          width: 1.5rem;
-          height: 2px;
-          background-color: var(--skin-color, #3482ff);
-          right: -2rem;
-          top: 50%;
-          transform: translateY(-50%);
+        .home__social-dash {
+          color: rgba(255, 255, 255, 0.4);
+          font-weight: 300;
+          font-size: 0.9rem;
         }
 
         .home__social-links {
           display: inline-flex;
-          column-gap: 1.2rem;
+          align-items: center;
+          gap: 1.15rem;
         }
 
         .home__social-link {
-          font-size: 1.15rem;
-          color: var(--text-color, rgb(214, 214, 220));
-          transition: all 0.3s ease;
+          font-size: 1rem;
+          color: rgba(255, 255, 255, 0.7);
+          transition: all 0.25s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .home__social-link:hover {
           color: var(--skin-color, #3482ff);
-          transform: translateY(-3px);
+          transform: translateY(-2px);
         }
 
-        /* Desktop Edge-blended Mask Vignette */
-        .home__img {
-          display: block;
+        /* Hero Image - Perfectly Blended with Dark Canvas */
+        .home__img-wrapper {
           position: absolute;
-          right: -2rem;
+          right: 0;
           bottom: 0;
-          height: 94%;
+          top: 0;
+          width: 54%;
+          height: 100%;
+          display: flex;
+          align-items: flex-end;
+          justify-content: flex-end;
+          pointer-events: none;
+          z-index: 2;
+        }
+
+        .home__img {
+          height: 92%;
           width: auto;
-          max-width: 52%;
+          max-width: 100%;
           object-fit: cover;
           object-position: top center;
           -webkit-mask-image: linear-gradient(
             to right,
             transparent 0%,
-            black 32%,
-            black 78%,
+            rgba(0, 0, 0, 0.8) 22%,
+            black 50%,
+            black 90%,
             transparent 100%
           ),
           linear-gradient(
             to top,
             transparent 0%,
-            black 16%
+            black 15%
           );
           -webkit-mask-composite: source-in;
           mask-image: linear-gradient(
             to right,
             transparent 0%,
-            black 32%,
-            black 78%,
+            rgba(0, 0, 0, 0.8) 22%,
+            black 50%,
+            black 90%,
             transparent 100%
           ),
           linear-gradient(
             to top,
             transparent 0%,
-            black 16%
+            black 15%
           );
           mask-composite: intersect;
-          opacity: 0.92;
-          pointer-events: none;
-          z-index: 1;
-          animation: heroFloat 6s ease-in-out infinite, photoPulse 4s ease-in-out infinite;
+          opacity: 0.95;
         }
 
+        /* Main Left Text Content */
         .home__data {
           max-width: 580px;
-          z-index: 5;
+          z-index: 10;
           position: relative;
-        }
-
-        .home__greeting {
-          display: block;
-          font-size: 1.1rem;
-          font-weight: 500;
-          color: var(--skin-color, #3482ff);
-          letter-spacing: 0.5px;
-          margin-bottom: 0.5rem;
-          animation: fadeInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+          margin-top: 1rem;
         }
 
         .home__title {
-          font-size: var(--biggest-font-size, 3rem);
+          font-size: 3.6rem;
           font-weight: 700;
-          color: var(--title-color, rgb(241, 241, 243));
+          color: var(--title-color, #ffffff);
           line-height: 1.15;
-          margin-bottom: 0.5rem;
-          animation: fadeInLeft 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+          margin-bottom: 0.75rem;
+          letter-spacing: -0.5px;
+          font-family: var(--font-heading, 'Poppins', sans-serif);
+          animation: fadeInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
         }
 
         .home__subtitle {
-          font-size: var(--h3-font-size, 1.25rem);
-          font-weight: var(--font-medium, 500);
-          color: var(--skin-color, #3482ff);
-          margin-bottom: 1.2rem;
-          animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+          font-size: 1.25rem;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.9);
+          margin-bottom: 1.35rem;
+          letter-spacing: 0.2px;
+          animation: fadeInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
         }
 
         .home__description {
-          font-size: 1.02rem;
-          line-height: 1.8;
-          color: var(--text-color, rgb(214, 214, 220));
-          margin-bottom: 2rem;
-          max-width: 500px;
-          animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both;
+          font-size: 0.95rem;
+          line-height: 1.7;
+          color: var(--text-muted, #94a3b8);
+          margin-bottom: 2.2rem;
+          max-width: 480px;
+          animation: fadeInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
         }
 
-        .home__buttons {
+        /* Primary Action Button (Matches "About Me.." in Reference) */
+        .home__actions {
           display: flex;
-          flex-wrap: wrap;
-          gap: 1rem;
-          animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both;
+          align-items: center;
+          animation: fadeInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both;
         }
 
-        .my__info {
+        .home__btn-primary {
+          background-color: var(--skin-color, #3482ff);
+          color: #ffffff;
+          padding: 0.85rem 2rem;
+          border-radius: 8px;
+          font-size: 0.95rem;
+          font-weight: 500;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.65rem;
+          text-decoration: none;
+          box-shadow: 0 6px 20px rgba(52, 130, 255, 0.35);
+          transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .home__btn-primary:hover {
+          background-color: #226de8;
+          transform: translateY(-3px);
+          box-shadow: 0 10px 25px rgba(52, 130, 255, 0.5);
+        }
+
+        /* Bottom Feature / Contact Info Bar */
+        .home__info-bar {
           display: flex;
-          column-gap: 2.2rem;
+          align-items: center;
+          gap: 3.5rem;
           position: absolute;
           left: 0;
-          bottom: 1.5rem;
+          bottom: 2.4rem;
           z-index: 10;
-          animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1s both;
+          animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
         }
 
         .info__item {
@@ -312,21 +333,32 @@ export default function Hero({
           gap: 0.85rem;
         }
 
-        .info__icon {
-          font-size: 1.6rem;
+        .info__icon-wrap {
+          font-size: 1.45rem;
           color: var(--skin-color, #3482ff);
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
-        .info__title {
-          font-size: 0.95rem;
+        .info__text-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
+        }
+
+        .info__label {
+          font-size: 0.78rem;
+          font-weight: 500;
+          color: var(--text-muted, #94a3b8);
+          letter-spacing: 0.2px;
+        }
+
+        .info__val {
+          font-size: 0.9rem;
           font-weight: 600;
-          color: var(--title-color, rgb(241, 241, 243));
-          line-height: 1.2;
-        }
-
-        .info__subtitle {
-          font-size: 0.82rem;
-          color: var(--text-muted, rgb(155, 155, 168));
+          color: var(--title-color, #ffffff);
+          letter-spacing: 0.2px;
         }
 
         @media screen and (max-width: 1024px) {
@@ -336,9 +368,9 @@ export default function Hero({
           }
 
           .home__container {
-            flex-direction: column;
-            align-items: flex-start;
             min-height: auto;
+            padding-top: 1rem;
+            padding-bottom: 2rem;
           }
 
           .home__social {
@@ -346,22 +378,32 @@ export default function Hero({
             margin-bottom: 2rem;
           }
 
-          .home__img {
+          .home__img-wrapper {
             position: relative;
-            right: auto;
-            bottom: auto;
+            width: 100%;
             height: auto;
-            width: 280px;
-            max-width: 80%;
-            margin: 1.5rem 0 2rem;
-            border-radius: 20px;
+            margin: 1.5rem 0 2.5rem;
+            justify-content: flex-start;
+          }
+
+          .home__img {
+            height: 320px;
+            width: auto;
+            border-radius: 16px;
             -webkit-mask-image: none;
             mask-image: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid var(--box-border);
           }
 
-          .my__info {
+          .home__title {
+            font-size: 2.5rem;
+          }
+
+          .home__subtitle {
+            font-size: 1.1rem;
+          }
+
+          .home__info-bar {
             position: static;
             flex-wrap: wrap;
             gap: 1.5rem;

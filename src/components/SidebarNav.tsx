@@ -79,9 +79,11 @@ export default function SidebarNav({
     }
   }
 
+  const initialLetter = name.charAt(0).toUpperCase() || "M"
+
   return (
     <>
-      {/* Mobile Top Header */}
+      {/* Mobile Header Bar */}
       <header className="mobile-header">
         <Link href="#home" className="mobile-logo">
           {name}
@@ -96,10 +98,17 @@ export default function SidebarNav({
         </button>
       </header>
 
-      {/* Main Left Vertical Sidebar (Zero-Clipping Scaled Architecture) */}
+      {/* Main Left Vertical Sidebar */}
       <aside className={`sidebar ${mobileMenuOpen ? "show-sidebar" : ""}`} id="side-bar">
         <nav className="nav">
-          {/* Rotated Vertical Menu */}
+          {/* 1. Top Brand Logo Avatar (Circular Blue Badge) */}
+          <div className="nav__brand-circle">
+            <Link href="#home" className="nav__brand-link">
+              {initialLetter}
+            </Link>
+          </div>
+
+          {/* 2. Rotated Vertical Nav Menu */}
           <div className="nav__menu">
             <div className="menu">
               <ul className="nav__list">
@@ -112,7 +121,8 @@ export default function SidebarNav({
                         onClick={() => setMobileMenuOpen(false)}
                         className={`nav__link ${isActive ? "active-link" : ""}`}
                       >
-                        {item.label}
+                        <span>{item.label}</span>
+                        {isActive && <span className="nav__active-dot" />}
                       </a>
                     </li>
                   )
@@ -121,11 +131,11 @@ export default function SidebarNav({
             </div>
           </div>
 
-          {/* Share Button at Bottom */}
+          {/* 3. Bottom Share Button */}
           <div className="btn__share" onClick={handleShare} title="Share Portfolio">
             <svg
-              width="18"
-              height="18"
+              width="17"
+              height="17"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -198,7 +208,7 @@ export default function SidebarNav({
           position: fixed;
           top: 0;
           left: 0;
-          width: 80px;
+          width: 76px;
           height: 100vh;
           background-color: var(--body-color, rgb(10, 10, 15));
           border-right: 1px solid var(--box-border, rgba(255, 255, 255, 0.08));
@@ -214,14 +224,50 @@ export default function SidebarNav({
           position: relative;
         }
 
-        /* 90-Degree Rotated Navigation Menu - Perfectly Centered & Scaled */
+        /* Top Brand Circle Logo */
+        .nav__brand-circle {
+          position: absolute;
+          top: 1.6rem;
+          left: 0;
+          right: 0;
+          margin: auto;
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+          background: var(--skin-color, #3482ff);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 15px rgba(52, 130, 255, 0.4);
+          z-index: 20;
+          transition: transform 0.25s ease;
+        }
+
+        .nav__brand-circle:hover {
+          transform: scale(1.08);
+        }
+
+        .nav__brand-link {
+          color: #ffffff;
+          font-weight: 700;
+          font-size: 1.15rem;
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          font-family: var(--font-heading, 'Poppins', sans-serif);
+        }
+
+        /* 90-Degree Rotated Navigation Menu */
         .nav__menu {
           position: fixed;
           transform: rotate(-90deg) translateX(-100%);
           transform-origin: left top;
           width: 100vh;
           top: 0;
-          left: 80px;
+          left: 76px;
           pointer-events: auto;
         }
 
@@ -229,8 +275,8 @@ export default function SidebarNav({
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 80px;
-          padding: 0 4.5rem 0 2rem; /* Generous clearance for top Home and bottom Contact/Share */
+          height: 76px;
+          padding: 0 5rem 0 3.5rem; /* Generous clearance for top logo and bottom share */
         }
 
         .nav__list {
@@ -238,11 +284,11 @@ export default function SidebarNav({
           flex-direction: row-reverse;
           align-items: center;
           justify-content: space-between;
-          gap: 0.1rem;
+          gap: 0.2rem;
           margin: 0;
           padding: 0;
           list-style: none;
-          max-width: calc(100vh - 80px);
+          max-width: calc(100vh - 140px);
         }
 
         .nav__item {
@@ -254,16 +300,17 @@ export default function SidebarNav({
           display: flex;
           align-items: center;
           justify-content: center;
-          height: 80px;
-          line-height: 80px;
-          padding: 0 0.45rem;
+          gap: 0.4rem;
+          height: 76px;
+          line-height: 76px;
+          padding: 0 0.55rem;
           color: var(--title-color, rgb(241, 241, 243));
           font-weight: 500;
-          font-size: 13px;
+          font-size: 13.5px;
           letter-spacing: 0.2px;
           position: relative;
           white-space: nowrap;
-          transition: color 0.3s ease;
+          transition: color 0.25s ease;
           text-decoration: none;
         }
 
@@ -272,39 +319,34 @@ export default function SidebarNav({
           color: var(--skin-color, #3482ff);
         }
 
-        .nav__link.active-link::after,
-        .nav__link:hover::after {
-          position: absolute;
-          content: "";
-          width: 4px;
-          height: 4px;
-          background-color: var(--skin-color, #3482ff);
+        .nav__active-dot {
+          display: inline-block;
+          width: 5px;
+          height: 5px;
           border-radius: 50%;
-          bottom: 1.4rem;
-          left: 0;
-          right: 0;
-          margin: auto;
+          background-color: var(--skin-color, #3482ff);
           box-shadow: 0 0 8px var(--skin-color, #3482ff);
         }
 
+        /* Bottom Share Button */
         .btn__share {
           position: absolute;
-          bottom: 1.25rem;
+          bottom: 1.6rem;
           left: 0;
           right: 0;
           margin: auto;
-          width: 36px;
-          height: 36px;
+          width: 38px;
+          height: 38px;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          color: var(--text-color, rgb(214, 214, 220));
+          color: rgba(255, 255, 255, 0.7);
           border-radius: 8px;
           background-color: var(--box-color, rgba(255, 255, 255, 0.04));
           border: 1px solid var(--box-border, rgba(255, 255, 255, 0.06));
-          transition: all 0.3s ease;
-          z-index: 10;
+          transition: all 0.25s ease;
+          z-index: 20;
         }
 
         .btn__share:hover {
@@ -326,10 +368,10 @@ export default function SidebarNav({
         @media screen and (max-height: 750px) {
           .nav__link {
             font-size: 12px;
-            padding: 0 0.3rem;
+            padding: 0 0.35rem;
           }
           .menu {
-            padding: 0 3.5rem 0 1.5rem;
+            padding: 0 4rem 0 2.5rem;
           }
         }
 
@@ -383,6 +425,11 @@ export default function SidebarNav({
             left: 0;
           }
 
+          .nav__brand-circle {
+            position: static;
+            margin: 2rem auto 1rem;
+          }
+
           .nav__menu {
             position: static;
             transform: none;
@@ -393,7 +440,7 @@ export default function SidebarNav({
 
           .menu {
             height: auto;
-            padding: 2rem 1.5rem;
+            padding: 1.5rem 1.5rem;
           }
 
           .nav__list {
@@ -408,11 +455,6 @@ export default function SidebarNav({
             line-height: normal;
             font-size: 1.1rem;
             padding: 0.25rem 0;
-          }
-
-          .nav__link.active-link::after,
-          .nav__link:hover::after {
-            display: none;
           }
 
           .nav__close {
