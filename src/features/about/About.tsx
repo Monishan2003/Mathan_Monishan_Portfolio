@@ -11,7 +11,9 @@ interface AboutProps {
 }
 
 export default function About({
-  avatarUrl = "/monishan.jpeg",
+  avatarUrl = "/about_me.jpg",
+  bioShort,
+  bioLong,
   resumeUrl = "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link",
 }: AboutProps) {
   return (
@@ -25,7 +27,7 @@ export default function About({
         <div className="about__img-wrapper">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={avatarUrl}
+            src={avatarUrl || "/about_me.jpg"}
             alt="Mathan Monishan"
             className="about__img"
           />
@@ -38,11 +40,19 @@ export default function About({
           </h3>
 
           <p className="about__description">
-            I am a results-driven engineer pursuing a dual-degree path: <strong>BSc (Hons) in Science & Technology (Mechatronics)</strong> at Uva Wellassa University of Sri Lanka, alongside a <strong>Bachelor of Information Technology (BIT)</strong> at the University of Moratuwa.
+            {bioShort || (
+              <>
+                I am a results-driven engineer pursuing a dual-degree path: <strong>BSc (Hons) in Science & Technology (Mechatronics)</strong> at Uva Wellassa University of Sri Lanka, alongside a <strong>Bachelor of Information Technology (BIT)</strong> at the University of Moratuwa.
+              </>
+            )}
           </p>
 
           <p className="about__description">
-            As the <strong>Founder & Lead Engineer of Pynimox</strong>, I design multi-agent AI pipelines, streaming LLM applications, and scalable cloud architectures. At <strong>NF Group of Companies</strong>, I build production enterprise ERP and POS modules utilizing Next.js, C#, and ASP.NET Core.
+            {bioLong || (
+              <>
+                As the <strong>Founder & Lead Engineer of Pynimox</strong>, I design multi-agent AI pipelines, streaming LLM applications, and scalable cloud architectures. At <strong>NF Group of Companies</strong>, I build production enterprise ERP and POS modules utilizing Next.js, C#, and ASP.NET Core.
+              </>
+            )}
           </p>
 
           {/* 3 Metric Info Boxes */}
@@ -93,10 +103,11 @@ export default function About({
         }
 
         .about__img {
-          width: 380px;
+          width: 360px;
           border-radius: 1.25rem;
           border: 2px solid var(--box-border);
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+          object-fit: cover;
           transition: transform 0.4s ease, border-color 0.4s ease;
         }
 
@@ -172,7 +183,7 @@ export default function About({
           }
 
           .about__img {
-            width: 300px;
+            width: 290px;
           }
         }
 

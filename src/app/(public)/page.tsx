@@ -18,7 +18,7 @@ export const revalidate = 60
 export default async function HomePage() {
   const supabase = await createServerClient()
 
-  // Fetch all content in parallel
+  // Fetch all content in parallel from Supabase
   const [
     { data: profile },
     { data: educationData },
@@ -27,6 +27,7 @@ export default async function HomePage() {
     { data: experiencesData },
     { data: skillCategoriesData },
     { data: skillsData },
+    { data: socialLinksData },
   ] = await Promise.all([
     supabase.from("profile").select("*").maybeSingle(),
     supabase.from("education").select("*").eq("is_published", true).order("sort_order", { ascending: true }),
@@ -35,6 +36,7 @@ export default async function HomePage() {
     supabase.from("experiences").select("*").eq("is_published", true).order("sort_order", { ascending: true }),
     supabase.from("skill_categories").select("*").eq("is_published", true).order("sort_order", { ascending: true }),
     supabase.from("skills").select("*").eq("is_published", true).order("sort_order", { ascending: true }),
+    supabase.from("social_links").select("*").eq("is_published", true).order("sort_order", { ascending: true }),
   ])
 
   // Format Education Items
@@ -120,14 +122,25 @@ export default async function HomePage() {
     }
   })
 
+  // Format Social Links
+  const socialLinks = (socialLinksData || []).map((s) => ({
+    id: s.id,
+    platform: s.platform,
+    url: s.url,
+    icon: s.icon || undefined,
+  }))
+
   const fullName = profile?.full_name || "Mathan Monishan"
+  const headline = profile?.headline || "AI & Full-Stack Engineer | Mechatronics"
+  const heroIntro = profile?.hero_intro || "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at Pynimox."
   const roles = profile?.roles && profile.roles.length > 0 ? profile.roles : [
     "AI & Full-Stack Engineer",
     "Founder of Pynimox",
     "Mechatronics Engineer",
     "Robotics & Automation Builder",
   ]
-  const avatarUrl = profile?.avatar_url || "/monishan.jpeg"
+  const heroAvatarUrl = profile?.avatar_url || "/monishan.jpeg"
+  const aboutAvatarUrl = "/about_me.jpg" // Newly uploaded high-res black suit portrait for About Me section
   const resumeUrl = profile?.resume_url || "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link"
   const location = profile?.location || "Thalaimannar, Mannar, Sri Lanka"
   const email = profile?.email || "mathanmonishan@gmail.com"
@@ -141,11 +154,19 @@ export default async function HomePage() {
 
       <main className="main">
         {/* 1. Hero Section */}
-        <Hero name={fullName} roles={roles} resumeUrl={resumeUrl} />
+        <Hero
+          name={fullName}
+          headline={headline}
+          heroIntro={heroIntro}
+          roles={roles}
+          avatarUrl={heroAvatarUrl}
+          resumeUrl={resumeUrl}
+          socialLinks={socialLinks.length > 0 ? socialLinks : undefined}
+        />
 
         {/* 2. About Me */}
         <About
-          avatarUrl={avatarUrl}
+          avatarUrl={aboutAvatarUrl}
           roles={roles}
           bioShort={profile?.bio_short || undefined}
           bioLong={profile?.bio_long || undefined}

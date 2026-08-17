@@ -3,77 +3,75 @@
 import React from "react"
 import Link from "next/link"
 
+interface SocialLinkItem {
+  id?: string
+  platform: string
+  url: string
+  icon?: string
+}
+
 interface HeroProps {
   name?: string
+  headline?: string
+  heroIntro?: string
   roles?: string[]
+  avatarUrl?: string
   resumeUrl?: string
+  socialLinks?: SocialLinkItem[]
 }
 
 export default function Hero({
   name = "Mathan Monishan",
+  headline = "AI & Full-Stack Engineer | Mechatronics",
+  heroIntro = "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at Pynimox.",
+  avatarUrl = "/monishan.jpeg",
   resumeUrl = "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link",
+  socialLinks,
 }: HeroProps) {
+  const defaultSocials = [
+    { platform: "github", url: "https://github.com/Monishan2003", icon: "fab fa-github" },
+    { platform: "linkedin", url: "https://www.linkedin.com/in/mathan-monishan2003", icon: "fab fa-linkedin-in" },
+    { platform: "twitter", url: "https://x.com/Monishan2003", icon: "fab fa-twitter" },
+    { platform: "whatsapp", url: "https://wa.me/94767634359", icon: "fab fa-whatsapp" },
+  ]
+
+  const links = socialLinks && socialLinks.length > 0 ? socialLinks : defaultSocials
+
   return (
     <section className="home" id="home">
       <div className="home__container container grid">
         {/* Top Social Follow Bar */}
         <div className="home__social">
-          <span className="home__social-follow">Mathan Monishan</span>
+          <span className="home__social-follow">{name}</span>
           <div className="home__social-links">
-            <a
-              href="https://github.com/Monishan2003"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="home__social-link"
-              aria-label="GitHub Profile"
-            >
-              <i className="fab fa-github" />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/mathan-monishan2003"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="home__social-link"
-              aria-label="LinkedIn Profile"
-            >
-              <i className="fab fa-linkedin-in" />
-            </a>
-            <a
-              href="https://x.com/Monishan2003"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="home__social-link"
-              aria-label="Twitter X Profile"
-            >
-              <i className="fab fa-twitter" />
-            </a>
-            <a
-              href="https://wa.me/94767634359"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="home__social-link"
-              aria-label="WhatsApp Message"
-            >
-              <i className="fab fa-whatsapp" />
-            </a>
+            {links.map((link, idx) => (
+              <a
+                key={idx}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="home__social-link"
+                aria-label={link.platform}
+              >
+                <i className={link.icon || "fas fa-link"} />
+              </a>
+            ))}
           </div>
         </div>
 
         {/* Hero Vignette Blended Profile Image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/monishan.jpeg"
-          alt="Mathan Monishan"
+          src={avatarUrl || "/monishan.jpeg"}
+          alt={name}
           className="home__img"
         />
 
         {/* Hero Text Information */}
         <div className="home__data">
           <h1 className="home__title">{name}</h1>
-          <h3 className="home__subtitle">AI & Full-Stack Engineer | Mechatronics</h3>
-          <p className="home__description">
-            I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at <strong>Pynimox</strong>.
-          </p>
+          <h3 className="home__subtitle">{headline}</h3>
+          <p className="home__description">{heroIntro}</p>
 
           <div className="home__buttons">
             <Link href="#contact" className="button">
