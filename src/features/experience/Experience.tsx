@@ -10,6 +10,8 @@ export interface ExperienceItem {
   location?: string | null
   work_mode?: string | null
   company_url?: string | null
+  logo_url?: string | null
+  icon?: string | null
   start_date: string
   end_date?: string | null
   is_current: boolean
@@ -41,6 +43,7 @@ export default function Experience({ items = [] }: ExperienceProps) {
         "Engineered scalable web applications using Next.js, TypeScript, Supabase, and cloud services.",
       ],
       tech_stack: ["Next.js", "TypeScript", "Python", "Supabase", "LLM APIs", "Tailwind CSS"],
+      icon: "fas fa-crown",
       is_founder: true,
     },
     {
@@ -58,6 +61,7 @@ export default function Experience({ items = [] }: ExperienceProps) {
         "Built core web properties: NFPlantation.com, NaturePlantation.lk, NFFarming.lk, and Flutter mobile apps.",
       ],
       tech_stack: ["ASP.NET Core", "Next.js", "React", "Flutter", "SQL Server", "AWS"],
+      icon: "fas fa-briefcase",
       is_founder: false,
     },
     {
@@ -74,6 +78,7 @@ export default function Experience({ items = [] }: ExperienceProps) {
         "Assisted in Agile sprint planning, stakeholder alignment, and initiative documentation.",
       ],
       tech_stack: ["Project Management", "Agile / Scrum", "Community Engagement"],
+      icon: "fas fa-hands-helping",
       is_founder: false,
     },
   ]
@@ -98,19 +103,29 @@ export default function Experience({ items = [] }: ExperienceProps) {
 
               {/* Card Header */}
               <div className="experience__header">
-                <div>
-                  <div className="role__row">
-                    <h3 className="experience__role">{exp.role}</h3>
-                    {exp.is_founder && (
-                      <span className="founder__badge">
-                        <i className="fas fa-crown" /> Own Venture
-                      </span>
-                    )}
-                  </div>
-                  <div className="company__row">
-                    <span className="company__name">{exp.company}</span>
-                    <span className="bullet-sep">•</span>
-                    <span className="company__loc">{exp.location}</span>
+                <div className="company__brand-wrap">
+                  {exp.logo_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={exp.logo_url} alt={exp.company} className="experience__company-logo" />
+                  ) : exp.icon ? (
+                    <div className="experience__icon-box">
+                      <i className={exp.icon} />
+                    </div>
+                  ) : null}
+                  <div>
+                    <div className="role__row">
+                      <h3 className="experience__role">{exp.role}</h3>
+                      {exp.is_founder && (
+                        <span className="founder__badge">
+                          <i className="fas fa-crown" /> Own Venture
+                        </span>
+                      )}
+                    </div>
+                    <div className="company__row">
+                      <span className="company__name">{exp.company}</span>
+                      <span className="bullet-sep">•</span>
+                      <span className="company__loc">{exp.location}</span>
+                    </div>
                   </div>
                 </div>
 
@@ -217,6 +232,36 @@ export default function Experience({ items = [] }: ExperienceProps) {
           margin-bottom: 1rem;
           padding-bottom: 1rem;
           border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .company__brand-wrap {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .experience__company-logo {
+          width: 44px;
+          height: 44px;
+          object-fit: contain;
+          border-radius: 8px;
+          background: rgba(255, 255, 255, 0.05);
+          padding: 4px;
+          border: 1px solid var(--box-border);
+          flex-shrink: 0;
+        }
+
+        .experience__icon-box {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 8px;
+          background: rgba(52, 130, 255, 0.1);
+          color: var(--skin-color, #3482ff);
+          font-size: 1.2rem;
+          flex-shrink: 0;
         }
 
         .role__row {

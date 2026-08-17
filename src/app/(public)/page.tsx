@@ -24,12 +24,13 @@ export default async function HomePage() {
   const [
     { data: profile },
     { data: educationData },
-    { data: _certificationsData },
+    { data: certificationsData },
     { data: projectsData },
     { data: experiencesData },
     { data: skillCategoriesData },
     { data: skillsData },
     { data: socialLinksData },
+    { data: siteSettingsData },
   ] = await Promise.all([
     supabase.from("profile").select("*").maybeSingle(),
     supabase.from("education").select("*").eq("is_published", true).order("sort_order", { ascending: true }),
@@ -39,7 +40,21 @@ export default async function HomePage() {
     supabase.from("skill_categories").select("*").eq("is_published", true).order("sort_order", { ascending: true }),
     supabase.from("skills").select("*").eq("is_published", true).order("sort_order", { ascending: true }),
     supabase.from("social_links").select("*").eq("is_published", true).order("sort_order", { ascending: true }),
+    supabase.from("site_settings").select("*").maybeSingle(),
   ])
+
+  // Parse custom vlogs and hero settings from site_settings.footer_note JSON
+  let customVlogs = undefined
+  let customHero = undefined
+  try {
+    if (siteSettingsData?.footer_note && siteSettingsData.footer_note.startsWith("{")) {
+      const parsed = JSON.parse(siteSettingsData.footer_note)
+      if (parsed.vlogs && Array.isArray(parsed.vlogs)) customVlogs = parsed.vlogs
+      if (parsed.hero) customHero = parsed.hero
+    }
+  } catch (e) {
+    console.error("Error parsing site_settings json:", e)
+  }
 
   // Format Education Items
   const educationItems: EducationItem[] = (educationData || []).map((edu) => {
@@ -55,8 +70,21 @@ export default async function HomePage() {
       status: edu.is_current ? "present" : "completed",
       description: edu.description || "",
       icon: edu.icon || "fas fa-university",
+      logo_url: edu.logo_url,
     }
   })
+
+  // Format Certifications
+  const formattedCertifications = (certificationsData || []).map((cert) => ({
+    id: cert.id,
+    title: cert.title,
+    issuer: cert.issuer,
+    date: cert.issue_date ? new Date(cert.issue_date).getFullYear().toString() : "Verified",
+    link: cert.credential_url,
+    icon: cert.icon || "fas fa-certificate",
+    desc: cert.description || undefined,
+    image_url: cert.image_url,
+  }))
 
   // Format Projects
   const projects: ProjectItem[] = (projectsData || []).map((p) => ({
@@ -95,6 +123,8 @@ export default async function HomePage() {
       location: exp.location,
       work_mode: exp.work_mode,
       company_url: exp.company_url,
+      logo_url: exp.logo_url,
+      icon: exp.icon,
       start_date: dateStr,
       end_date: exp.end_date,
       is_current: Boolean(exp.is_current),
@@ -133,13 +163,15 @@ export default async function HomePage() {
   }))
 
   const fullName = profile?.full_name || "Mathan Monishan"
-  const headline = profile?.headline || "AI & Full-Stack Engineer | Mechatronics"
-  const heroIntro = profile?.hero_intro || "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at Pynimox."
+  const headline = profile?.headline || "Software Developer & Full-Stack / AI Engineer"
+  const heroIntro = profile?.hero_intro || "Hello, my name is"
   const roles = profile?.roles && profile.roles.length > 0 ? profile.roles : [
-    "AI & Full-Stack Engineer",
+    "Full-Stack Developer",
     "Founder of Pynimox",
-    "Mechatronics Engineer",
-    "Robotics & Automation Builder",
+    "AI & Software Engineer",
+    "Mechatronics Specialist",
+    "Mobile App Developer",
+    "UI/UX Designer",
   ]
   const heroAvatarUrl = profile?.avatar_url || "/monishan.jpeg"
   const aboutAvatarUrl = "/about_me.jpg" // High-res black suit portrait for About Me section
@@ -158,13 +190,17 @@ export default async function HomePage() {
       <main className="main">
         {/* 1. Hero Section */}
         <Hero
+          greeting={customHero?.greeting || heroIntro}
           name={fullName}
           headline={headline}
-          heroIntro={heroIntro}
+          description={customHero?.description || "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at Pynimox."}
           roles={roles}
           avatarUrl={heroAvatarUrl}
           resumeUrl={resumeUrl}
           socialLinks={socialLinks.length > 0 ? socialLinks : undefined}
+          cards={customHero?.cards}
+          imagePosition={customHero?.avatar_position || "top center"}
+          imageScale={customHero?.avatar_scale || 1.0}
         />
 
         {/* 2. About Me */}
@@ -180,7 +216,10 @@ export default async function HomePage() {
         <Experience items={experiences.length > 0 ? experiences : undefined} />
 
         {/* 4. Education & Certifications */}
-        <Education items={educationItems.length > 0 ? educationItems : undefined} />
+        <Education
+          items={educationItems.length > 0 ? educationItems : undefined}
+          certifications={formattedCertifications.length > 0 ? formattedCertifications : undefined}
+        />
 
         {/* 5. Projects / Recent Works */}
         <Projects projects={projects.length > 0 ? projects : undefined} />
@@ -189,7 +228,7 @@ export default async function HomePage() {
         <Skills categories={skillCategories.length > 0 ? skillCategories : undefined} />
 
         {/* 7. Personal Vlog & Logs */}
-        <PersonalVlog />
+        <PersonalVlog items={customVlogs} />
 
         {/* 8. Services & Approach / How I Build */}
         <HowIBuild />

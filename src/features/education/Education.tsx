@@ -8,87 +8,102 @@ export interface EducationItem {
   institution: string
   year: string
   status?: "present" | "completed"
-  description: string
+  description?: string
   icon?: string
+  logo_url?: string | null
+}
+
+export interface CertificationItem {
+  id: string | number
+  title: string
+  issuer: string
+  date: string
+  link?: string | null
+  icon?: string
+  desc?: string
+  logo_url?: string | null
+  image_url?: string | null
 }
 
 interface EducationProps {
   items?: EducationItem[]
+  certifications?: CertificationItem[]
 }
 
-export default function Education({ items = [] }: EducationProps) {
+export default function Education({ items = [], certifications: customCerts = [] }: EducationProps) {
   const [activeTab, setActiveTab] = useState<"education" | "certifications">("education")
 
   const defaultEducation: EducationItem[] = [
     {
       id: 1,
-      title: "BSc (Hons) in Science & Technology (Mechatronics)",
+      title: "BSc (Hons) in Science & Technology",
       institution: "Uva Wellassa University of Sri Lanka",
-      year: "2023 – Present",
+      year: "2024 – Present",
       status: "present",
       description:
-        "Specializing in Mechatronics Engineering, Robotics, Control Systems, Microcontroller Interfacing, and Automation.",
+        "Currently pursuing a comprehensive degree program specializing in Mechatronics, automation, robotics, computational science, and emerging engineering technologies.",
       icon: "fas fa-robot",
     },
     {
       id: 2,
-      title: "Bachelor of Information Technology (BIT - External)",
+      title: "Bachelor of Information Technology (External Degree)",
       institution: "University of Moratuwa",
-      year: "2024 – Present",
+      year: "2025 – Present",
       status: "present",
       description:
-        "Advanced software engineering curriculum covering Object-Oriented Analysis, Relational Databases, Web Technologies, and Data Structures.",
+        "External degree program focusing on software engineering principles, database architecture, network systems, and enterprise application development.",
       icon: "fas fa-laptop-code",
     },
     {
       id: 3,
-      title: "G.C.E. Advanced Level (Physical Science)",
-      institution: "Mn/St. Anne's Central College",
-      year: "2022",
+      title: "G.C.E. A/L - Physical Science",
+      institution: "Mn/Thalaimannar Pier G.T.M.S",
+      year: "2009 – 2022",
       status: "completed",
       description:
-        "Rigorous foundation in Combined Mathematics, Physics, and Chemistry leading to competitive university entrance.",
+        "Completed secondary education with specialization in Physical Science (Combined Mathematics, Physics, and Chemistry).",
       icon: "fas fa-graduation-cap",
     },
   ]
 
-  const certifications = [
+  const defaultCertifications: CertificationItem[] = [
     {
       id: 1,
-      title: "Meta Front-End Developer Professional Certificate",
-      issuer: "Meta & Coursera",
-      date: "Verified Professional Credential",
-      link: "https://coursera.org/verify/professional-cert/5R8M460E7EFP",
-      icon: "fab fa-react",
-      desc: "9-course specialization covering React, Advanced JS, UI/UX, and Front-End Capstone.",
+      title: "Diploma of Education in Project Management",
+      issuer: "Uki (Yarl IT Hub)",
+      date: "2024",
+      icon: "fas fa-tasks",
+      desc: "Comprehensive training in Agile, Scrum, and Waterfall methodologies, cross-functional team leadership, stakeholder communication, and project delivery.",
     },
     {
       id: 2,
-      title: "Project Management Foundations & Agile Delivery",
-      issuer: "Uki & Vocational Institute",
-      date: "2024",
-      icon: "fas fa-tasks",
-      desc: "Structured certification in project scoping, Scrum sprint cycles, and risk management.",
+      title: "Python (Programming Language)",
+      issuer: "Uki (Yarl IT Hub)",
+      date: "2025",
+      icon: "fab fa-python",
+      desc: "Intensive programming course covering core Python, OOP, data structures, algorithm design, file processing, and backend development.",
     },
     {
       id: 3,
-      title: "Python for Data Science & Systems Programming",
-      issuer: "Uki Tech Institute",
+      title: "Front-End Development",
+      issuer: "Meta (via Coursera)",
       date: "2024",
-      icon: "fab fa-python",
-      desc: "Certification in Python OOP, automation scripts, and REST APIs.",
+      link: "https://www.coursera.org/account/accomplishments/verify/B9JH54BPHVSO",
+      icon: "fab fa-react",
+      desc: "Professional front-end certification covering HTML5, CSS3, JavaScript, React.js, UI/UX design principles, and responsive web applications.",
     },
     {
       id: 4,
-      title: "Artificial Intelligence & Machine Learning Specialization",
+      title: "Artificial Intelligence with Python",
       issuer: "NoviTech R&D Pvt Ltd",
       date: "2024",
       icon: "fas fa-brain",
-      desc: "Training on neural networks, computer vision fundamentals, and AI algorithms.",
+      desc: "Practical course exploring artificial intelligence fundamentals, machine learning models, neural networks, and Python-based AI development.",
     },
   ]
 
   const eduList = items.length > 0 ? items : defaultEducation
+  const certList = customCerts.length > 0 ? customCerts : defaultCertifications
 
   return (
     <section className="education section" id="education">
@@ -126,7 +141,12 @@ export default function Education({ items = [] }: EducationProps) {
                 <div key={edu.id} className="qualification__card">
                   <div className="qualification__header">
                     <div className="qualification__icon-box">
-                      <i className={edu.icon || "fas fa-university"} />
+                      {edu.logo_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={edu.logo_url} alt={edu.institution} className="qualification__logo-img" />
+                      ) : (
+                        <i className={edu.icon || "fas fa-graduation-cap"} />
+                      )}
                     </div>
                     <span className="qualification__status">
                       {edu.status === "present" ? "Present" : "Completed"}
@@ -145,11 +165,16 @@ export default function Education({ items = [] }: EducationProps) {
             </div>
           ) : (
             <div className="qualification__content grid">
-              {certifications.map((cert) => (
+              {certList.map((cert) => (
                 <div key={cert.id} className="qualification__card">
                   <div className="qualification__header">
                     <div className="qualification__icon-box">
-                      <i className={cert.icon} />
+                      {cert.logo_url || cert.image_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={cert.logo_url || cert.image_url || ""} alt={cert.issuer} className="qualification__logo-img" />
+                      ) : (
+                        <i className={cert.icon || "fas fa-certificate"} />
+                      )}
                     </div>
                     <span className="qualification__status verified">
                       <i className="fas fa-check-circle" /> Verified
@@ -169,10 +194,10 @@ export default function Education({ items = [] }: EducationProps) {
                         href={cert.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="verify__link"
+                        className="qualification__verify-link"
                       >
                         <span>Verify Credential</span>
-                        <i className="fas fa-external-link-alt" style={{ fontSize: "10px" }} />
+                        <i className="fas fa-external-link-alt" />
                       </a>
                     )}
                   </div>
@@ -186,6 +211,13 @@ export default function Education({ items = [] }: EducationProps) {
       <style jsx>{`
         .education__container {
           max-width: 950px;
+        }
+
+        .qualification__logo-img {
+          width: 28px;
+          height: 28px;
+          object-fit: contain;
+          border-radius: 4px;
         }
 
         .qualification__tabs {

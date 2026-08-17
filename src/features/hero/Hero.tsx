@@ -3,6 +3,12 @@
 import React from "react"
 import Link from "next/link"
 
+export interface HeroCardItem {
+  icon: string
+  title: string
+  subtitle: string
+}
+
 interface SocialLinkItem {
   id?: string
   platform: string
@@ -11,22 +17,34 @@ interface SocialLinkItem {
 }
 
 interface HeroProps {
+  greeting?: string
   name?: string
   headline?: string
+  description?: string
   heroIntro?: string
   roles?: string[]
   avatarUrl?: string
   resumeUrl?: string
   socialLinks?: SocialLinkItem[]
+  cards?: HeroCardItem[]
+  imagePosition?: string
+  imageScale?: number
+  imageBorderRadius?: string
 }
 
 export default function Hero({
+  greeting,
   name = "Mathan Monishan",
-  headline = "AI & Full-Stack Engineer | Mechatronics",
-  heroIntro = "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at Pynimox.",
+  headline = "Software Developer & Full-Stack / AI Engineer",
+  description = "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at Pynimox.",
+  heroIntro,
   avatarUrl = "/monishan.jpeg",
   resumeUrl = "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link",
   socialLinks,
+  cards,
+  imagePosition = "top center",
+  imageScale = 1.0,
+  imageBorderRadius,
 }: HeroProps) {
   const defaultSocials = [
     { platform: "github", url: "https://github.com/Monishan2003", icon: "fab fa-github" },
@@ -35,7 +53,16 @@ export default function Hero({
     { platform: "whatsapp", url: "https://wa.me/94767634359", icon: "fab fa-whatsapp" },
   ]
 
+  const defaultCards: HeroCardItem[] = [
+    { icon: "fas fa-crown", title: "Founder", subtitle: "Pynimox AI Studio" },
+    { icon: "fas fa-laptop-code", title: "Specialization", subtitle: "AI, Next.js & .NET" },
+    { icon: "fas fa-graduation-cap", title: "Dual Degree", subtitle: "Mechatronics & IT" },
+  ]
+
   const links = socialLinks && socialLinks.length > 0 ? socialLinks : defaultSocials
+  const heroCards = cards && cards.length > 0 ? cards : defaultCards
+  const topGreeting = greeting || heroIntro || "Hello, my name is"
+  const bioDescription = description || (heroIntro && heroIntro !== topGreeting ? heroIntro : "I build intelligent software systems today and engineer intelligent physical systems for tomorrow. Founder & Lead Engineer at Pynimox.")
 
   return (
     <section className="home" id="home">
@@ -65,13 +92,19 @@ export default function Hero({
           src={avatarUrl || "/monishan.jpeg"}
           alt={name}
           className="home__img"
+          style={{
+            objectPosition: imagePosition,
+            transform: `scale(${imageScale})`,
+            borderRadius: imageBorderRadius || undefined,
+          }}
         />
 
         {/* Hero Text Information */}
         <div className="home__data">
+          <span className="home__greeting">{topGreeting}</span>
           <h1 className="home__title">{name}</h1>
           <h3 className="home__subtitle">{headline}</h3>
-          <p className="home__description">{heroIntro}</p>
+          <p className="home__description">{bioDescription}</p>
 
           <div className="home__buttons">
             <Link href="#contact" className="button">
@@ -93,29 +126,15 @@ export default function Hero({
 
         {/* Bottom Info Bar */}
         <div className="my__info">
-          <div className="info__item">
-            <i className="fas fa-crown info__icon" />
-            <div>
-              <h3 className="info__title">Founder</h3>
-              <span className="info__subtitle">Pynimox AI Studio</span>
+          {heroCards.map((c, i) => (
+            <div key={i} className="info__item">
+              <i className={`${c.icon} info__icon`} />
+              <div>
+                <h3 className="info__title">{c.title}</h3>
+                <span className="info__subtitle">{c.subtitle}</span>
+              </div>
             </div>
-          </div>
-
-          <div className="info__item">
-            <i className="fas fa-laptop-code info__icon" />
-            <div>
-              <h3 className="info__title">Specialization</h3>
-              <span className="info__subtitle">AI, Next.js & .NET</span>
-            </div>
-          </div>
-
-          <div className="info__item">
-            <i className="fas fa-graduation-cap info__icon" />
-            <div>
-              <h3 className="info__title">Dual Degree</h3>
-              <span className="info__subtitle">Mechatronics & IT</span>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
@@ -232,6 +251,16 @@ export default function Hero({
           max-width: 580px;
           z-index: 5;
           position: relative;
+        }
+
+        .home__greeting {
+          display: block;
+          font-size: 1.1rem;
+          font-weight: 500;
+          color: var(--skin-color, #3482ff);
+          letter-spacing: 0.5px;
+          margin-bottom: 0.5rem;
+          animation: fadeInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
         }
 
         .home__title {
