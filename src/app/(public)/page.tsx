@@ -12,6 +12,8 @@ import Contact from "@/features/contact/Contact"
 import Footer from "@/components/Footer"
 import ScrollToTop from "@/components/ScrollToTop"
 import WhatsAppButton from "@/components/WhatsAppButton"
+import ThemeToggle from "@/components/ThemeToggle"
+import CursorGlow from "@/components/CursorGlow"
 
 export const revalidate = 60
 
@@ -140,7 +142,7 @@ export default async function HomePage() {
     "Robotics & Automation Builder",
   ]
   const heroAvatarUrl = profile?.avatar_url || "/monishan.jpeg"
-  const aboutAvatarUrl = "/about_me.jpg" // Newly uploaded high-res black suit portrait for About Me section
+  const aboutAvatarUrl = "/about_me.jpg" // High-res black suit portrait for About Me section
   const resumeUrl = profile?.resume_url || "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link"
   const location = profile?.location || "Thalaimannar, Mannar, Sri Lanka"
   const email = profile?.email || "mathanmonishan@gmail.com"
@@ -150,6 +152,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <CursorGlow />
       <SidebarNav name={fullName} />
 
       <main className="main">
@@ -204,6 +207,7 @@ export default async function HomePage() {
         <Footer />
       </main>
 
+      <ThemeToggle />
       <ScrollToTop />
       <WhatsAppButton
         phoneNumber={whatsappNumber}

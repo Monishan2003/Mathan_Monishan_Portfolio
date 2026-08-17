@@ -8,6 +8,9 @@ interface AboutProps {
   bioShort?: string
   bioLong?: string
   resumeUrl?: string
+  imagePosition?: string
+  imageScale?: number
+  imageBorderRadius?: string
 }
 
 export default function About({
@@ -15,6 +18,9 @@ export default function About({
   bioShort,
   bioLong,
   resumeUrl = "https://drive.google.com/file/d/1PhkGYM2Olu-UbfuuNUlzEEFxdBdROnNY/view?usp=drive_link",
+  imagePosition = "top center",
+  imageScale = 1.0,
+  imageBorderRadius = "1.5rem",
 }: AboutProps) {
   return (
     <section className="about section" id="about">
@@ -23,14 +29,21 @@ export default function About({
       </h2>
 
       <div className="about__container container grid">
-        {/* Left Column: Portrait Card */}
+        {/* Left Column: Enlarged Portrait Frame */}
         <div className="about__img-wrapper">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={avatarUrl || "/about_me.jpg"}
-            alt="Mathan Monishan"
-            className="about__img"
-          />
+          <div className="about__img-box">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={avatarUrl || "/about_me.jpg"}
+              alt="Mathan Monishan"
+              className="about__img"
+              style={{
+                objectPosition: imagePosition,
+                transform: `scale(${imageScale})`,
+                borderRadius: imageBorderRadius,
+              }}
+            />
+          </div>
         </div>
 
         {/* Right Column: Information & Metric Cards */}
@@ -92,28 +105,45 @@ export default function About({
 
       <style jsx>{`
         .about__container {
-          grid-template-columns: repeat(2, 1fr);
-          column-gap: 4rem;
+          grid-template-columns: 440px 1fr;
+          column-gap: 3.5rem;
           align-items: center;
         }
 
         .about__img-wrapper {
           justify-self: center;
           position: relative;
+          width: 100%;
+          max-width: 440px;
+        }
+
+        .about__img-box {
+          position: relative;
+          width: 100%;
+          height: 520px;
+          border-radius: 1.5rem;
+          overflow: hidden;
+          border: 2px solid var(--box-border);
+          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+          background-color: var(--box-color, rgb(22, 22, 29));
+          transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .about__img-box:hover {
+          transform: translateY(-6px);
+          border-color: var(--skin-color, #3482ff);
+          box-shadow: 0 25px 50px rgba(52, 130, 255, 0.25);
         }
 
         .about__img {
-          width: 360px;
-          border-radius: 1.25rem;
-          border: 2px solid var(--box-border);
-          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+          width: 100%;
+          height: 100%;
           object-fit: cover;
-          transition: transform 0.4s ease, border-color 0.4s ease;
+          transition: transform 0.5s ease;
         }
 
-        .about__img:hover {
-          transform: translateY(-5px);
-          border-color: var(--skin-color, #3482ff);
+        .about__img-box:hover .about__img {
+          transform: scale(1.03);
         }
 
         .about__heading {
@@ -176,20 +206,32 @@ export default function About({
           margin-top: 1.5rem;
         }
 
-        @media screen and (max-width: 1024px) {
+        @media screen and (max-width: 1100px) {
           .about__container {
             grid-template-columns: 1fr;
             row-gap: 2.5rem;
           }
 
-          .about__img {
-            width: 290px;
+          .about__img-wrapper {
+            max-width: 360px;
+          }
+
+          .about__img-box {
+            height: 440px;
           }
         }
 
         @media screen and (max-width: 600px) {
           .about__info {
             grid-template-columns: 1fr;
+          }
+
+          .about__img-wrapper {
+            max-width: 100%;
+          }
+
+          .about__img-box {
+            height: 380px;
           }
         }
       `}</style>

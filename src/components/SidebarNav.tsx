@@ -84,10 +84,10 @@ export default function SidebarNav({ name = "Mathan Monishan" }: SidebarNavProps
         </button>
       </header>
 
-      {/* Main Left Vertical Sidebar (Revan Signature Clean Layout) */}
+      {/* Main Left Vertical Sidebar (Zero-Clipping Scaled Architecture) */}
       <aside className={`sidebar ${mobileMenuOpen ? "show-sidebar" : ""}`} id="side-bar">
         <nav className="nav">
-          {/* Rotated Vertical Menu (Centered & Clean) */}
+          {/* Rotated Vertical Menu */}
           <div className="nav__menu">
             <div className="menu">
               <ul className="nav__list">
@@ -112,8 +112,8 @@ export default function SidebarNav({ name = "Mathan Monishan" }: SidebarNavProps
           {/* Share Button at Bottom */}
           <div className="btn__share" onClick={handleShare} title="Share Portfolio">
             <svg
-              width="20"
-              height="20"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -186,10 +186,10 @@ export default function SidebarNav({ name = "Mathan Monishan" }: SidebarNavProps
           position: fixed;
           top: 0;
           left: 0;
-          width: 85px;
+          width: 80px;
           height: 100vh;
           background-color: var(--body-color, rgb(10, 10, 15));
-          border-right: 1px solid rgba(255, 255, 255, 0.07);
+          border-right: 1px solid var(--box-border, rgba(255, 255, 255, 0.08));
           z-index: 1000;
           overflow: hidden;
           transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -202,47 +202,53 @@ export default function SidebarNav({ name = "Mathan Monishan" }: SidebarNavProps
           position: relative;
         }
 
-        /* 90-Degree Rotated Navigation Menu */
+        /* 90-Degree Rotated Navigation Menu - Perfectly Centered & Scaled */
         .nav__menu {
           position: fixed;
           transform: rotate(-90deg) translateX(-100%);
           transform-origin: left top;
           width: 100vh;
           top: 0;
-          left: 85px;
+          left: 80px;
           pointer-events: auto;
         }
 
         .menu {
           display: flex;
           justify-content: center;
-          height: 85px;
           align-items: center;
-          padding: 0 1rem;
+          height: 80px;
+          padding: 0 4.5rem 0 2rem; /* Generous clearance for top Home and bottom Contact/Share */
         }
 
         .nav__list {
           display: flex;
           flex-direction: row-reverse;
-          gap: 0.25rem;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.1rem;
           margin: 0;
           padding: 0;
           list-style: none;
+          max-width: calc(100vh - 80px);
         }
 
         .nav__item {
           display: inline-block;
+          flex-shrink: 1;
         }
 
         .nav__link {
-          display: block;
-          height: 85px;
-          line-height: 85px;
-          padding: 0 0.85rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 80px;
+          line-height: 80px;
+          padding: 0 0.45rem;
           color: var(--title-color, rgb(241, 241, 243));
           font-weight: 500;
-          font-size: 14.5px;
-          letter-spacing: 0.3px;
+          font-size: 13px;
+          letter-spacing: 0.2px;
           position: relative;
           white-space: nowrap;
           transition: color 0.3s ease;
@@ -258,11 +264,11 @@ export default function SidebarNav({ name = "Mathan Monishan" }: SidebarNavProps
         .nav__link:hover::after {
           position: absolute;
           content: "";
-          width: 5px;
-          height: 5px;
+          width: 4px;
+          height: 4px;
           background-color: var(--skin-color, #3482ff);
           border-radius: 50%;
-          bottom: 1.5rem;
+          bottom: 1.4rem;
           left: 0;
           right: 0;
           margin: auto;
@@ -271,20 +277,20 @@ export default function SidebarNav({ name = "Mathan Monishan" }: SidebarNavProps
 
         .btn__share {
           position: absolute;
-          bottom: 1.8rem;
+          bottom: 1.25rem;
           left: 0;
           right: 0;
           margin: auto;
-          width: 38px;
-          height: 38px;
+          width: 36px;
+          height: 36px;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           color: var(--text-color, rgb(214, 214, 220));
           border-radius: 8px;
-          background-color: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.06);
+          background-color: var(--box-color, rgba(255, 255, 255, 0.04));
+          border: 1px solid var(--box-border, rgba(255, 255, 255, 0.06));
           transition: all 0.3s ease;
           z-index: 10;
         }
@@ -304,6 +310,17 @@ export default function SidebarNav({ name = "Mathan Monishan" }: SidebarNavProps
           display: none;
         }
 
+        /* Responsive height scaling for smaller laptop screens */
+        @media screen and (max-height: 750px) {
+          .nav__link {
+            font-size: 12px;
+            padding: 0 0.3rem;
+          }
+          .menu {
+            padding: 0 3.5rem 0 1.5rem;
+          }
+        }
+
         /* Mobile Responsive Drawer */
         @media screen and (max-width: 1024px) {
           .mobile-header {
@@ -315,11 +332,11 @@ export default function SidebarNav({ name = "Mathan Monishan" }: SidebarNavProps
             left: 0;
             width: 100%;
             height: 60px;
-            background-color: rgba(10, 10, 15, 0.95);
+            background-color: var(--body-color, rgb(10, 10, 15));
             backdrop-filter: blur(12px);
             padding: 0 1.25rem;
             z-index: 999;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid var(--box-border);
           }
 
           .mobile-logo {
@@ -358,103 +375,118 @@ export default function SidebarNav({ name = "Mathan Monishan" }: SidebarNavProps
             position: static;
             transform: none;
             width: 100%;
-            margin-top: 4.5rem;
+            height: auto;
+            margin: auto 0;
           }
 
           .menu {
             height: auto;
-            display: block;
-            padding: 0 1.5rem;
+            padding: 2rem 1.5rem;
           }
 
           .nav__list {
             flex-direction: column;
-            gap: 0;
+            gap: 1.25rem;
+            align-items: flex-start;
+            max-width: 100%;
           }
 
           .nav__link {
-            line-height: normal;
             height: auto;
-            padding: 0.9rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 15px;
+            line-height: normal;
+            font-size: 1.1rem;
+            padding: 0.25rem 0;
           }
 
           .nav__link.active-link::after,
           .nav__link:hover::after {
-            bottom: auto;
-            top: 50%;
-            right: 0;
-            left: auto;
-            transform: translateY(-50%);
+            display: none;
+          }
+
+          .nav__close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            font-size: 1.25rem;
+            color: var(--text-color);
+            background: transparent;
+            cursor: pointer;
           }
 
           .btn__share {
             position: static;
-            margin: 2rem 1.5rem 1.5rem;
-            width: calc(100% - 3rem);
-          }
-
-          .nav__close {
-            display: block;
-            position: absolute;
-            top: 1.25rem;
-            right: 1.25rem;
-            font-size: 1.3rem;
-            color: var(--title-color, rgb(241, 241, 243));
-            background: none;
-            border: none;
-            cursor: pointer;
+            margin: 2rem auto;
           }
         }
 
-        /* Share Modal */
+        /* Share Toast Modal Styling */
         .share-toast {
           position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.75);
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.6);
           backdrop-filter: blur(4px);
-          z-index: 10000;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 20px;
+          z-index: 9999;
+          animation: fadeIn 0.3s ease;
         }
 
         .share-toast-content {
-          background: var(--box-color, rgb(22, 22, 29));
+          background-color: var(--box-color, rgb(22, 22, 29));
           border: 1px solid var(--box-border);
-          border-radius: 12px;
-          padding: 24px;
-          width: 100%;
-          max-width: 340px;
-          text-align: center;
+          border-radius: 1rem;
+          padding: 1.5rem;
+          width: 90%;
+          max-width: 380px;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+          animation: scaleIn 0.3s ease;
         }
 
         .share-links {
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 0.75rem;
         }
 
         .share-btn {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
-          padding: 10px;
-          border-radius: 8px;
-          font-size: 14px;
-          font-weight: 600;
+          gap: 0.6rem;
+          padding: 0.75rem 1rem;
+          border-radius: 0.5rem;
+          font-weight: 500;
+          font-size: 0.95rem;
           color: #ffffff;
+          transition: all 0.2s ease;
           border: none;
           cursor: pointer;
-          text-decoration: none;
         }
 
-        .share-btn.wa { background: #25d366; }
-        .share-btn.li { background: #0077b5; }
-        .share-btn.cp { background: #374151; }
+        .share-btn.wa {
+          background-color: #25d366;
+        }
+
+        .share-btn.li {
+          background-color: #0a66c2;
+        }
+
+        .share-btn.cp {
+          background-color: var(--box-border);
+          color: var(--title-color);
+        }
+
+        .share-btn:hover {
+          opacity: 0.9;
+          transform: translateY(-2px);
+        }
       `}</style>
     </>
   )

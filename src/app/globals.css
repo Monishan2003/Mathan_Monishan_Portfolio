@@ -12,7 +12,7 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
@@ -24,11 +24,13 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4 {
   color: var(--title-color, rgb(241, 241, 243));
   font-weight: var(--font-bold, 600);
+  transition: color 0.3s ease;
 }
 
 ul {
@@ -81,6 +83,7 @@ input, textarea {
   margin-left: 85px;
   min-height: 100vh;
   transition: margin-left 0.4s ease;
+  position: relative;
 }
 
 @media screen and (max-width: 1024px) {
@@ -137,7 +140,7 @@ input, textarea {
   align-items: center;
   column-gap: .6rem;
   background-color: var(--skin-color, #3482ff);
-  color: var(--title-color, rgb(241, 241, 243)) !important;
+  color: #ffffff !important;
   padding: .85rem 1.6rem;
   border-radius: .35rem;
   font-weight: var(--font-medium, 500);
@@ -165,6 +168,11 @@ input, textarea {
   transition: .35s ease;
 }
 
+[data-theme="light"] .button::after,
+body.light-theme .button::after {
+  background-color: #0f172a;
+}
+
 .button:hover {
   box-shadow: 0 8px 24px rgba(52, 130, 255, 0.35);
   transform: translateY(-2px);
@@ -178,10 +186,12 @@ input, textarea {
   background-color: transparent;
   border: 1px solid var(--box-border, rgba(255, 255, 255, 0.1));
   box-shadow: none;
+  color: var(--title-color, rgb(241, 241, 243)) !important;
 }
 
 .button--outline:hover {
   border-color: var(--skin-color, #3482ff);
+  color: #ffffff !important;
 }
 
 .button--outline::after {
