@@ -78,7 +78,7 @@ input, textarea {
    LAYOUT & REUSABLE CLASSES
    ========================================================= */
 .main {
-  margin-left: 100px;
+  margin-left: 85px;
   min-height: 100vh;
   transition: margin-left 0.4s ease;
 }

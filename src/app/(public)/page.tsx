@@ -2,12 +2,12 @@ import { createServerClient } from "@/lib/supabase/server"
 import SidebarNav from "@/components/SidebarNav"
 import Hero from "@/features/hero/Hero"
 import About from "@/features/about/About"
-import Skills, { type SkillCategoryItem } from "@/features/skills/Skills"
 import Experience, { type ExperienceItem } from "@/features/experience/Experience"
-import Projects, { type ProjectItem } from "@/features/projects/Projects"
-import HowIBuild from "@/features/approach/HowIBuild"
-import PersonalVlog from "@/features/vlog/PersonalVlog"
 import Education, { type EducationItem } from "@/features/education/Education"
+import Projects, { type ProjectItem } from "@/features/projects/Projects"
+import Skills, { type SkillCategoryItem } from "@/features/skills/Skills"
+import PersonalVlog from "@/features/vlog/PersonalVlog"
+import HowIBuild from "@/features/approach/HowIBuild"
 import Contact from "@/features/contact/Contact"
 import Footer from "@/components/Footer"
 import ScrollToTop from "@/components/ScrollToTop"
@@ -140,7 +140,10 @@ export default async function HomePage() {
       <SidebarNav name={fullName} />
 
       <main className="main">
+        {/* 1. Hero Section */}
         <Hero name={fullName} roles={roles} resumeUrl={resumeUrl} />
+
+        {/* 2. About Me */}
         <About
           avatarUrl={avatarUrl}
           roles={roles}
@@ -148,12 +151,26 @@ export default async function HomePage() {
           bioLong={profile?.bio_long || undefined}
           resumeUrl={resumeUrl}
         />
-        <Skills categories={skillCategories.length > 0 ? skillCategories : undefined} />
+
+        {/* 3. Work Experience / Track Record */}
         <Experience items={experiences.length > 0 ? experiences : undefined} />
-        <Projects projects={projects.length > 0 ? projects : undefined} />
-        <HowIBuild />
-        <PersonalVlog />
+
+        {/* 4. Education & Certifications */}
         <Education items={educationItems.length > 0 ? educationItems : undefined} />
+
+        {/* 5. Projects / Recent Works */}
+        <Projects projects={projects.length > 0 ? projects : undefined} />
+
+        {/* 6. Skills */}
+        <Skills categories={skillCategories.length > 0 ? skillCategories : undefined} />
+
+        {/* 7. Personal Vlog & Logs */}
+        <PersonalVlog />
+
+        {/* 8. Services & Approach / How I Build */}
+        <HowIBuild />
+
+        {/* 9. Contact */}
         <Contact
           fullName={fullName}
           location={location}
@@ -161,6 +178,8 @@ export default async function HomePage() {
           phone={phone}
           whatsappNumber={whatsappNumber}
         />
+
+        {/* 10. Footer */}
         <Footer />
       </main>
 

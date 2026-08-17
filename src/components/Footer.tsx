@@ -18,13 +18,19 @@ export default function Footer() {
             <a href="#about" className="footer__link">About</a>
           </li>
           <li>
-            <a href="#skills" className="footer__link">Skills</a>
-          </li>
-          <li>
             <a href="#experience" className="footer__link">Experience</a>
           </li>
           <li>
+            <a href="#education" className="footer__link">Education</a>
+          </li>
+          <li>
             <a href="#work" className="footer__link">Projects</a>
+          </li>
+          <li>
+            <a href="#skills" className="footer__link">Skills</a>
+          </li>
+          <li>
+            <a href="#vlog" className="footer__link">Vlogs</a>
           </li>
           <li>
             <a href="#services" className="footer__link">Services</a>
