@@ -26,56 +26,11 @@ export default function PersonalVlog({ items = [] }: PersonalVlogProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [activeArticle, setActiveArticle] = useState<VlogItem | null>(null)
 
-  const defaultVlogs: VlogItem[] = [
-    {
-      id: "vlog-1",
-      title: "Building Pynimox: From Concept to AI Automation Studio",
-      category: "vlog",
-      date: "Feb 2026",
-      read_time: "5 min watch",
-      summary:
-        "A video walkthrough of how I founded Pynimox, architected the multi-agent LLM pipeline, and built the client delivery infrastructure.",
-      video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      cover_image_url: "/projects/pynimox.jpg",
-      tags: ["AI Studio", "Venture", "Architecture"],
-      content:
-        "In this video log, I walk through the complete journey of launching Pynimox. We discuss handling real-time streaming LLM responses, managing client workflows, and creating production-ready microservices.",
-    },
-    {
-      id: "vlog-2",
-      title: "Bridging Full-Stack Software with Mechatronics & Physical Computing",
-      category: "article",
-      date: "Jan 2026",
-      read_time: "6 min read",
-      summary:
-        "Reflections on my dual-degree journey: Combining software engineering rigor (APIs, databases, React) with sensor robotics and hardware control.",
-      cover_image_url: "/projects/unisphere.jpg",
-      tags: ["Mechatronics", "Engineering", "Robotics"],
-      content:
-        "Engineering intelligent physical systems requires strong foundations in both bits and atoms. My academic specialization in Mechatronics at Uva Wellassa University coupled with Information Technology at University of Moratuwa gives me a unique perspective on bridging software intelligence with mechanical actuators and sensor networks.",
-    },
-    {
-      id: "vlog-3",
-      title: "Mechatronics Lab & Hardware Prototyping Showcase",
-      category: "gallery",
-      date: "Dec 2025",
-      read_time: "Photo Gallery",
-      summary:
-        "Snapshots and insights from university robotics lab sessions, circuit breadboarding, microcontrollers, and automation experiments.",
-      cover_image_url: "/projects/hotel.jpg",
-      gallery_urls: [
-        "/projects/pynimox.jpg",
-        "/projects/medicross.jpg",
-        "/projects/srmj.jpg",
-        "/projects/unisphere.jpg",
-      ],
-      tags: ["Hardware", "Circuits", "Lab Work"],
-      content:
-        "A photo collection documenting hands-on laboratory experiments, electronic circuitry design, sensor calibrations, and mechatronic prototypes.",
-    },
-  ]
+  if (!items || items.length === 0) {
+    return null
+  }
 
-  const vlogList = items.length > 0 ? items : defaultVlogs
+  const vlogList = items
   const filteredList =
     activeFilter === "all"
       ? vlogList

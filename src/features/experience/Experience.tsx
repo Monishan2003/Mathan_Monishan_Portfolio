@@ -26,64 +26,11 @@ interface ExperienceProps {
 }
 
 export default function Experience({ items = [] }: ExperienceProps) {
-  const defaultExperiences: ExperienceItem[] = [
-    {
-      id: 1,
-      company: "Pynimox",
-      role: "Founder & Lead Full-Stack / AI Engineer",
-      employment_type: "Founder Venture",
-      location: "Remote / Global",
-      company_url: "https://www.pynimox.com",
-      start_date: "2025 – Present",
-      is_current: true,
-      description:
-        "Founded and lead Pynimox, an AI automation studio delivering multi-agent LLM systems, streaming APIs, and production full-stack web applications for global clients.",
-      highlights: [
-        "Architected multi-agent LLM pipelines with real-time streaming and custom business automations.",
-        "Engineered scalable web applications using Next.js, TypeScript, Supabase, and cloud services.",
-      ],
-      tech_stack: ["Next.js", "TypeScript", "Python", "Supabase", "LLM APIs", "Tailwind CSS"],
-      icon: "fas fa-crown",
-      is_founder: true,
-    },
-    {
-      id: 2,
-      company: "NF Group of Companies",
-      role: "Full-Stack Developer",
-      employment_type: "Commercial",
-      location: "Hybrid, Sri Lanka",
-      start_date: "2025 – Present",
-      is_current: true,
-      description:
-        "Develop enterprise web applications, RESTful APIs, and ERP modules for retail, agricultural, and management systems.",
-      highlights: [
-        "Engineered backend RESTful APIs and modules for enterprise POS & ERP using ASP.NET Core & SQL Server.",
-        "Built core web properties: NFPlantation.com, NaturePlantation.lk, NFFarming.lk, and Flutter mobile apps.",
-      ],
-      tech_stack: ["ASP.NET Core", "Next.js", "React", "Flutter", "SQL Server", "AWS"],
-      icon: "fas fa-briefcase",
-      is_founder: false,
-    },
-    {
-      id: 3,
-      company: "Yarl IT Hub",
-      role: "Project Volunteer (Social Impact)",
-      employment_type: "Volunteer",
-      location: "Mannar District, Sri Lanka",
-      start_date: "Jul 2024 – Oct 2024",
-      is_current: false,
-      description:
-        "Contributed to structured project planning, requirement analysis, and youth empowerment initiatives in Mannar District.",
-      highlights: [
-        "Assisted in Agile sprint planning, stakeholder alignment, and initiative documentation.",
-      ],
-      tech_stack: ["Project Management", "Agile / Scrum", "Community Engagement"],
-      icon: "fas fa-hands-helping",
-      is_founder: false,
-    },
-  ]
+  if (!items || items.length === 0) {
+    return null
+  }
 
-  const expList = items.length > 0 ? items : defaultExperiences
+  const expList = items
 
   return (
     <section className="experience section" id="experience">

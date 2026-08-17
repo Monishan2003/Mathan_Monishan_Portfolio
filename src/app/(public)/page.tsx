@@ -15,7 +15,8 @@ import WhatsAppButton from "@/components/WhatsAppButton"
 import ThemeToggle from "@/components/ThemeToggle"
 import CursorGlow from "@/components/CursorGlow"
 
-export const revalidate = 60
+export const dynamic = "force-dynamic"
+export const revalidate = 0
 
 export default async function HomePage() {
   const supabase = await createServerClient()
@@ -44,12 +45,14 @@ export default async function HomePage() {
   ])
 
   // Parse custom vlogs and hero settings from site_settings.footer_note JSON
-  let customVlogs = undefined
+  let customVlogs = []
   let customHero = undefined
   try {
     if (siteSettingsData?.footer_note && siteSettingsData.footer_note.startsWith("{")) {
       const parsed = JSON.parse(siteSettingsData.footer_note)
-      if (parsed.vlogs && Array.isArray(parsed.vlogs)) customVlogs = parsed.vlogs
+      if (parsed.vlogs !== undefined && Array.isArray(parsed.vlogs)) {
+        customVlogs = parsed.vlogs
+      }
       if (parsed.hero) customHero = parsed.hero
     }
   } catch (e) {
@@ -185,7 +188,14 @@ export default async function HomePage() {
   return (
     <>
       <CursorGlow />
-      <SidebarNav name={fullName} />
+      <SidebarNav
+        name={fullName}
+        hasVlogs={customVlogs.length > 0}
+        hasExperience={experiences.length > 0}
+        hasEducation={educationItems.length > 0 || formattedCertifications.length > 0}
+        hasProjects={projects.length > 0}
+        hasSkills={skillCategories.length > 0}
+      />
 
       <main className="main">
         {/* 1. Hero Section */}
@@ -213,19 +223,19 @@ export default async function HomePage() {
         />
 
         {/* 3. Work Experience / Track Record */}
-        <Experience items={experiences.length > 0 ? experiences : undefined} />
+        <Experience items={experiences} />
 
         {/* 4. Education & Certifications */}
         <Education
-          items={educationItems.length > 0 ? educationItems : undefined}
-          certifications={formattedCertifications.length > 0 ? formattedCertifications : undefined}
+          items={educationItems}
+          certifications={formattedCertifications}
         />
 
         {/* 5. Projects / Recent Works */}
-        <Projects projects={projects.length > 0 ? projects : undefined} />
+        <Projects projects={projects} />
 
         {/* 6. Skills */}
-        <Skills categories={skillCategories.length > 0 ? skillCategories : undefined} />
+        <Skills categories={skillCategories} />
 
         {/* 7. Personal Vlog & Logs */}
         <PersonalVlog items={customVlogs} />

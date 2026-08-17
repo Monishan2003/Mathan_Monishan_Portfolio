@@ -5,24 +5,36 @@ import Link from "next/link"
 
 interface SidebarNavProps {
   name?: string
+  hasVlogs?: boolean
+  hasExperience?: boolean
+  hasEducation?: boolean
+  hasProjects?: boolean
+  hasSkills?: boolean
 }
 
-export default function SidebarNav({ name = "Mathan Monishan" }: SidebarNavProps) {
+export default function SidebarNav({
+  name = "Mathan Monishan",
+  hasVlogs = true,
+  hasExperience = true,
+  hasEducation = true,
+  hasProjects = true,
+  hasSkills = true,
+}: SidebarNavProps) {
   const [activeSection, setActiveSection] = useState("home")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [sharePopup, setSharePopup] = useState(false)
 
   const navItems = [
-    { label: "Home", href: "#home", id: "home" },
-    { label: "About", href: "#about", id: "about" },
-    { label: "Experience", href: "#experience", id: "experience" },
-    { label: "Education", href: "#education", id: "education" },
-    { label: "Projects", href: "#work", id: "work" },
-    { label: "Skills", href: "#skills", id: "skills" },
-    { label: "Vlogs", href: "#vlog", id: "vlog" },
-    { label: "Services", href: "#services", id: "services" },
-    { label: "Contact", href: "#contact", id: "contact" },
-  ]
+    { label: "Home", href: "#home", id: "home", show: true },
+    { label: "About", href: "#about", id: "about", show: true },
+    { label: "Experience", href: "#experience", id: "experience", show: hasExperience },
+    { label: "Education", href: "#education", id: "education", show: hasEducation },
+    { label: "Projects", href: "#work", id: "work", show: hasProjects },
+    { label: "Skills", href: "#skills", id: "skills", show: hasSkills },
+    { label: "Vlogs", href: "#vlog", id: "vlog", show: hasVlogs },
+    { label: "Services", href: "#services", id: "services", show: true },
+    { label: "Contact", href: "#contact", id: "contact", show: true },
+  ].filter((item) => item.show)
 
   useEffect(() => {
     const handleScroll = () => {

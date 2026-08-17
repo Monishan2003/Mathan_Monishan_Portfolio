@@ -32,90 +32,11 @@ interface ProjectsProps {
 export default function Projects({ projects = [] }: ProjectsProps) {
   const [activeFilter, setActiveFilter] = useState<string>("all")
 
-  const defaultProjects: ProjectItem[] = [
-    {
-      id: 1,
-      slug: "pynimox-ai-website",
-      title: "Pynimox AI Studio",
-      category: "AI & Automation",
-      subtitle: "AI Automation & Full-Stack Studio (Founder Venture)",
-      summary:
-        "Engineered an automated AI studio platform enabling global clients to orchestrate intelligent AI agent workflows, dynamic LLM integrations, and production web systems.",
-      tech_stack: ["Next.js", "TypeScript", "Python", "Supabase", "LLM APIs"],
-      live_url: "https://www.pynimox.com",
-      cover_image_url: "/projects/pynimox.jpg",
-      role: "Founder & Lead Engineer",
-      is_featured: true,
-    },
-    {
-      id: 2,
-      slug: "medicross-ai-healthcare",
-      title: "MediCross AI — Healthcare Platform",
-      category: "Full-Stack Web",
-      subtitle: "Clinical Operations & Patient Management System",
-      summary:
-        "Full-stack healthcare management system with multi-role access control, patient record indexing, appointment scheduling, and health metrics analytics.",
-      tech_stack: ["Next.js", "React.js", "Node.js", "PostgreSQL", "AWS"],
-      live_url: "https://medicross-wine.vercel.app",
-      cover_image_url: "/projects/medicross.jpg",
-      role: "Lead Full-Stack Developer",
-      is_featured: true,
-    },
-    {
-      id: 3,
-      slug: "srmj-enterprises-ecommerce",
-      title: "SRMJ Enterprises E-Commerce",
-      category: "Full-Stack Web",
-      subtitle: "Modern Fashion & Retail Digital Storefront",
-      summary:
-        "Production-grade e-commerce web application featuring high-speed catalog filtering, interactive cart drawer, secure authentication, and Stripe payment processing.",
-      tech_stack: ["Next.js", "Stripe", "PostgreSQL", "Prisma", "Supabase"],
-      live_url: "https://www.srmjenterprises.com",
-      cover_image_url: "/projects/srmj.jpg",
-      role: "Full-Stack Developer",
-      is_featured: true,
-    },
-    {
-      id: 4,
-      slug: "unisphere-lms",
-      title: "UniSphere LMS — Academic Portal",
-      category: "Enterprise & Systems",
-      subtitle: "Enterprise Learning Management System (C# & .NET)",
-      summary:
-        "Comprehensive educational management system supporting 4 distinct user tiers (Admin, Staff, Lecturers, Students) with course workflows, assignments, and grading.",
-      tech_stack: ["C#", ".NET", "ASP.NET", "SQL Server", "Architecture"],
-      repo_url: "https://github.com/Monishan2003/LMS_project_C-_-Learning_Management_Systam-.git",
-      cover_image_url: "/projects/unisphere.jpg",
-      role: "Software Developer",
-      is_featured: true,
-    },
-    {
-      id: 5,
-      slug: "hotel-website",
-      title: "Luxury Hotel Web Platform",
-      category: "Full-Stack Web",
-      subtitle: "Responsive Boutique Resort Showcase",
-      summary: "Fully responsive booking and amenities showcase website built with HTML5, CSS3, and modern UI best practices.",
-      tech_stack: ["HTML5", "CSS3", "JavaScript", "Responsive UI"],
-      repo_url: "https://github.com/Monishan2003/Web-design-project1",
-      cover_image_url: "/projects/hotel.jpg",
-      is_featured: false,
-    },
-    {
-      id: 6,
-      slug: "personal-expense-tracker",
-      title: "Personal Expense Tracker",
-      category: "Enterprise & Systems",
-      subtitle: "Python CLI Financial Management Tool",
-      summary: "Command-line application to track personal expenses, categorize spending, and generate visual financial reports.",
-      tech_stack: ["Python", "CLI", "Data Handling", "File I/O"],
-      repo_url: "https://github.com/Monishan2003/Personal-Expense-Tracker",
-      cover_image_url: "/projects/expense.jpg",
-      is_featured: false,
-    },
-  ]
+  if (!projects || projects.length === 0) {
+    return null
+  }
 
-  const projectList = projects.length > 0 ? projects : defaultProjects
+  const projectList = projects
 
   const filterCategories = [
     { label: "All", value: "all" },

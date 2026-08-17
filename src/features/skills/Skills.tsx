@@ -21,54 +21,11 @@ interface SkillsProps {
 export default function Skills({ categories = [] }: SkillsProps) {
   const [activeTab, setActiveTab] = useState<number>(0)
 
-  const defaultCategories = [
-    {
-      id: "ai-ml",
-      name: "AI & Machine Learning",
-      icon: "fas fa-brain",
-      skills: [
-        { id: "ai-1", name: "LLM APIs & Prompt Engineering", percentage: 95 },
-        { id: "ai-2", name: "Multi-Agent Workflows", percentage: 90 },
-        { id: "ai-3", name: "Python, NumPy & Data Handling", percentage: 88 },
-        { id: "ai-4", name: "RAG & Vector Databases", percentage: 85 },
-      ],
-    },
-    {
-      id: "frontend",
-      name: "Frontend Development",
-      icon: "fas fa-laptop-code",
-      skills: [
-        { id: "fe-1", name: "Next.js 15 & React.js", percentage: 95 },
-        { id: "fe-2", name: "TypeScript / Modern ES6+", percentage: 92 },
-        { id: "fe-3", name: "Tailwind CSS & Responsive UI", percentage: 90 },
-        { id: "fe-4", name: "State Management & Optimization", percentage: 88 },
-      ],
-    },
-    {
-      id: "backend",
-      name: "Backend & Systems",
-      icon: "fas fa-server",
-      skills: [
-        { id: "be-1", name: "C# & .NET Core / ASP.NET", percentage: 90 },
-        { id: "be-2", name: "Node.js & Express APIs", percentage: 88 },
-        { id: "be-3", name: "Supabase, PostgreSQL & SQL Server", percentage: 92 },
-        { id: "be-4", name: "RESTful & Streaming Architectures", percentage: 90 },
-      ],
-    },
-    {
-      id: "hardware",
-      name: "Hardware & Mechatronics",
-      icon: "fas fa-microchip",
-      skills: [
-        { id: "me-1", name: "Microcontrollers (Arduino / STM32)", percentage: 90 },
-        { id: "me-2", name: "Sensors & Actuators Interfacing", percentage: 88 },
-        { id: "me-3", name: "Control Systems & Robotics", percentage: 85 },
-        { id: "me-4", name: "Circuit Design & MATLAB", percentage: 82 },
-      ],
-    },
-  ]
+  if (!categories || categories.length === 0) {
+    return null
+  }
 
-  const catList = categories.length > 0 ? categories : defaultCategories
+  const catList = categories
 
   return (
     <section className="skills section" id="skills">

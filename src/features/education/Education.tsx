@@ -33,77 +33,12 @@ interface EducationProps {
 export default function Education({ items = [], certifications: customCerts = [] }: EducationProps) {
   const [activeTab, setActiveTab] = useState<"education" | "certifications">("education")
 
-  const defaultEducation: EducationItem[] = [
-    {
-      id: 1,
-      title: "BSc (Hons) in Science & Technology",
-      institution: "Uva Wellassa University of Sri Lanka",
-      year: "2024 – Present",
-      status: "present",
-      description:
-        "Currently pursuing a comprehensive degree program specializing in Mechatronics, automation, robotics, computational science, and emerging engineering technologies.",
-      icon: "fas fa-robot",
-    },
-    {
-      id: 2,
-      title: "Bachelor of Information Technology (External Degree)",
-      institution: "University of Moratuwa",
-      year: "2025 – Present",
-      status: "present",
-      description:
-        "External degree program focusing on software engineering principles, database architecture, network systems, and enterprise application development.",
-      icon: "fas fa-laptop-code",
-    },
-    {
-      id: 3,
-      title: "G.C.E. A/L - Physical Science",
-      institution: "Mn/Thalaimannar Pier G.T.M.S",
-      year: "2009 – 2022",
-      status: "completed",
-      description:
-        "Completed secondary education with specialization in Physical Science (Combined Mathematics, Physics, and Chemistry).",
-      icon: "fas fa-graduation-cap",
-    },
-  ]
+  if ((!items || items.length === 0) && (!customCerts || customCerts.length === 0)) {
+    return null
+  }
 
-  const defaultCertifications: CertificationItem[] = [
-    {
-      id: 1,
-      title: "Diploma of Education in Project Management",
-      issuer: "Uki (Yarl IT Hub)",
-      date: "2024",
-      icon: "fas fa-tasks",
-      desc: "Comprehensive training in Agile, Scrum, and Waterfall methodologies, cross-functional team leadership, stakeholder communication, and project delivery.",
-    },
-    {
-      id: 2,
-      title: "Python (Programming Language)",
-      issuer: "Uki (Yarl IT Hub)",
-      date: "2025",
-      icon: "fab fa-python",
-      desc: "Intensive programming course covering core Python, OOP, data structures, algorithm design, file processing, and backend development.",
-    },
-    {
-      id: 3,
-      title: "Front-End Development",
-      issuer: "Meta (via Coursera)",
-      date: "2024",
-      link: "https://www.coursera.org/account/accomplishments/verify/B9JH54BPHVSO",
-      icon: "fab fa-react",
-      desc: "Professional front-end certification covering HTML5, CSS3, JavaScript, React.js, UI/UX design principles, and responsive web applications.",
-    },
-    {
-      id: 4,
-      title: "Artificial Intelligence with Python",
-      issuer: "NoviTech R&D Pvt Ltd",
-      date: "2024",
-      icon: "fas fa-brain",
-      desc: "Practical course exploring artificial intelligence fundamentals, machine learning models, neural networks, and Python-based AI development.",
-    },
-  ]
-
-  const eduList = items.length > 0 ? items : defaultEducation
-  const certList = customCerts.length > 0 ? customCerts : defaultCertifications
+  const eduList = items
+  const certList = customCerts
 
   return (
     <section className="education section" id="education">
