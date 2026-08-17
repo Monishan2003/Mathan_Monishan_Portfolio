@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import Link from "next/link"
 
 export interface ProjectItem {
@@ -9,6 +9,7 @@ export interface ProjectItem {
   title: string
   subtitle?: string | null
   summary: string
+  category?: string
   problem?: string | null
   solution?: string | null
   outcome?: string | null
@@ -29,21 +30,18 @@ interface ProjectsProps {
 }
 
 export default function Projects({ projects = [] }: ProjectsProps) {
+  const [activeFilter, setActiveFilter] = useState<string>("all")
+
   const defaultProjects: ProjectItem[] = [
     {
       id: 1,
       slug: "pynimox-ai-website",
       title: "Pynimox AI Studio",
-      subtitle: "AI Automation & Full-Stack Engineering Studio (Founder Venture)",
+      category: "AI & Automation",
+      subtitle: "AI Automation & Full-Stack Studio (Founder Venture)",
       summary:
         "Engineered an automated AI studio platform enabling global clients to orchestrate intelligent AI agent workflows, dynamic LLM integrations, and production web systems.",
-      problem:
-        "International clients needed an intuitive, production-ready interface to deploy custom AI assistants, automate repetitive business workflows, and manage full-stack systems.",
-      solution:
-        "Architected a Next.js and Supabase web app with server-side LLM streaming, interactive AI chat widgets, secure cloud endpoints, and instant client onboarding.",
-      outcome:
-        "Successfully launched studio serving international clients with low-latency AI responses, robust authentication, and high performance.",
-      tech_stack: ["Next.js", "TypeScript", "Node.js", "Supabase", "LLM APIs", "Tailwind CSS"],
+      tech_stack: ["Next.js", "TypeScript", "Python", "Supabase", "LLM APIs"],
       live_url: "https://www.pynimox.com",
       cover_image_url: "/projects/pynimox.jpg",
       role: "Founder & Lead Engineer",
@@ -53,16 +51,11 @@ export default function Projects({ projects = [] }: ProjectsProps) {
       id: 2,
       slug: "medicross-ai-healthcare",
       title: "MediCross AI — Healthcare Platform",
+      category: "Full-Stack Web",
       subtitle: "Clinical Operations & Patient Management System",
       summary:
         "Full-stack healthcare management system with multi-role access control, patient record indexing, appointment scheduling, and health metrics analytics.",
-      problem:
-        "Medical clinics required a centralized, secure digital system to manage patient histories, doctor availability, and diagnostic records without data fragmentation.",
-      solution:
-        "Developed a responsive health portal with strict role-based authorization, calendar booking engine, patient vitals tracking, and cloud database storage on AWS.",
-      outcome:
-        "Streamlined patient appointment lifecycle, eliminated paper records, and ensured encrypted HIPAA-aware data flows.",
-      tech_stack: ["Next.js", "React.js", "Node.js", "PostgreSQL", "Prisma", "AWS", "Vercel"],
+      tech_stack: ["Next.js", "React.js", "Node.js", "PostgreSQL", "AWS"],
       live_url: "https://medicross-wine.vercel.app",
       cover_image_url: "/projects/medicross.jpg",
       role: "Lead Full-Stack Developer",
@@ -72,16 +65,11 @@ export default function Projects({ projects = [] }: ProjectsProps) {
       id: 3,
       slug: "srmj-enterprises-ecommerce",
       title: "SRMJ Enterprises E-Commerce",
+      category: "Full-Stack Web",
       subtitle: "Modern Fashion & Retail Digital Storefront",
       summary:
         "Production-grade e-commerce web application featuring high-speed catalog filtering, interactive cart drawer, secure authentication, and Stripe payment processing.",
-      problem:
-        "Fashion retailer needed a fast, scalable mobile-first storefront capable of handling dynamic inventory, seasonal discounts, and instant checkout.",
-      solution:
-        "Built with Next.js, Prisma ORM, and PostgreSQL database with Stripe webhooks for automated order confirmation and Supabase auth.",
-      outcome:
-        "Achieved sub-second page transitions, 99+ Lighthouse performance score, and automated checkout fulfillment.",
-      tech_stack: ["Next.js", "Stripe", "PostgreSQL", "Prisma", "Supabase", "Tailwind CSS"],
+      tech_stack: ["Next.js", "Stripe", "PostgreSQL", "Prisma", "Supabase"],
       live_url: "https://www.srmjenterprises.com",
       cover_image_url: "/projects/srmj.jpg",
       role: "Full-Stack Developer",
@@ -91,15 +79,10 @@ export default function Projects({ projects = [] }: ProjectsProps) {
       id: 4,
       slug: "unisphere-lms",
       title: "UniSphere LMS — Academic Portal",
+      category: "Enterprise & Systems",
       subtitle: "Enterprise Learning Management System (C# & .NET)",
       summary:
         "Comprehensive educational management system supporting 4 distinct user tiers (Admin, Staff, Lecturers, Students) with course workflows, assignments, and grading.",
-      problem:
-        "Institutions required an enterprise-grade solution to administer semester curriculums, student gradebooks, and assignment submissions with strict permissions.",
-      solution:
-        "Architected using C#, ASP.NET, and SQL Server with normalized relational schemas, role authorization, and assignment evaluation pipelines.",
-      outcome:
-        "Demonstrated enterprise OOP design patterns, transaction safety, and clean software architecture.",
       tech_stack: ["C#", ".NET", "ASP.NET", "SQL Server", "Architecture"],
       repo_url: "https://github.com/Monishan2003/LMS_project_C-_-Learning_Management_Systam-.git",
       cover_image_url: "/projects/unisphere.jpg",
@@ -110,10 +93,10 @@ export default function Projects({ projects = [] }: ProjectsProps) {
       id: 5,
       slug: "hotel-website",
       title: "Luxury Hotel Web Platform",
+      category: "Full-Stack Web",
       subtitle: "Responsive Boutique Resort Showcase",
-      summary:
-        "Fully responsive booking and amenities showcase website built with HTML5, CSS3, and modern UI best practices.",
-      tech_stack: ["HTML5", "CSS3", "Responsive UI", "Web Design"],
+      summary: "Fully responsive booking and amenities showcase website built with HTML5, CSS3, and modern UI best practices.",
+      tech_stack: ["HTML5", "CSS3", "JavaScript", "Responsive UI"],
       repo_url: "https://github.com/Monishan2003/Web-design-project1",
       cover_image_url: "/projects/hotel.jpg",
       is_featured: false,
@@ -122,9 +105,9 @@ export default function Projects({ projects = [] }: ProjectsProps) {
       id: 6,
       slug: "personal-expense-tracker",
       title: "Personal Expense Tracker",
+      category: "Enterprise & Systems",
       subtitle: "Python CLI Financial Management Tool",
-      summary:
-        "Command-line application to track personal expenses, categorize spending, and generate visual financial reports.",
+      summary: "Command-line application to track personal expenses, categorize spending, and generate visual financial reports.",
       tech_stack: ["Python", "CLI", "Data Handling", "File I/O"],
       repo_url: "https://github.com/Monishan2003/Personal-Expense-Tracker",
       cover_image_url: "/projects/expense.jpg",
@@ -133,112 +116,90 @@ export default function Projects({ projects = [] }: ProjectsProps) {
   ]
 
   const projectList = projects.length > 0 ? projects : defaultProjects
-  const featuredProjects = projectList.slice(0, 4)
-  const additionalProjects = projectList.slice(4)
+
+  const filterCategories = [
+    { label: "All", value: "all" },
+    { label: "AI & Automation", value: "AI & Automation" },
+    { label: "Full-Stack Web", value: "Full-Stack Web" },
+    { label: "Enterprise & Systems", value: "Enterprise & Systems" },
+  ]
+
+  const filteredProjects =
+    activeFilter === "all"
+      ? projectList
+      : projectList.filter((p) => {
+          if (p.category) {
+            return p.category.toLowerCase().includes(activeFilter.toLowerCase())
+          }
+          if (activeFilter === "AI & Automation") return p.title.includes("AI") || p.title.includes("Pynimox")
+          if (activeFilter === "Enterprise & Systems") return p.title.includes("LMS") || p.title.includes("Expense")
+          return true
+        })
 
   return (
-    <section id="work" className="section-wrapper work-section">
-      <div className="container">
-        {/* Section Header */}
-        <div className="section-header">
-          <div className="section-label">
-            <i className="fas fa-layer-group" />
-            <span>Selected Work & Case Studies</span>
-          </div>
-          <h2 className="section-headline">
-            Engineering Production Systems
-          </h2>
-          <p className="section-subtext">
-            A curated selection of production applications, AI systems, and enterprise software built with focus on architecture, performance, and real-world impact.
-          </p>
+    <section className="work section" id="work">
+      <h2 className="section__title" data-heading="My Portfolio">
+        Recent Works
+      </h2>
+
+      <div className="work__container container">
+        {/* Category Filter Tabs */}
+        <div className="work__filters">
+          {filterCategories.map((cat) => (
+            <button
+              key={cat.value}
+              type="button"
+              onClick={() => setActiveFilter(cat.value)}
+              className={`work__item ${activeFilter === cat.value ? "active-work" : ""}`}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
 
-        {/* Featured Case Studies Grid */}
-        <div className="case-studies-list">
-          {featuredProjects.map((project, index) => {
+        {/* Project Cards Grid */}
+        <div className="work__grid grid">
+          {filteredProjects.map((project) => {
             const projectSlug = project.slug || `project-${project.id}`
-            const isReversed = index % 2 === 1
-
             return (
-              <div
-                key={project.id}
-                className={`case-card ${isReversed ? "reversed" : ""}`}
-              >
+              <div key={project.id} className="work__card">
                 {/* Media Image Box */}
-                <div className="case-media">
-                  <Link href={`/projects/${projectSlug}`} className="case-media-link">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={project.cover_image_url || "/projects/pynimox.jpg"}
-                      alt={project.title}
-                      className="case-img"
-                    />
-                    <div className="case-hover-overlay">
-                      <span className="case-hover-btn">
-                        <span>Read Case Study</span>
-                        <i className="fas fa-arrow-right" />
-                      </span>
-                    </div>
-                  </Link>
+                <div className="work__img-box">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={project.cover_image_url || "/projects/pynimox.jpg"}
+                    alt={project.title}
+                    className="work__img"
+                  />
+                  {project.category && (
+                    <span className="work__category-badge">{project.category}</span>
+                  )}
                 </div>
 
-                {/* Content Box */}
-                <div className="case-content">
-                  <div>
-                    {/* Top Meta */}
-                    <div className="case-meta-row">
-                      <span className="case-number-badge">
-                        0{index + 1} / CASE STUDY
-                      </span>
-                      {project.role && (
-                        <span className="case-role">
-                          Role: <strong>{project.role}</strong>
+                {/* Card Content */}
+                <div className="work__data">
+                  <h3 className="work__title">{project.title}</h3>
+                  <p className="work__desc">{project.summary}</p>
+
+                  {/* Tech Stack Chips */}
+                  {project.tech_stack && (
+                    <div className="work__tech-stack">
+                      {project.tech_stack.slice(0, 4).map((tech, tIdx) => (
+                        <span key={tIdx} className="work__tech-chip">
+                          {tech}
                         </span>
-                      )}
+                      ))}
                     </div>
+                  )}
 
-                    {/* Title & Subtitle */}
-                    <Link href={`/projects/${projectSlug}`} className="case-title-link">
-                      <h3 className="case-title">{project.title}</h3>
-                    </Link>
-                    {project.subtitle && (
-                      <div className="case-subtitle">{project.subtitle}</div>
-                    )}
-
-                    {/* Summary */}
-                    <p className="case-summary">{project.summary}</p>
-
-                    {/* Architecture Box */}
-                    {project.solution && (
-                      <div className="case-arch-box">
-                        <div className="arch-header">
-                          <i className="fas fa-cogs text-blue" />
-                          <span>Architecture & Solution</span>
-                        </div>
-                        <p className="arch-text">{project.solution}</p>
-                      </div>
-                    )}
-
-                    {/* Tech Chips */}
-                    {project.tech_stack && project.tech_stack.length > 0 && (
-                      <div className="tech-chips-row">
-                        {project.tech_stack.map((tech, tIdx) => (
-                          <span key={tIdx} className="tech-badge">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Actions Bar */}
-                  <div className="case-actions-row">
+                  {/* Action Link Button */}
+                  <div className="work__actions">
                     <Link
                       href={`/projects/${projectSlug}`}
-                      className="btn-dark"
+                      className="work__button"
                     >
-                      <i className="fas fa-file-alt" />
-                      <span>Case Study Details</span>
+                      <span>View Details</span>
+                      <i className="fas fa-arrow-right work__button-icon" />
                     </Link>
 
                     {project.live_url && (
@@ -246,10 +207,10 @@ export default function Projects({ projects = [] }: ProjectsProps) {
                         href={project.live_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-blue-outline"
+                        className="work__live-link"
+                        title="Open Live Site"
                       >
                         <i className="fas fa-external-link-alt" />
-                        <span>Live Site</span>
                       </a>
                     )}
 
@@ -258,10 +219,10 @@ export default function Projects({ projects = [] }: ProjectsProps) {
                         href={project.repo_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-outline"
+                        className="work__live-link"
+                        title="GitHub Repository"
                       >
                         <i className="fab fa-github" />
-                        <span>Source Code</span>
                       </a>
                     )}
                   </div>
@@ -270,420 +231,181 @@ export default function Projects({ projects = [] }: ProjectsProps) {
             )
           })}
         </div>
-
-        {/* Additional Projects Section */}
-        {additionalProjects.length > 0 && (
-          <div className="additional-projects-wrapper">
-            <div className="addl-header">
-              <h3 className="addl-title">Additional Technical Projects</h3>
-              <p className="addl-subtitle">
-                Foundational explorations in web design, algorithms, and CLI automation.
-              </p>
-            </div>
-
-            <div className="addl-grid">
-              {additionalProjects.map((proj) => {
-                const projSlug = proj.slug || `project-${proj.id}`
-                return (
-                  <div key={proj.id} className="addl-card">
-                    <div className="addl-card-top">
-                      <div className="addl-card-header">
-                        <h4 className="addl-card-title">{proj.title}</h4>
-                        {proj.repo_url && (
-                          <a
-                            href={proj.repo_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="addl-repo-link"
-                            aria-label="GitHub Repository"
-                          >
-                            <i className="fab fa-github" />
-                          </a>
-                        )}
-                      </div>
-                      <p className="addl-card-desc">{proj.summary}</p>
-                      {proj.tech_stack && (
-                        <div className="tech-chips-row">
-                          {proj.tech_stack.map((t, idx) => (
-                            <span key={idx} className="tech-badge-sm">
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="addl-card-bottom">
-                      <Link
-                        href={`/projects/${projSlug}`}
-                        className="addl-details-btn"
-                      >
-                        <span>View Details</span>
-                        <i className="fas fa-chevron-right" style={{ fontSize: "11px" }} />
-                      </Link>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        )}
       </div>
 
       <style jsx>{`
-        .work-section {
-          background: #ffffff;
-          border-top: 1px solid #e2e8f0;
-          border-bottom: 1px solid #e2e8f0;
-        }
-
-        .case-studies-list {
+        .work__filters {
           display: flex;
-          flex-direction: column;
-          gap: 48px;
+          justify-content: center;
+          align-items: center;
+          gap: 0.75rem;
+          margin-bottom: 2.8rem;
+          flex-wrap: wrap;
         }
 
-        .case-card {
-          display: grid;
-          grid-template-columns: 1.1fr 1.2fr;
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 20px;
-          overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        .work__item {
+          padding: 0.5rem 1.2rem;
+          color: var(--title-color, rgb(241, 241, 243));
+          font-weight: var(--font-medium, 500);
+          font-size: 0.9rem;
+          border-radius: 0.5rem;
+          background-color: var(--box-color, rgb(22, 22, 29));
+          border: 1px solid var(--box-border);
           transition: all 0.3s ease;
         }
 
-        .case-card:hover {
-          border-color: #93c5fd;
-          box-shadow: 0 16px 36px rgba(37, 99, 235, 0.1);
-          transform: translateY(-4px);
+        .work__item:hover {
+          color: var(--skin-color, #3482ff);
+          background-color: var(--box-color-hover, rgb(28, 28, 38));
+          border-color: var(--box-border-hover);
         }
 
-        .case-card.reversed {
-          grid-template-columns: 1.2fr 1.1fr;
+        .work__item.active-work {
+          background-color: var(--skin-color, #3482ff);
+          color: #ffffff;
+          border-color: var(--skin-color, #3482ff);
+          box-shadow: 0 4px 15px rgba(52, 130, 255, 0.35);
         }
 
-        .case-card.reversed .case-media {
-          order: 2;
+        .work__grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2rem;
         }
 
-        .case-card.reversed .case-content {
-          order: 1;
-        }
-
-        .case-media {
-          position: relative;
-          background: #0f172a;
-          min-height: 380px;
+        .work__card {
+          background-color: var(--box-color, rgb(22, 22, 29));
+          border: 1px solid var(--box-border);
+          border-radius: 1.25rem;
           overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
         }
 
-        .case-media-link {
-          display: block;
-          width: 100%;
-          height: 100%;
+        .work__card:hover {
+          transform: translateY(-8px);
+          border-color: var(--skin-color, #3482ff);
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+        }
+
+        .work__img-box {
           position: relative;
+          aspect-ratio: 16 / 10;
+          overflow: hidden;
+          background-color: #000000;
         }
 
-        .case-img {
+        .work__img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          object-position: center;
-          display: block;
-          transition: transform 0.5s ease;
+          transition: transform 0.6s ease;
         }
 
-        .case-card:hover .case-img {
-          transform: scale(1.04);
+        .work__card:hover .work__img {
+          transform: scale(1.08);
         }
 
-        .case-hover-overlay {
+        .work__category-badge {
           position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, 0.7) 100%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          display: flex;
-          align-items: flex-end;
-          padding: 24px;
-        }
-
-        .case-card:hover .case-hover-overlay {
-          opacity: 1;
-        }
-
-        .case-hover-btn {
-          background: #2563eb;
-          color: #ffffff;
-          font-size: 13px;
+          top: 1rem;
+          left: 1rem;
+          background-color: rgba(10, 10, 15, 0.85);
+          backdrop-filter: blur(8px);
+          color: var(--skin-color, #3482ff);
+          border: 1px solid rgba(52, 130, 255, 0.3);
+          font-size: 0.75rem;
           font-weight: 600;
-          padding: 8px 16px;
-          border-radius: 8px;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+          padding: 0.25rem 0.75rem;
+          border-radius: 100px;
         }
 
-        .case-content {
-          padding: 36px 40px;
+        .work__data {
+          padding: 1.5rem;
           display: flex;
           flex-direction: column;
+          flex-grow: 1;
           justify-content: space-between;
-          background: #f8fafc;
         }
 
-        .case-meta-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          margin-bottom: 12px;
+        .work__title {
+          font-size: var(--h3-font-size, 1.25rem);
+          margin-bottom: 0.5rem;
+          color: var(--title-color, rgb(241, 241, 243));
+          line-height: 1.35;
         }
 
-        .case-number-badge {
-          font-size: 11.5px;
-          font-weight: 700;
-          color: #2563eb;
-          background: rgba(37, 99, 235, 0.08);
-          border: 1px solid rgba(37, 99, 235, 0.2);
-          padding: 4px 10px;
-          border-radius: 6px;
-          letter-spacing: 0.05em;
-        }
-
-        .case-role {
-          font-size: 12.5px;
-          color: #64748b;
-        }
-
-        .case-role strong {
-          color: #1e293b;
-        }
-
-        .case-title-link {
-          text-decoration: none;
-        }
-
-        .case-title {
-          font-size: 26px;
-          font-weight: 700;
-          color: #0f172a;
-          margin-bottom: 6px;
-          font-family: var(--font-heading, 'Ubuntu', sans-serif);
-          transition: color 0.2s ease;
-        }
-
-        .case-title:hover {
-          color: #2563eb;
-        }
-
-        .case-subtitle {
-          font-size: 13.5px;
-          font-weight: 600;
-          color: #64748b;
-          margin-bottom: 16px;
-        }
-
-        .case-summary {
-          font-size: 15px;
-          line-height: 1.7;
-          color: #475569;
-          margin-bottom: 20px;
-        }
-
-        .case-arch-box {
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          border-radius: 12px;
-          padding: 16px;
-          margin-bottom: 20px;
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
-        }
-
-        .arch-header {
-          font-size: 12px;
-          font-weight: 700;
-          color: #334155;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 6px;
-        }
-
-        .text-blue {
-          color: #2563eb;
-        }
-
-        .arch-text {
-          font-size: 13px;
+        .work__desc {
+          font-size: 0.88rem;
           line-height: 1.6;
-          color: #64748b;
-          margin: 0;
+          color: var(--text-color, rgb(214, 214, 220));
+          margin-bottom: 1.2rem;
         }
 
-        .tech-chips-row {
+        .work__tech-stack {
           display: flex;
           flex-wrap: wrap;
-          gap: 6px;
-          margin-bottom: 24px;
+          gap: 0.4rem;
+          margin-bottom: 1.4rem;
         }
 
-        .tech-badge {
-          font-size: 12px;
-          font-weight: 600;
-          color: #334155;
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          padding: 4px 10px;
-          border-radius: 6px;
+        .work__tech-chip {
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: var(--text-muted);
+          background-color: rgba(255, 255, 255, 0.04);
+          padding: 0.2rem 0.55rem;
+          border-radius: 0.3rem;
+          border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .case-actions-row {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 12px;
-          padding-top: 20px;
-          border-top: 1px solid #e2e8f0;
-        }
-
-        /* Additional Projects */
-        .additional-projects-wrapper {
-          margin-top: 70px;
-          padding-top: 40px;
-          border-top: 1px solid #e2e8f0;
-        }
-
-        .addl-header {
-          margin-bottom: 28px;
-        }
-
-        .addl-title {
-          font-size: 22px;
-          font-weight: 700;
-          color: #0f172a;
-          margin-bottom: 6px;
-        }
-
-        .addl-subtitle {
-          font-size: 14px;
-          color: #64748b;
-        }
-
-        .addl-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 24px;
-        }
-
-        .addl-card {
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          border-radius: 16px;
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-          transition: all 0.25s ease;
-        }
-
-        .addl-card:hover {
-          border-color: #93c5fd;
-          box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
-          transform: translateY(-2px);
-        }
-
-        .addl-card-header {
+        .work__actions {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 10px;
+          padding-top: 1rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .addl-card-title {
-          font-size: 17px;
-          font-weight: 700;
-          color: #0f172a;
-          margin: 0;
-        }
-
-        .addl-repo-link {
-          color: #64748b;
-          font-size: 20px;
-          text-decoration: none;
-          transition: color 0.2s ease;
-        }
-
-        .addl-repo-link:hover {
-          color: #0f172a;
-        }
-
-        .addl-card-desc {
-          font-size: 14px;
-          line-height: 1.6;
-          color: #64748b;
-          margin-bottom: 16px;
-        }
-
-        .tech-badge-sm {
-          font-size: 11px;
-          font-weight: 600;
-          color: #475569;
-          background: #f1f5f9;
-          padding: 2px 8px;
-          border-radius: 4px;
-        }
-
-        .addl-card-bottom {
-          padding-top: 16px;
-          border-top: 1px solid #f1f5f9;
-        }
-
-        .addl-details-btn {
-          font-size: 13px;
-          font-weight: 600;
-          color: #2563eb;
-          text-decoration: none;
+        .work__button {
+          color: var(--skin-color, #3482ff);
+          font-size: var(--small-font-size, 0.875rem);
           display: inline-flex;
           align-items: center;
-          gap: 6px;
-          transition: gap 0.2s ease;
+          column-gap: 0.4rem;
+          font-weight: 600;
+          transition: all 0.3s ease;
         }
 
-        .addl-details-btn:hover {
-          gap: 10px;
-          color: #1d4ed8;
+        .work__button-icon {
+          font-size: 0.8rem;
+          transition: transform 0.3s ease;
         }
 
-        @media (max-width: 992px) {
-          .case-card,
-          .case-card.reversed {
-            grid-template-columns: 1fr;
-          }
+        .work__button:hover .work__button-icon {
+          transform: translateX(5px);
+        }
 
-          .case-card.reversed .case-media {
-            order: 1;
-          }
+        .work__live-link {
+          color: var(--text-muted);
+          font-size: 1rem;
+          transition: color 0.2s ease;
+          padding: 4px;
+        }
 
-          .case-card.reversed .case-content {
-            order: 2;
-          }
+        .work__live-link:hover {
+          color: var(--skin-color, #3482ff);
+        }
 
-          .case-media {
-            min-height: 280px;
+        @media screen and (max-width: 1024px) {
+          .work__grid {
+            grid-template-columns: repeat(2, 1fr);
           }
+        }
 
-          .case-content {
-            padding: 28px 24px;
-          }
-
-          .addl-grid {
+        @media screen and (max-width: 600px) {
+          .work__grid {
             grid-template-columns: 1fr;
           }
         }

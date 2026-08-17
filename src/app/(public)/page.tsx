@@ -1,15 +1,13 @@
 import { createServerClient } from "@/lib/supabase/server"
-import BackgroundAnimation from "@/components/BackgroundAnimation"
-import Navbar from "@/components/Navbar"
+import SidebarNav from "@/components/SidebarNav"
 import Hero from "@/features/hero/Hero"
-import Projects, { type ProjectItem } from "@/features/projects/Projects"
+import About from "@/features/about/About"
+import Skills, { type SkillCategoryItem } from "@/features/skills/Skills"
 import Experience, { type ExperienceItem } from "@/features/experience/Experience"
+import Projects, { type ProjectItem } from "@/features/projects/Projects"
 import HowIBuild from "@/features/approach/HowIBuild"
 import PersonalVlog from "@/features/vlog/PersonalVlog"
-import Skills, { type SkillCategoryItem } from "@/features/skills/Skills"
-import About from "@/features/about/About"
 import Education, { type EducationItem } from "@/features/education/Education"
-import Certifications, { type CertificationItem } from "@/features/certifications/Certifications"
 import Contact from "@/features/contact/Contact"
 import Footer from "@/components/Footer"
 import ScrollToTop from "@/components/ScrollToTop"
@@ -24,7 +22,7 @@ export default async function HomePage() {
   const [
     { data: profile },
     { data: educationData },
-    { data: certificationsData },
+    { data: _certificationsData },
     { data: projectsData },
     { data: experiencesData },
     { data: skillCategoriesData },
@@ -56,23 +54,6 @@ export default async function HomePage() {
     }
   })
 
-  // Format Certifications Items
-  const certItems: CertificationItem[] = (certificationsData || []).map((cert) => {
-    const dateStr = cert.issue_date
-      ? new Date(cert.issue_date).toLocaleDateString("en-US", { month: "short", year: "numeric" })
-      : undefined
-
-    return {
-      id: cert.id,
-      title: cert.title,
-      issuer: cert.issuer,
-      issue_date: dateStr,
-      description: cert.description,
-      icon: cert.icon || "fas fa-certificate",
-      credential_url: cert.credential_url,
-    }
-  })
-
   // Format Projects
   const projects: ProjectItem[] = (projectsData || []).map((p) => ({
     id: p.id,
@@ -80,6 +61,7 @@ export default async function HomePage() {
     title: p.title,
     subtitle: p.subtitle,
     summary: p.summary,
+    category: p.category || undefined,
     problem: p.problem,
     solution: p.solution,
     outcome: p.outcome,
@@ -123,10 +105,11 @@ export default async function HomePage() {
   const skillCategories: SkillCategoryItem[] = (skillCategoriesData || []).map((cat) => {
     const matchedSkills = (skillsData || [])
       .filter((s) => s.category_id === cat.id)
-      .map((s) => ({
+      .map((s, idx) => ({
         id: s.id,
         name: s.name,
         icon: s.icon,
+        percentage: 95 - idx * 4,
       }))
 
     return {
@@ -141,7 +124,7 @@ export default async function HomePage() {
   const roles = profile?.roles && profile.roles.length > 0 ? profile.roles : [
     "AI & Full-Stack Engineer",
     "Founder of Pynimox",
-    "Mechatronics Specialist",
+    "Mechatronics Engineer",
     "Robotics & Automation Builder",
   ]
   const avatarUrl = profile?.avatar_url || "/monishan.jpeg"
@@ -153,37 +136,39 @@ export default async function HomePage() {
   const whatsappMessage = profile?.whatsapp_message || "Hello Monishan! I visited your portfolio and would like to collaborate."
 
   return (
-    <main style={{ position: "relative", minHeight: "100vh" }}>
-      <BackgroundAnimation />
-      <Navbar name={fullName} resumeUrl={resumeUrl} />
-      <Hero name={fullName} roles={roles} resumeUrl={resumeUrl} />
-      <Projects projects={projects.length > 0 ? projects : undefined} />
-      <Experience items={experiences.length > 0 ? experiences : undefined} />
-      <HowIBuild />
-      <PersonalVlog />
-      <Skills categories={skillCategories.length > 0 ? skillCategories : undefined} />
-      <About
-        avatarUrl={avatarUrl}
-        roles={roles}
-        bioShort={profile?.bio_short || undefined}
-        bioLong={profile?.bio_long || undefined}
-        resumeUrl={resumeUrl}
-      />
-      <Education items={educationItems.length > 0 ? educationItems : undefined} />
-      <Certifications items={certItems.length > 0 ? certItems : undefined} />
-      <Contact
-        fullName={fullName}
-        location={location}
-        email={email}
-        phone={phone}
-        whatsappNumber={whatsappNumber}
-      />
-      <Footer />
+    <>
+      <SidebarNav name={fullName} />
+
+      <main className="main">
+        <Hero name={fullName} roles={roles} resumeUrl={resumeUrl} />
+        <About
+          avatarUrl={avatarUrl}
+          roles={roles}
+          bioShort={profile?.bio_short || undefined}
+          bioLong={profile?.bio_long || undefined}
+          resumeUrl={resumeUrl}
+        />
+        <Skills categories={skillCategories.length > 0 ? skillCategories : undefined} />
+        <Experience items={experiences.length > 0 ? experiences : undefined} />
+        <Projects projects={projects.length > 0 ? projects : undefined} />
+        <HowIBuild />
+        <PersonalVlog />
+        <Education items={educationItems.length > 0 ? educationItems : undefined} />
+        <Contact
+          fullName={fullName}
+          location={location}
+          email={email}
+          phone={phone}
+          whatsappNumber={whatsappNumber}
+        />
+        <Footer />
+      </main>
+
       <ScrollToTop />
       <WhatsAppButton
         phoneNumber={whatsappNumber}
         message={whatsappMessage}
       />
-    </main>
+    </>
   )
 }

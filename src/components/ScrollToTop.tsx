@@ -7,7 +7,7 @@ export default function ScrollToTop() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsVisible(window.scrollY > 500)
+      setIsVisible(window.scrollY > 400)
     }
 
     window.addEventListener("scroll", handleScroll)
@@ -25,37 +25,49 @@ export default function ScrollToTop() {
 
   return (
     <button
+      type="button"
       onClick={scrollToTop}
       aria-label="Scroll to top"
-      style={{
-        position: "fixed",
-        bottom: "95px",
-        right: "30px",
-        width: "48px",
-        height: "48px",
-        background: "var(--primary-color)",
-        color: "#ffffff",
-        border: "none",
-        borderRadius: "50%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "18px",
-        cursor: "pointer",
-        zIndex: 990,
-        boxShadow: "0 4px 15px rgba(43, 63, 167, 0.35)",
-        transition: "all 0.3s ease",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-4px)"
-        e.currentTarget.style.boxShadow = "0 6px 20px rgba(43, 63, 167, 0.5)"
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "translateY(0)"
-        e.currentTarget.style.boxShadow = "0 4px 15px rgba(43, 63, 167, 0.35)"
-      }}
+      className="scrollup"
     >
-      <i className="fas fa-arrow-up"></i>
+      <i className="fas fa-arrow-up scrollup__icon" />
+
+      <style jsx>{`
+        .scrollup {
+          position: fixed;
+          right: 2rem;
+          bottom: 5.5rem;
+          background-color: var(--skin-color, #3482ff);
+          opacity: 0.9;
+          padding: 0.65rem;
+          border-radius: 0.4rem;
+          z-index: var(--z-fixed, 100);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #ffffff;
+          box-shadow: 0 4px 15px rgba(52, 130, 255, 0.4);
+          animation: bounceIn 0.5s ease forwards;
+          transition: all 0.3s ease;
+        }
+
+        .scrollup:hover {
+          opacity: 1;
+          transform: translateY(-5px);
+          box-shadow: 0 8px 25px rgba(52, 130, 255, 0.6);
+        }
+
+        .scrollup__icon {
+          font-size: 1.15rem;
+        }
+
+        @media screen and (max-width: 600px) {
+          .scrollup {
+            right: 1.25rem;
+            bottom: 5rem;
+          }
+        }
+      `}</style>
     </button>
   )
 }

@@ -2,7 +2,6 @@ import React from "react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { createServerClient } from "@/lib/supabase/server"
-import BackgroundAnimation from "@/components/BackgroundAnimation"
 import Footer from "@/components/Footer"
 import ScrollToTop from "@/components/ScrollToTop"
 
@@ -35,36 +34,29 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
     notFound()
   }
 
-  // Fetch profile for footer & other projects
-  const [{ data: profile }, { data: otherProjects }] = await Promise.all([
-    supabase.from("profile").select("*").maybeSingle(),
-    supabase
-      .from("projects")
-      .select("id, slug, title, summary, icon, accent_gradient, category")
-      .neq("slug", slug)
-      .eq("is_published", true)
-      .limit(3),
-  ])
-
-  const fullName = profile?.full_name || "Mathan Monishan"
-  const gradient = project.accent_gradient || "linear-gradient(135deg, #1b0072 0%, #2b3fa7 50%, #14b1ff 100%)"
+  // Fetch other projects
+  const { data: otherProjects } = await supabase
+    .from("projects")
+    .select("id, slug, title, summary, icon, cover_image_url, category")
+    .neq("slug", slug)
+    .eq("is_published", true)
+    .limit(3)
 
   const hasMedia = Boolean(project.cover_image_url) || Boolean(project.gallery_urls && project.gallery_urls.length > 0)
   const isCoverVideo = project.cover_image_url ? isVideoUrl(project.cover_image_url) : false
 
   return (
-    <div style={{ position: "relative", minHeight: "100vh", background: "var(--bg-light)" }}>
-      <BackgroundAnimation />
-
-      {/* Top Header / Navigation Bar */}
+    <div style={{ position: "relative", minHeight: "100vh", backgroundColor: "var(--body-color, rgb(10, 10, 15))" }}>
+      {/* Top Header */}
       <nav
         style={{
           position: "sticky",
           top: 0,
           zIndex: 990,
-          background: "var(--primary-color)",
+          backgroundColor: "rgba(10, 10, 15, 0.95)",
+          backdropFilter: "blur(12px)",
           padding: "16px 0",
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+          borderBottom: "1px solid var(--box-border, rgba(255, 255, 255, 0.08))",
         }}
       >
         <div
@@ -78,71 +70,75 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
           <Link
             href="/"
             style={{
-              color: "#ffffff",
-              fontSize: "22px",
+              color: "var(--title-color, rgb(241, 241, 243))",
+              fontSize: "20px",
               fontWeight: 700,
-              fontFamily: "var(--font-heading)",
               display: "flex",
               alignItems: "center",
               gap: "8px",
             }}
           >
-            {fullName}
+            <span
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                background: "var(--skin-color, #3482ff)",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "14px",
+                color: "#ffffff",
+                fontWeight: 700,
+              }}
+            >
+              M
+            </span>
+            Mathan Monishan
           </Link>
 
           <Link
-            href="/#projects"
-            style={{
-              color: "#ffffff",
-              background: "rgba(255, 255, 255, 0.15)",
-              padding: "8px 18px",
-              borderRadius: "20px",
-              fontSize: "14px",
-              fontWeight: 600,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              transition: "all 0.2s ease",
-            }}
+            href="/#work"
+            className="button button--outline"
+            style={{ padding: "0.5rem 1.2rem", fontSize: "0.88rem" }}
           >
-            <i className="fas fa-arrow-left" /> Back to All Projects
+            <i className="fas fa-arrow-left" /> Back to Projects
           </Link>
         </div>
       </nav>
 
       {/* Main Project Content */}
-      <main className="container" style={{ padding: "50px 30px 100px", position: "relative", zIndex: 1 }}>
+      <main className="container" style={{ padding: "50px 24px 80px", position: "relative", zIndex: 1, maxWidth: "1100px" }}>
         {/* Project Header Card */}
         <div
           style={{
-            background: "#ffffff",
+            backgroundColor: "var(--box-color, rgb(22, 22, 29))",
             borderRadius: "20px",
-            boxShadow: "0 6px 30px rgba(0, 0, 0, 0.08)",
-            border: "1px solid rgba(43, 63, 167, 0.1)",
+            border: "1px solid var(--box-border, rgba(255, 255, 255, 0.08))",
             overflow: "hidden",
             marginBottom: "40px",
+            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.4)",
           }}
         >
           {/* Top Banner */}
           <div
             style={{
-              background: gradient,
-              padding: "50px 40px",
-              color: "#ffffff",
-              position: "relative",
+              padding: "48px 40px",
+              borderBottom: "1px solid var(--box-border, rgba(255, 255, 255, 0.08))",
+              background: "linear-gradient(180deg, rgba(52, 130, 255, 0.1) 0%, transparent 100%)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px", flexWrap: "wrap" }}>
               {project.category && (
                 <span
                   style={{
-                    background: "rgba(255, 255, 255, 0.2)",
-                    backdropFilter: "blur(5px)",
+                    background: "rgba(52, 130, 255, 0.15)",
+                    color: "var(--skin-color, #3482ff)",
+                    border: "1px solid rgba(52, 130, 255, 0.3)",
                     padding: "4px 14px",
                     borderRadius: "20px",
-                    fontSize: "13px",
+                    fontSize: "12.5px",
                     fontWeight: 600,
-                    letterSpacing: "0.5px",
                   }}
                 >
                   {project.category}
@@ -150,7 +146,9 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
               )}
               <span
                 style={{
-                  background: project.status === "LIVE" ? "#10b981" : "rgba(255, 255, 255, 0.3)",
+                  background: "rgba(16, 185, 129, 0.15)",
+                  color: "#10b981",
+                  border: "1px solid rgba(16, 185, 129, 0.3)",
                   padding: "4px 12px",
                   borderRadius: "20px",
                   fontSize: "12px",
@@ -163,11 +161,10 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
             <h1
               style={{
-                fontSize: "38px",
+                fontSize: "36px",
                 fontWeight: 700,
                 marginBottom: "12px",
-                color: "#ffffff",
-                fontFamily: "var(--font-heading)",
+                color: "var(--title-color, rgb(241, 241, 243))",
                 lineHeight: 1.2,
               }}
             >
@@ -175,7 +172,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
             </h1>
 
             {project.subtitle && (
-              <p style={{ fontSize: "18px", color: "rgba(255, 255, 255, 0.9)", marginBottom: "20px" }}>
+              <p style={{ fontSize: "16px", color: "var(--text-color, rgb(214, 214, 220))", marginBottom: "20px" }}>
                 {project.subtitle}
               </p>
             )}
@@ -186,11 +183,12 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                   <span
                     key={i}
                     style={{
-                      background: "rgba(0, 0, 0, 0.25)",
-                      color: "#ffffff",
+                      background: "rgba(255, 255, 255, 0.05)",
+                      color: "var(--text-color, rgb(214, 214, 220))",
+                      border: "1px solid rgba(255, 255, 255, 0.08)",
                       padding: "4px 12px",
                       borderRadius: "6px",
-                      fontSize: "13px",
+                      fontSize: "12.5px",
                       fontWeight: 500,
                     }}
                   >
@@ -204,9 +202,9 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
           {/* Action Links Bar */}
           <div
             style={{
-              padding: "20px 40px",
-              background: "#f8fafc",
-              borderBottom: "1px solid #e2e8f0",
+              padding: "18px 40px",
+              backgroundColor: "rgba(10, 10, 15, 0.4)",
+              borderBottom: "1px solid var(--box-border, rgba(255, 255, 255, 0.08))",
               display: "flex",
               flexWrap: "wrap",
               gap: "14px",
@@ -220,8 +218,8 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                   href={project.live_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn"
-                  style={{ padding: "10px 24px", fontSize: "14.5px" }}
+                  className="button"
+                  style={{ padding: "0.6rem 1.4rem", fontSize: "0.9rem" }}
                 >
                   <i className="fas fa-external-link-alt" /> Live Demo
                 </a>
@@ -232,48 +230,35 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                   href={project.repo_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-outline"
-                  style={{ padding: "10px 24px", fontSize: "14.5px" }}
+                  className="button button--outline"
+                  style={{ padding: "0.6rem 1.4rem", fontSize: "0.9rem" }}
                 >
                   <i className="fab fa-github" /> View Code
-                </a>
-              )}
-
-              {project.resource_url && (
-                <a
-                  href={project.resource_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-outline"
-                  style={{ padding: "10px 24px", fontSize: "14.5px" }}
-                >
-                  <i className="fas fa-folder-open" /> {project.resource_label || "Project Files"}
                 </a>
               )}
             </div>
 
             {project.role && (
-              <span style={{ fontSize: "14px", color: "#64748b", fontWeight: 500 }}>
-                Role: <strong style={{ color: "#1e293b" }}>{project.role}</strong>
+              <span style={{ fontSize: "14px", color: "var(--text-muted)", fontWeight: 500 }}>
+                Role: <strong style={{ color: "var(--title-color)" }}>{project.role}</strong>
               </span>
             )}
           </div>
 
-          {/* Media Showcase (Cover / Video & Gallery) */}
+          {/* Media Showcase */}
           {hasMedia && (
-            <div style={{ padding: "40px", borderBottom: "1px solid #e2e8f0" }}>
-              <h3 style={{ fontSize: "20px", color: "var(--secondary-color)", marginBottom: "20px", fontFamily: "var(--font-heading)" }}>
+            <div style={{ padding: "40px", borderBottom: "1px solid var(--box-border, rgba(255, 255, 255, 0.08))" }}>
+              <h3 style={{ fontSize: "20px", color: "var(--title-color)", marginBottom: "20px" }}>
                 Project Media & Preview
               </h3>
 
-              {/* Main Cover Image / Video */}
               {project.cover_image_url && (
                 <div
                   style={{
                     borderRadius: "14px",
                     overflow: "hidden",
-                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                    marginBottom: "24px",
+                    border: "1px solid var(--box-border)",
+                    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
                     background: "#000000",
                   }}
                 >
@@ -293,175 +278,86 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                   )}
                 </div>
               )}
-
-              {/* Gallery Photos / Videos Grid */}
-              {project.gallery_urls && project.gallery_urls.length > 0 && (
-                <div>
-                  <h4 style={{ fontSize: "16px", color: "#475569", marginBottom: "14px", fontWeight: 600 }}>
-                    Gallery & Screenshots
-                  </h4>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                      gap: "18px",
-                    }}
-                  >
-                    {project.gallery_urls.map((mediaUrl: string, idx: number) => {
-                      const isVid = isVideoUrl(mediaUrl)
-                      return (
-                        <div
-                          key={idx}
-                          style={{
-                            borderRadius: "10px",
-                            overflow: "hidden",
-                            boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
-                            background: "#000000",
-                          }}
-                        >
-                          {isVid ? (
-                            <video
-                              src={mediaUrl}
-                              controls
-                              style={{ width: "100%", height: "200px", objectFit: "cover", display: "block" }}
-                            />
-                          ) : (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={mediaUrl}
-                              alt={`${project.title} screenshot ${idx + 1}`}
-                              style={{ width: "100%", height: "200px", objectFit: "cover", display: "block" }}
-                            />
-                          )}
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              )}
             </div>
           )}
 
-          {/* Project Details / Breakdown */}
+          {/* Project Details Breakdown */}
           <div style={{ padding: "40px" }}>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                gap: "40px",
-              }}
-            >
-              {/* Left Details Column */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "40px" }}>
               <div>
-                <section style={{ padding: 0, marginBottom: "30px" }}>
-                  <h3 style={{ fontSize: "20px", color: "var(--secondary-color)", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>
+                <section style={{ marginBottom: "30px" }}>
+                  <h3 style={{ fontSize: "18px", color: "var(--skin-color)", marginBottom: "10px" }}>
                     Overview
                   </h3>
-                  <p style={{ fontSize: "16px", lineHeight: "1.8", color: "#334155" }}>
+                  <p style={{ fontSize: "15px", lineHeight: "1.8", color: "var(--text-color)" }}>
                     {project.summary}
                   </p>
                 </section>
 
                 {project.problem && (
-                  <section style={{ padding: 0, marginBottom: "30px" }}>
-                    <h3 style={{ fontSize: "20px", color: "var(--secondary-color)", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>
+                  <section style={{ marginBottom: "30px" }}>
+                    <h3 style={{ fontSize: "18px", color: "var(--skin-color)", marginBottom: "10px" }}>
                       The Problem & Challenge
                     </h3>
-                    <p style={{ fontSize: "15.5px", lineHeight: "1.8", color: "#475569", whiteSpace: "pre-wrap" }}>
+                    <p style={{ fontSize: "15px", lineHeight: "1.8", color: "var(--text-color)", whiteSpace: "pre-wrap" }}>
                       {project.problem}
                     </p>
                   </section>
                 )}
 
                 {project.solution && (
-                  <section style={{ padding: 0, marginBottom: "30px" }}>
-                    <h3 style={{ fontSize: "20px", color: "var(--secondary-color)", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>
-                      The Solution & Features
+                  <section style={{ marginBottom: "30px" }}>
+                    <h3 style={{ fontSize: "18px", color: "var(--skin-color)", marginBottom: "10px" }}>
+                      The Solution & Architecture
                     </h3>
-                    <p style={{ fontSize: "15.5px", lineHeight: "1.8", color: "#475569", whiteSpace: "pre-wrap" }}>
+                    <p style={{ fontSize: "15px", lineHeight: "1.8", color: "var(--text-color)", whiteSpace: "pre-wrap" }}>
                       {project.solution}
                     </p>
                   </section>
                 )}
 
                 {project.outcome && (
-                  <section style={{ padding: 0, marginBottom: "30px" }}>
-                    <h3 style={{ fontSize: "20px", color: "var(--secondary-color)", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>
+                  <section style={{ marginBottom: "30px" }}>
+                    <h3 style={{ fontSize: "18px", color: "var(--skin-color)", marginBottom: "10px" }}>
                       Outcome & Key Results
                     </h3>
-                    <p style={{ fontSize: "15.5px", lineHeight: "1.8", color: "#475569", whiteSpace: "pre-wrap" }}>
+                    <p style={{ fontSize: "15px", lineHeight: "1.8", color: "var(--text-color)", whiteSpace: "pre-wrap" }}>
                       {project.outcome}
                     </p>
                   </section>
                 )}
-
-                {project.body && (
-                  <section style={{ padding: 0, marginBottom: "30px" }}>
-                    <h3 style={{ fontSize: "20px", color: "var(--secondary-color)", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>
-                      Full Project Description
-                    </h3>
-                    <div style={{ fontSize: "15.5px", lineHeight: "1.8", color: "#334155", whiteSpace: "pre-wrap" }}>
-                      {project.body}
-                    </div>
-                  </section>
-                )}
               </div>
 
-              {/* Right Sidebar Column */}
+              {/* Sidebar Info */}
               <div>
                 <div
                   style={{
-                    background: "#f8fafc",
+                    backgroundColor: "rgba(10, 10, 15, 0.6)",
                     padding: "24px",
                     borderRadius: "14px",
-                    border: "1px solid #e2e8f0",
+                    border: "1px solid var(--box-border)",
                     display: "flex",
                     flexDirection: "column",
                     gap: "18px",
                   }}
                 >
-                  <h4 style={{ fontSize: "16px", color: "var(--secondary-color)", margin: 0, fontWeight: 700 }}>
+                  <h4 style={{ fontSize: "16px", color: "var(--title-color)", margin: 0, fontWeight: 600 }}>
                     Project Information
                   </h4>
 
-                  {project.client_name && (
-                    <div>
-                      <span style={{ fontSize: "12px", color: "#64748b", textTransform: "uppercase", fontWeight: 600 }}>
-                        Client / Organization
-                      </span>
-                      <p style={{ margin: "2px 0 0", fontSize: "14.5px", color: "#1e293b", fontWeight: 600 }}>
-                        {project.client_name}
-                      </p>
-                    </div>
-                  )}
-
                   {project.role && (
                     <div>
-                      <span style={{ fontSize: "12px", color: "#64748b", textTransform: "uppercase", fontWeight: 600 }}>
+                      <span style={{ fontSize: "12px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 600 }}>
                         Role
                       </span>
-                      <p style={{ margin: "2px 0 0", fontSize: "14.5px", color: "#1e293b", fontWeight: 600 }}>
+                      <p style={{ margin: "2px 0 0", fontSize: "14.5px", color: "var(--title-color)", fontWeight: 600 }}>
                         {project.role}
                       </p>
                     </div>
                   )}
 
-                  {project.started_on && (
-                    <div>
-                      <span style={{ fontSize: "12px", color: "#64748b", textTransform: "uppercase", fontWeight: 600 }}>
-                        Timeline
-                      </span>
-                      <p style={{ margin: "2px 0 0", fontSize: "14.5px", color: "#1e293b", fontWeight: 500 }}>
-                        {new Date(project.started_on).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
-                        {project.completed_on
-                          ? ` – ${new Date(project.completed_on).toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
-                          : " – Present"}
-                      </p>
-                    </div>
-                  )}
-
                   <div>
-                    <span style={{ fontSize: "12px", color: "#64748b", textTransform: "uppercase", fontWeight: 600 }}>
+                    <span style={{ fontSize: "12px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 600 }}>
                       Share Project
                     </span>
                     <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
@@ -472,8 +368,8 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                         style={{
                           width: "36px",
                           height: "36px",
-                          borderRadius: "50%",
-                          background: "#25d366",
+                          borderRadius: "8px",
+                          backgroundColor: "#25d366",
                           color: "#ffffff",
                           display: "flex",
                           alignItems: "center",
@@ -490,8 +386,8 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                         style={{
                           width: "36px",
                           height: "36px",
-                          borderRadius: "50%",
-                          background: "#0077b5",
+                          borderRadius: "8px",
+                          backgroundColor: "#0077b5",
                           color: "#ffffff",
                           display: "flex",
                           alignItems: "center",
@@ -512,7 +408,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
         {/* Other Projects Recommendation */}
         {otherProjects && otherProjects.length > 0 && (
           <div style={{ marginTop: "60px" }}>
-            <h3 style={{ fontSize: "24px", color: "var(--secondary-color)", marginBottom: "24px", fontFamily: "var(--font-heading)" }}>
+            <h3 style={{ fontSize: "22px", color: "var(--title-color)", marginBottom: "24px" }}>
               Explore Other Projects
             </h3>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
@@ -521,36 +417,22 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                   key={op.id}
                   href={`/projects/${op.slug}`}
                   style={{
-                    background: "#ffffff",
+                    backgroundColor: "var(--box-color, rgb(22, 22, 29))",
                     borderRadius: "14px",
                     overflow: "hidden",
-                    boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
-                    border: "1px solid #e2e8f0",
+                    border: "1px solid var(--box-border)",
                     display: "flex",
                     flexDirection: "column",
                     textDecoration: "none",
-                    transition: "transform 0.2s ease",
+                    transition: "transform 0.3s ease",
                   }}
                 >
-                  <div
-                    style={{
-                      height: "100px",
-                      background: op.accent_gradient || "linear-gradient(135deg, #2b3fa7 0%, #14b1ff 100%)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#ffffff",
-                      fontSize: "30px",
-                    }}
-                  >
-                    <i className={op.icon || "fas fa-code"} />
-                  </div>
-                  <div style={{ padding: "16px" }}>
-                    <h4 style={{ fontSize: "16px", color: "var(--secondary-color)", margin: "0 0 6px" }}>
+                  <div style={{ padding: "20px" }}>
+                    <h4 style={{ fontSize: "16px", color: "var(--title-color)", margin: "0 0 8px" }}>
                       {op.title}
                     </h4>
-                    <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>
-                      {op.summary.length > 70 ? op.summary.substring(0, 70) + "..." : op.summary}
+                    <p style={{ fontSize: "13px", color: "var(--text-color)", margin: 0 }}>
+                      {op.summary.length > 80 ? op.summary.substring(0, 80) + "..." : op.summary}
                     </p>
                   </div>
                 </Link>

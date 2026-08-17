@@ -11,7 +11,6 @@ interface ContactProps {
 }
 
 export default function Contact({
-  fullName: _fullName = "Mathan Monishan",
   location = "Thalaimannar, Mannar, Sri Lanka",
   email = "mathanmonishan@gmail.com",
   phone = "+94 76 763 4359",
@@ -56,447 +55,304 @@ export default function Contact({
   }
 
   return (
-    <section id="contact" className="section-wrapper contact-section">
-      <div className="container">
-        {/* Section Header */}
-        <div className="section-header">
-          <div className="section-label">
-            <i className="fas fa-paper-plane" />
-            <span>Get In Touch</span>
+    <section className="contact section" id="contact">
+      <h2 className="section__title" data-heading="Get In Touch">
+        Contact Me
+      </h2>
+
+      <div className="contact__container container grid">
+        {/* Left Column: Contact Cards */}
+        <div className="contact__content">
+          <h3 className="contact__title">Talk to me</h3>
+
+          <div className="contact__info">
+            {/* Email Card */}
+            <div className="contact__card">
+              <i className="fas fa-envelope contact__card-icon" />
+              <h3 className="contact__card-title">Email</h3>
+              <span className="contact__card-data">{email}</span>
+              <a
+                href={`mailto:${email}`}
+                className="contact__button"
+              >
+                <span>Write me</span>
+                <i className="fas fa-arrow-right contact__button-icon" />
+              </a>
+            </div>
+
+            {/* WhatsApp Card */}
+            <div className="contact__card">
+              <i className="fab fa-whatsapp contact__card-icon" />
+              <h3 className="contact__card-title">WhatsApp</h3>
+              <span className="contact__card-data">{phone}</span>
+              <a
+                href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+                  "Hello Monishan! I visited your portfolio and would like to connect."
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact__button"
+              >
+                <span>Chat with me</span>
+                <i className="fas fa-arrow-right contact__button-icon" />
+              </a>
+            </div>
+
+            {/* Location Card */}
+            <div className="contact__card">
+              <i className="fas fa-map-marker-alt contact__card-icon" />
+              <h3 className="contact__card-title">Location</h3>
+              <span className="contact__card-data">{location}</span>
+              <span className="contact__button" style={{ cursor: "default" }}>
+                <span>Global Remote & Relocation</span>
+              </span>
+            </div>
           </div>
-          <h2 className="section-headline">
-            Let&apos;s build something meaningful.
-          </h2>
-          <p className="section-subtext">
-            Available for engineering internships, technical collaborations, AI automation projects, and innovative venture opportunities.
-          </p>
         </div>
 
-        {/* 2-Column Contact Grid */}
-        <div className="contact-grid">
-          {/* Left Column: Direct Channels */}
-          <div className="contact-info-column">
-            <div className="contact-info-card">
-              <h3 className="info-card-title">Direct Channels</h3>
-              <p className="info-card-desc">
-                Feel free to reach out directly through email, phone, or instant WhatsApp messaging.
-              </p>
+        {/* Right Column: Contact Form */}
+        <div className="contact__content">
+          <h3 className="contact__title">Write me your project</h3>
 
-              <div className="channels-list">
-                {/* Email */}
-                <a href={`mailto:${email}`} className="channel-item">
-                  <div className="channel-icon-box email">
-                    <i className="fas fa-envelope" />
-                  </div>
-                  <div>
-                    <div className="channel-label">Email Address</div>
-                    <div className="channel-value">{email}</div>
-                  </div>
-                </a>
-
-                {/* WhatsApp */}
-                <a
-                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-                    "Hello Monishan! I visited your portfolio and would like to connect."
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="channel-item"
-                >
-                  <div className="channel-icon-box whatsapp">
-                    <i className="fab fa-whatsapp" />
-                  </div>
-                  <div>
-                    <div className="channel-label">WhatsApp (Fast Response)</div>
-                    <div className="channel-value">{phone}</div>
-                  </div>
-                </a>
-
-                {/* Location */}
-                <div className="channel-item static">
-                  <div className="channel-icon-box location">
-                    <i className="fas fa-map-marker-alt" />
-                  </div>
-                  <div>
-                    <div className="channel-label">Location & Base</div>
-                    <div className="channel-value">{location}</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Founder Note */}
-              <div className="founder-callout">
-                <div className="callout-header">
-                  <i className="fas fa-rocket text-blue" />
-                  <span>Looking to automate your workflows?</span>
-                </div>
-                <p className="callout-text">
-                  You can also schedule an AI automation discovery call directly for your company or startup through <strong>Pynimox</strong>.
-                </p>
-                <a
-                  href="https://www.pynimox.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="callout-link"
-                >
-                  <span>Explore Pynimox Studio</span>
-                  <i className="fas fa-arrow-right" style={{ fontSize: "11px" }} />
-                </a>
-              </div>
+          {status === "success" && (
+            <div className="contact__alert success">
+              <i className="fas fa-check-circle" />
+              <span>Thank you! Your message has been sent successfully. I will get back to you promptly.</span>
             </div>
-          </div>
+          )}
 
-          {/* Right Column: Fast Inquiry Form */}
-          <div className="contact-form-column">
-            <div className="contact-form-card">
-              <h3 className="form-card-title">Send a Direct Message</h3>
-
-              {status === "success" && (
-                <div className="alert-box success">
-                  <i className="fas fa-check-circle" />
-                  <div>
-                    <strong>Message sent successfully!</strong>
-                    <p>Thank you for reaching out. I will respond to your inquiry promptly.</p>
-                  </div>
-                </div>
-              )}
-
-              {status === "error" && (
-                <div className="alert-box error">
-                  <i className="fas fa-exclamation-circle" />
-                  <div>
-                    <strong>Submission failed</strong>
-                    <p>{errorMessage}</p>
-                  </div>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="inquiry-form">
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="contact-name" className="form-label">
-                      Your Name <span className="req">*</span>
-                    </label>
-                    <input
-                      id="contact-name"
-                      type="text"
-                      required
-                      placeholder="e.g. Alex Morgan"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="form-input"
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="contact-email" className="form-label">
-                      Email Address <span className="req">*</span>
-                    </label>
-                    <input
-                      id="contact-email"
-                      type="email"
-                      required
-                      placeholder="e.g. alex@company.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="form-input"
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="contact-subject" className="form-label">
-                    Subject <span className="req">*</span>
-                  </label>
-                  <input
-                    id="contact-subject"
-                    type="text"
-                    required
-                    placeholder="e.g. Internship Opportunity / Software Project"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="form-input"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="contact-message" className="form-label">
-                    Message <span className="req">*</span>
-                  </label>
-                  <textarea
-                    id="contact-message"
-                    required
-                    rows={5}
-                    placeholder="Describe your project, idea, or role..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="form-textarea"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-primary form-submit-btn"
-                >
-                  {loading ? (
-                    <>
-                      <i className="fas fa-spinner fa-spin" />
-                      <span>Sending Message...</span>
-                    </>
-                  ) : (
-                    <>
-                      <i className="fas fa-paper-plane" />
-                      <span>Send Direct Inquiry</span>
-                    </>
-                  )}
-                </button>
-              </form>
+          {status === "error" && (
+            <div className="contact__alert error">
+              <i className="fas fa-exclamation-circle" />
+              <span>{errorMessage}</span>
             </div>
-          </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="contact__form">
+            <div className="contact__form-div">
+              <label className="contact__form-tag">Names</label>
+              <input
+                type="text"
+                required
+                placeholder="Insert your name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="contact__form-input"
+              />
+            </div>
+
+            <div className="contact__form-div">
+              <label className="contact__form-tag">Mail</label>
+              <input
+                type="email"
+                required
+                placeholder="Insert your email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="contact__form-input"
+              />
+            </div>
+
+            <div className="contact__form-div">
+              <label className="contact__form-tag">Subject</label>
+              <input
+                type="text"
+                required
+                placeholder="Project / Role subject"
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                className="contact__form-input"
+              />
+            </div>
+
+            <div className="contact__form-div contact__form-area">
+              <label className="contact__form-tag">Project</label>
+              <textarea
+                required
+                rows={5}
+                placeholder="Write your project or message..."
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                className="contact__form-input"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="button"
+              style={{ width: "100%", justifyContent: "center" }}
+            >
+              {loading ? (
+                <>
+                  <i className="fas fa-spinner fa-spin" />
+                  <span>Sending...</span>
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-paper-plane" />
+                  <span>Send Message</span>
+                </>
+              )}
+            </button>
+          </form>
         </div>
       </div>
 
       <style jsx>{`
-        .contact-section {
-          background: #ffffff;
-        }
-
-        .contact-grid {
-          display: grid;
-          grid-template-columns: 0.9fr 1.1fr;
-          gap: 36px;
+        .contact__container {
+          grid-template-columns: repeat(2, 1fr);
+          column-gap: 4rem;
           align-items: start;
         }
 
-        .contact-info-card,
-        .contact-form-card {
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 20px;
-          padding: 36px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        .contact__title {
+          text-align: center;
+          font-size: var(--h3-font-size, 1.25rem);
+          margin-bottom: 1.8rem;
+          color: var(--title-color, rgb(241, 241, 243));
         }
 
-        .info-card-title,
-        .form-card-title {
-          font-size: 22px;
-          font-weight: 700;
-          color: #0f172a;
-          margin-bottom: 10px;
-          font-family: var(--font-heading, 'Ubuntu', sans-serif);
+        .contact__info {
+          display: grid;
+          row-gap: 1.2rem;
         }
 
-        .info-card-desc {
-          font-size: 14px;
-          line-height: 1.6;
-          color: #64748b;
-          margin-bottom: 24px;
+        .contact__card {
+          background-color: var(--box-color, rgb(22, 22, 29));
+          padding: 1.25rem;
+          border-radius: 0.75rem;
+          text-align: center;
+          border: 1px solid var(--box-border);
+          transition: all 0.3s ease;
         }
 
-        .channels-list {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          margin-bottom: 28px;
+        .contact__card:hover {
+          background-color: var(--box-color-hover, rgb(28, 28, 38));
+          border-color: var(--box-border-hover);
+          transform: translateY(-4px);
         }
 
-        .channel-item {
-          display: flex;
+        .contact__card-icon {
+          font-size: 1.8rem;
+          color: var(--skin-color, #3482ff);
+          margin-bottom: 0.25rem;
+          display: inline-block;
+        }
+
+        .contact__card-title {
+          font-size: var(--small-font-size, 0.875rem);
+          font-weight: var(--font-medium, 500);
+          color: var(--title-color, rgb(241, 241, 243));
+        }
+
+        .contact__card-data {
+          font-size: var(--smaller-font-size, 0.813rem);
+          display: block;
+          margin-bottom: 0.75rem;
+          color: var(--text-color, rgb(214, 214, 220));
+        }
+
+        .contact__button {
+          color: var(--skin-color, #3482ff);
+          font-size: var(--small-font-size, 0.875rem);
+          display: inline-flex;
           align-items: center;
-          gap: 16px;
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          padding: 16px 20px;
-          border-radius: 14px;
-          text-decoration: none;
-          transition: all 0.25s ease;
+          justify-content: center;
+          column-gap: 0.35rem;
+          font-weight: 500;
         }
 
-        .channel-item:not(.static):hover {
-          border-color: #93c5fd;
-          box-shadow: 0 4px 15px rgba(37, 99, 235, 0.08);
+        .contact__button-icon {
+          font-size: 0.8rem;
+          transition: transform 0.3s ease;
+        }
+
+        .contact__button:hover .contact__button-icon {
           transform: translateX(4px);
         }
 
-        .channel-icon-box {
-          width: 44px;
-          height: 44px;
-          border-radius: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 18px;
-          flex-shrink: 0;
-        }
-
-        .channel-icon-box.email {
-          background: rgba(37, 99, 235, 0.08);
-          color: #2563eb;
-        }
-
-        .channel-icon-box.whatsapp {
-          background: rgba(16, 185, 129, 0.1);
-          color: #059669;
-        }
-
-        .channel-icon-box.location {
-          background: rgba(239, 68, 68, 0.08);
-          color: #dc2626;
-        }
-
-        .channel-label {
-          font-size: 12px;
-          font-weight: 600;
-          color: #64748b;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-        }
-
-        .channel-value {
-          font-size: 14.5px;
-          font-weight: 600;
-          color: #0f172a;
-          margin-top: 2px;
-        }
-
-        .founder-callout {
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          border-radius: 14px;
-          padding: 20px;
-        }
-
-        .callout-header {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 13.5px;
-          font-weight: 700;
-          color: #0f172a;
-          margin-bottom: 6px;
-        }
-
-        .text-blue {
-          color: #2563eb;
-        }
-
-        .callout-text {
-          font-size: 13px;
-          line-height: 1.6;
-          color: #64748b;
-          margin-bottom: 12px;
-        }
-
-        .callout-link {
-          font-size: 13px;
-          font-weight: 600;
-          color: #2563eb;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          transition: gap 0.2s ease;
-        }
-
-        .callout-link:hover {
-          gap: 9px;
-          color: #1d4ed8;
-        }
-
-        /* Form */
-        .inquiry-form {
+        .contact__form {
           display: flex;
           flex-direction: column;
-          gap: 18px;
+          gap: 1.5rem;
         }
 
-        .form-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 16px;
+        .contact__form-div {
+          position: relative;
+          height: 3.5rem;
+          margin-bottom: 0.5rem;
         }
 
-        .form-group {
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-        }
-
-        .form-label {
-          font-size: 13px;
-          font-weight: 600;
-          color: #334155;
-        }
-
-        .req {
-          color: #ef4444;
-        }
-
-        .form-input,
-        .form-textarea {
+        .contact__form-input {
+          position: absolute;
+          top: 0;
+          left: 0;
           width: 100%;
-          background: #ffffff;
-          border: 1px solid #cbd5e1;
-          border-radius: 10px;
-          padding: 12px 16px;
-          font-size: 14px;
-          color: #0f172a;
-          font-family: inherit;
-          transition: all 0.2s ease;
+          height: 100%;
+          color: var(--text-color, rgb(214, 214, 220));
+          background-color: var(--box-color, rgb(22, 22, 29));
+          border: 1px solid var(--box-border);
+          border-radius: 0.75rem;
+          padding: 1rem 1.25rem;
+          font-size: 0.95rem;
+          z-index: 1;
+          transition: border-color 0.3s ease;
         }
 
-        .form-input:focus,
-        .form-textarea:focus {
-          outline: none;
-          border-color: #2563eb;
-          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        .contact__form-input:focus {
+          border-color: var(--skin-color, #3482ff);
+          box-shadow: 0 0 10px rgba(52, 130, 255, 0.25);
         }
 
-        .form-submit-btn {
-          width: 100%;
-          padding: 14px;
-          font-size: 15px;
-          border-radius: 10px;
-          margin-top: 6px;
+        .contact__form-tag {
+          position: absolute;
+          top: -0.75rem;
+          left: 1rem;
+          font-size: var(--smaller-font-size, 0.813rem);
+          padding: 0.25rem 0.5rem;
+          background-color: var(--body-color, rgb(10, 10, 15));
+          color: var(--skin-color, #3482ff);
+          font-weight: 500;
+          z-index: 10;
+          border-radius: 0.25rem;
         }
 
-        .alert-box {
+        .contact__form-area {
+          height: 9rem;
+        }
+
+        .contact__form-area textarea {
+          resize: none;
+          padding-top: 1rem;
+        }
+
+        .contact__alert {
+          padding: 1rem;
+          border-radius: 0.5rem;
+          font-size: 0.88rem;
           display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          padding: 16px;
-          border-radius: 10px;
-          margin-bottom: 20px;
-          font-size: 13.5px;
+          align-items: center;
+          gap: 0.6rem;
+          margin-bottom: 1rem;
         }
 
-        .alert-box.success {
-          background: #ecfdf5;
-          border: 1px solid #a7f3d0;
-          color: #065f46;
+        .contact__alert.success {
+          background-color: rgba(16, 185, 129, 0.15);
+          border: 1px solid #10b981;
+          color: #34d399;
         }
 
-        .alert-box.error {
-          background: #fef2f2;
-          border: 1px solid #fecaca;
-          color: #991b1b;
+        .contact__alert.error {
+          background-color: rgba(239, 68, 68, 0.15);
+          border: 1px solid #ef4444;
+          color: #f87171;
         }
 
-        @media (max-width: 992px) {
-          .contact-grid {
+        @media screen and (max-width: 1024px) {
+          .contact__container {
             grid-template-columns: 1fr;
-          }
-        }
-
-        @media (max-width: 600px) {
-          .form-row {
-            grid-template-columns: 1fr;
-          }
-
-          .contact-info-card,
-          .contact-form-card {
-            padding: 24px 20px;
+            row-gap: 3rem;
           }
         }
       `}</style>

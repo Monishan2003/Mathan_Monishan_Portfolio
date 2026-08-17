@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 
 export interface SkillCategoryItem {
   id: string | number
@@ -9,6 +9,7 @@ export interface SkillCategoryItem {
   skills: Array<{
     id: string | number
     name: string
+    percentage?: number
     icon?: string | null
   }>
 }
@@ -18,29 +19,29 @@ interface SkillsProps {
 }
 
 export default function Skills({ categories = [] }: SkillsProps) {
-  const defaultCategories: SkillCategoryItem[] = [
+  const [activeTab, setActiveTab] = useState<number>(0)
+
+  const defaultCategories = [
     {
       id: "ai-ml",
       name: "AI & Machine Learning",
       icon: "fas fa-brain",
       skills: [
-        { id: "ai-1", name: "LLM APIs (OpenAI / Claude / Gemini)", icon: "fas fa-robot" },
-        { id: "ai-2", name: "Multi-Agent Workflows", icon: "fas fa-project-diagram" },
-        { id: "ai-3", name: "Python & NumPy", icon: "fab fa-python" },
-        { id: "ai-4", name: "RAG & Vector Embeddings", icon: "fas fa-database" },
-        { id: "ai-5", name: "Prompt Engineering", icon: "fas fa-terminal" },
+        { id: "ai-1", name: "LLM APIs & Prompt Engineering", percentage: 95 },
+        { id: "ai-2", name: "Multi-Agent Workflows", percentage: 90 },
+        { id: "ai-3", name: "Python, NumPy & Data Handling", percentage: 88 },
+        { id: "ai-4", name: "RAG & Vector Databases", percentage: 85 },
       ],
     },
     {
       id: "frontend",
-      name: "Frontend Engineering",
+      name: "Frontend Development",
       icon: "fas fa-laptop-code",
       skills: [
-        { id: "fe-1", name: "Next.js 15 & React.js", icon: "fab fa-react" },
-        { id: "fe-2", name: "TypeScript / Modern JS", icon: "fab fa-js" },
-        { id: "fe-3", name: "Tailwind CSS & CSS Modules", icon: "fab fa-css3-alt" },
-        { id: "fe-4", name: "State Management (Zustand/Redux)", icon: "fas fa-code-branch" },
-        { id: "fe-5", name: "Responsive UI / UX Design", icon: "fas fa-mobile-alt" },
+        { id: "fe-1", name: "Next.js 15 & React.js", percentage: 95 },
+        { id: "fe-2", name: "TypeScript / Modern ES6+", percentage: 92 },
+        { id: "fe-3", name: "Tailwind CSS & Responsive UI", percentage: 90 },
+        { id: "fe-4", name: "State Management & Optimization", percentage: 88 },
       ],
     },
     {
@@ -48,35 +49,21 @@ export default function Skills({ categories = [] }: SkillsProps) {
       name: "Backend & Systems",
       icon: "fas fa-server",
       skills: [
-        { id: "be-1", name: "C# & .NET Core / ASP.NET", icon: "fas fa-cube" },
-        { id: "be-2", name: "Node.js & Express.js", icon: "fab fa-node-js" },
-        { id: "be-3", name: "RESTful & Streaming APIs", icon: "fas fa-network-wired" },
-        { id: "be-4", name: "PostgreSQL & SQL Server", icon: "fas fa-database" },
-        { id: "be-5", name: "Supabase & Prisma ORM", icon: "fas fa-bolt" },
+        { id: "be-1", name: "C# & .NET Core / ASP.NET", percentage: 90 },
+        { id: "be-2", name: "Node.js & Express APIs", percentage: 88 },
+        { id: "be-3", name: "Supabase, PostgreSQL & SQL Server", percentage: 92 },
+        { id: "be-4", name: "RESTful & Streaming Architectures", percentage: 90 },
       ],
     },
     {
-      id: "cloud-devops",
-      name: "Cloud & DevOps",
-      icon: "fas fa-cloud",
-      skills: [
-        { id: "cl-1", name: "Amazon Web Services (AWS)", icon: "fab fa-aws" },
-        { id: "cl-2", name: "Vercel Cloud Deployment", icon: "fas fa-globe" },
-        { id: "cl-3", name: "Docker & Containerization", icon: "fab fa-docker" },
-        { id: "cl-4", name: "Git & GitHub CI/CD", icon: "fab fa-github" },
-        { id: "cl-5", name: "Agile & Scrum Methodologies", icon: "fas fa-tasks" },
-      ],
-    },
-    {
-      id: "mechatronics",
+      id: "hardware",
       name: "Hardware & Mechatronics",
       icon: "fas fa-microchip",
       skills: [
-        { id: "me-1", name: "Microcontrollers (Arduino / STM32)", icon: "fas fa-microchip" },
-        { id: "me-2", name: "Sensor & Actuator Interfacing", icon: "fas fa-wave-square" },
-        { id: "me-3", name: "Circuit Design & Prototyping", icon: "fas fa-plug" },
-        { id: "me-4", name: "Control Systems & Robotics", icon: "fas fa-cogs" },
-        { id: "me-5", name: "MATLAB & Simulation", icon: "fas fa-calculator" },
+        { id: "me-1", name: "Microcontrollers (Arduino / STM32)", percentage: 90 },
+        { id: "me-2", name: "Sensors & Actuators Interfacing", percentage: 88 },
+        { id: "me-3", name: "Control Systems & Robotics", percentage: 85 },
+        { id: "me-4", name: "Circuit Design & MATLAB", percentage: 82 },
       ],
     },
   ]
@@ -84,165 +71,159 @@ export default function Skills({ categories = [] }: SkillsProps) {
   const catList = categories.length > 0 ? categories : defaultCategories
 
   return (
-    <section id="skills" className="section-wrapper skills-section">
-      <div className="container">
-        {/* Section Header */}
-        <div className="section-header">
-          <div className="section-label">
-            <i className="fas fa-tools" />
-            <span>Technical Capabilities</span>
-          </div>
-          <h2 className="section-headline">
-            Technology Stack & Toolkit
-          </h2>
-          <p className="section-subtext">
-            A comprehensive overview of programming languages, modern frameworks, cloud architectures, and hardware disciplines I actively use to engineer intelligent systems.
-          </p>
+    <section className="skills section" id="skills">
+      <h2 className="section__title" data-heading="My Abilities">
+        My Skills
+      </h2>
+
+      <div className="skills__container container">
+        {/* Skills Category Tabs */}
+        <div className="skills__tabs">
+          {catList.map((cat, idx) => (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => setActiveTab(idx)}
+              className={`skills__tab-btn ${activeTab === idx ? "active-tab" : ""}`}
+            >
+              <i className={cat.icon || "fas fa-code"} />
+              <span>{cat.name}</span>
+            </button>
+          ))}
         </div>
 
-        {/* Skills Grid */}
-        <div className="skills-categories-grid">
-          {catList.map((cat) => (
-            <div key={cat.id} className="skill-cat-card">
-              {/* Category Header */}
-              <div className="cat-card-header">
-                <div className="cat-title-group">
-                  <div className="cat-icon-box">
-                    <i className={cat.icon || "fas fa-layer-group"} />
-                  </div>
-                  <h3 className="cat-name">{cat.name}</h3>
+        {/* Selected Category Skill Bars */}
+        <div className="skills__content grid">
+          {catList[activeTab]?.skills.map((skill) => {
+            const pct = skill.percentage || 85
+            return (
+              <div key={skill.id} className="skills__data">
+                <div className="skills__titles">
+                  <h3 className="skills__name">{skill.name}</h3>
+                  <span className="skills__number">{pct}%</span>
                 </div>
-                <span className="cat-badge">{cat.skills.length} tools</span>
+                <div className="skills__bar">
+                  <div
+                    className="skills__percentage"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
               </div>
-
-              {/* Skills Chips */}
-              <div className="skills-chips-wrapper">
-                {cat.skills.map((s) => (
-                  <div key={s.id} className="skill-chip">
-                    <i className={s.icon || "fas fa-check"} />
-                    <span>{s.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 
       <style jsx>{`
-        .skills-section {
-          background: #ffffff;
-          border-bottom: 1px solid #e2e8f0;
+        .skills__container {
+          max-width: 900px;
         }
 
-        .skills-categories-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 24px;
-        }
-
-        .skill-cat-card {
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 18px;
-          padding: 24px;
+        .skills__tabs {
           display: flex;
-          flex-direction: column;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 0.85rem;
+          margin-bottom: 3rem;
+        }
+
+        .skills__tab-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          padding: 0.75rem 1.4rem;
+          background-color: var(--box-color, rgb(22, 22, 29));
+          color: var(--text-color, rgb(214, 214, 220));
+          border-radius: 0.5rem;
+          border: 1px solid var(--box-border);
+          font-weight: var(--font-medium, 500);
+          font-size: 0.92rem;
           transition: all 0.3s ease;
         }
 
-        .skill-cat-card:hover {
-          background: #ffffff;
-          border-color: #93c5fd;
-          box-shadow: 0 10px 25px rgba(37, 99, 235, 0.08);
-          transform: translateY(-3px);
+        .skills__tab-btn:hover {
+          background-color: var(--box-color-hover, rgb(28, 28, 38));
+          color: var(--skin-color, #3482ff);
+          border-color: var(--box-border-hover);
         }
 
-        .cat-card-header {
+        .skills__tab-btn.active-tab {
+          background-color: var(--skin-color, #3482ff);
+          color: #ffffff;
+          border-color: var(--skin-color, #3482ff);
+          box-shadow: 0 4px 15px rgba(52, 130, 255, 0.35);
+        }
+
+        .skills__content {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 2rem 3rem;
+          background-color: var(--box-color, rgb(22, 22, 29));
+          padding: 2.5rem;
+          border-radius: 1.25rem;
+          border: 1px solid var(--box-border);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .skills__data {
           display: flex;
-          align-items: center;
+          flex-direction: column;
+        }
+
+        .skills__titles {
+          display: flex;
           justify-content: space-between;
-          margin-bottom: 18px;
-          padding-bottom: 14px;
-          border-bottom: 1px solid #e2e8f0;
+          margin-bottom: 0.6rem;
         }
 
-        .cat-title-group {
-          display: flex;
-          align-items: center;
-          gap: 10px;
+        .skills__name {
+          font-size: var(--normal-font-size, 1rem);
+          font-weight: var(--font-medium, 500);
+          color: var(--title-color, rgb(241, 241, 243));
         }
 
-        .cat-icon-box {
-          width: 36px;
-          height: 36px;
-          border-radius: 8px;
-          background: rgba(37, 99, 235, 0.08);
-          color: #2563eb;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 15px;
-        }
-
-        .cat-name {
-          font-size: 16px;
-          font-weight: 700;
-          color: #0f172a;
-          margin: 0;
-          font-family: var(--font-heading, 'Ubuntu', sans-serif);
-        }
-
-        .cat-badge {
-          font-size: 11px;
+        .skills__number {
+          font-size: var(--small-font-size, 0.875rem);
           font-weight: 600;
-          color: #64748b;
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          padding: 2px 8px;
-          border-radius: 100px;
+          color: var(--skin-color, #3482ff);
         }
 
-        .skills-chips-wrapper {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
+        .skills__bar {
+          height: 8px;
+          background-color: rgba(255, 255, 255, 0.08);
+          border-radius: 4px;
+          overflow: hidden;
+          position: relative;
         }
 
-        .skill-chip {
-          display: inline-flex;
-          align-items: center;
-          gap: 7px;
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          padding: 7px 12px;
-          border-radius: 8px;
-          font-size: 12.5px;
-          font-weight: 600;
-          color: #334155;
-          transition: all 0.2s ease;
+        .skills__percentage {
+          height: 100%;
+          border-radius: 4px;
+          background: linear-gradient(90deg, #1b7be2, #3482ff);
+          position: relative;
+          transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .skill-chip i {
-          color: #2563eb;
-          font-size: 13px;
+        .skills__percentage::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.35),
+            transparent
+          );
+          background-size: 200% 100%;
+          animation: shimmer 2.5s infinite;
         }
 
-        .skill-chip:hover {
-          border-color: #2563eb;
-          color: #2563eb;
-          transform: translateY(-1px);
-        }
-
-        @media (max-width: 992px) {
-          .skills-categories-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (max-width: 600px) {
-          .skills-categories-grid {
+        @media screen and (max-width: 768px) {
+          .skills__content {
             grid-template-columns: 1fr;
+            padding: 1.5rem;
           }
         }
       `}</style>

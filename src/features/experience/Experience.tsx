@@ -31,37 +31,33 @@ export default function Experience({ items = [] }: ExperienceProps) {
       role: "Founder & Lead Full-Stack / AI Engineer",
       employment_type: "Founder Venture",
       location: "Remote / Global",
-      work_mode: "Global Clients",
       company_url: "https://www.pynimox.com",
       start_date: "2025 – Present",
       is_current: true,
       description:
-        "Founded and currently lead Pynimox, an AI automation and full-stack engineering studio serving international clients. Architect and deliver production-ready software systems end-to-end with low-latency LLM agent integrations.",
+        "Founded and lead Pynimox, an AI automation studio delivering multi-agent LLM systems, streaming APIs, and production full-stack web applications for global clients.",
       highlights: [
-        "Architected and deployed custom multi-agent LLM systems and customer support bots with real-time streaming.",
-        "Built production web and mobile applications using Next.js, TypeScript, Supabase, and cloud microservices.",
-        "Managed end-to-end client discovery, technical scoping, sprint execution, and automated deployment pipelines.",
+        "Architected multi-agent LLM pipelines with real-time streaming and custom business automations.",
+        "Engineered scalable web applications using Next.js, TypeScript, Supabase, and cloud services.",
       ],
-      tech_stack: ["Next.js", "TypeScript", "Python", "Supabase", "LLM APIs", "AWS", "Tailwind CSS"],
+      tech_stack: ["Next.js", "TypeScript", "Python", "Supabase", "LLM APIs", "Tailwind CSS"],
       is_founder: true,
     },
     {
       id: 2,
       company: "NF Group of Companies",
       role: "Full-Stack Developer",
-      employment_type: "Professional Role",
+      employment_type: "Commercial",
       location: "Hybrid, Sri Lanka",
-      work_mode: "Hybrid",
       start_date: "2025 – Present",
       is_current: true,
       description:
-        "Develop full-stack web and mobile applications, RESTful APIs, and enterprise modules for retail, plantation, and ERP management systems.",
+        "Develop enterprise web applications, RESTful APIs, and ERP modules for retail, agricultural, and management systems.",
       highlights: [
-        "Built and maintained core web properties: NFPlantation.com, NaturePlantation.lk, NFFarming.lk, and NF Farming App.",
-        "Engineered backend RESTful APIs and modules for enterprise POS & ERP systems using ASP.NET Core and SQL Server.",
-        "Collaborated in cross-functional Agile sprint teams to enhance UI/UX, database normalization, and release stability.",
+        "Engineered backend RESTful APIs and modules for enterprise POS & ERP using ASP.NET Core & SQL Server.",
+        "Built core web properties: NFPlantation.com, NaturePlantation.lk, NFFarming.lk, and Flutter mobile apps.",
       ],
-      tech_stack: ["ASP.NET Core", "Next.js", "React.js", "Flutter", "SQL Server", "MongoDB", "AWS"],
+      tech_stack: ["ASP.NET Core", "Next.js", "React", "Flutter", "SQL Server", "AWS"],
       is_founder: false,
     },
     {
@@ -70,16 +66,14 @@ export default function Experience({ items = [] }: ExperienceProps) {
       role: "Project Volunteer (Social Impact)",
       employment_type: "Volunteer",
       location: "Mannar District, Sri Lanka",
-      work_mode: "On-site",
       start_date: "Jul 2024 – Oct 2024",
       is_current: false,
       description:
-        "Contributed to a community-focused social impact initiative addressing school dropout rates and youth empowerment in Mannar District.",
+        "Contributed to structured project planning, requirement analysis, and youth empowerment initiatives in Mannar District.",
       highlights: [
-        "Assisted in structured project planning, requirement analysis, and documentation using Agile methodologies.",
-        "Coordinated with diverse stakeholders, community leaders, and multidisciplinary teams to track progress milestones.",
+        "Assisted in Agile sprint planning, stakeholder alignment, and initiative documentation.",
       ],
-      tech_stack: ["Project Management", "Agile / Scrum", "Documentation", "Stakeholder Coordination"],
+      tech_stack: ["Project Management", "Agile / Scrum", "Community Engagement"],
       is_founder: false,
     },
   ]
@@ -87,92 +81,78 @@ export default function Experience({ items = [] }: ExperienceProps) {
   const expList = items.length > 0 ? items : defaultExperiences
 
   return (
-    <section id="experience" className="section-wrapper experience-section">
-      <div className="container">
-        {/* Section Header */}
-        <div className="section-header">
-          <div className="section-label">
-            <i className="fas fa-briefcase" />
-            <span>Work & Engineering Experience</span>
-          </div>
-          <h2 className="section-headline">
-            Professional Track Record & Ventures
-          </h2>
-          <p className="section-subtext">
-            Hands-on commercial engineering experience spanning enterprise applications, startup venture leadership at Pynimox, and production software delivery.
-          </p>
-        </div>
+    <section className="experience section" id="experience">
+      <h2 className="section__title" data-heading="Track Record">
+        Experience & Ventures
+      </h2>
 
-        {/* Experience Cards Stack */}
-        <div className="experience-stack">
+      <div className="experience__container container">
+        <div className="experience__timeline">
           {expList.map((exp) => (
             <div
               key={exp.id}
-              className={`exp-card ${exp.is_founder ? "founder-highlight" : ""}`}
+              className={`experience__card ${exp.is_founder ? "founder-card" : ""}`}
             >
-              {/* Top Header */}
-              <div className="exp-top-row">
+              {/* Timeline Dot */}
+              <div className="timeline__dot" />
+
+              {/* Card Header */}
+              <div className="experience__header">
                 <div>
-                  <div className="exp-role-row">
-                    <h3 className="exp-role-title">{exp.role}</h3>
+                  <div className="role__row">
+                    <h3 className="experience__role">{exp.role}</h3>
                     {exp.is_founder && (
-                      <span className="founder-badge">
-                        <i className="fas fa-crown" style={{ fontSize: "10px" }} />
-                        <span>Own Venture</span>
+                      <span className="founder__badge">
+                        <i className="fas fa-crown" /> Own Venture
                       </span>
                     )}
                   </div>
-
-                  <div className="exp-company-info">
-                    <span className="exp-company-name">{exp.company}</span>
-                    <span className="dot-sep">·</span>
-                    <span className="exp-location">{exp.location}</span>
+                  <div className="company__row">
+                    <span className="company__name">{exp.company}</span>
+                    <span className="bullet-sep">•</span>
+                    <span className="company__loc">{exp.location}</span>
                   </div>
                 </div>
 
-                <div className="exp-meta-actions">
-                  <span className="exp-date-badge">
-                    <i className="far fa-calendar-alt" style={{ marginRight: "6px" }} />
-                    {exp.start_date}
+                <div className="date__actions">
+                  <span className="experience__date">
+                    <i className="far fa-calendar-alt" /> {exp.start_date}
                   </span>
                   {exp.company_url && (
                     <a
                       href={exp.company_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="exp-visit-btn"
+                      className="visit__link"
                     >
                       <span>Visit</span>
-                      <i className="fas fa-external-link-alt" style={{ fontSize: "10px" }} />
+                      <i className="fas fa-external-link-alt" />
                     </a>
                   )}
                 </div>
               </div>
 
               {/* Description */}
-              <p className="exp-description">{exp.description}</p>
+              <p className="experience__desc">{exp.description}</p>
 
-              {/* Key Deliverables */}
-              {exp.highlights && exp.highlights.length > 0 && (
-                <div className="exp-highlights-box">
-                  <div className="highlights-title">Key Deliverables & Responsibilities</div>
-                  <ul className="highlights-list">
-                    {exp.highlights.map((h, hIdx) => (
-                      <li key={hIdx} className="highlight-item">
-                        <i className="fas fa-check-circle text-blue check-icon" />
-                        <span>{h}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              {/* Highlights */}
+              {exp.highlights && (
+                <ul className="experience__highlights">
+                  {exp.highlights.map((h, hIdx) => (
+                    <li key={hIdx} className="highlight__item">
+                      <i className="fas fa-check-circle check-icon" />
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
               )}
 
-              {/* Tech Stack Chips */}
-              {exp.tech_stack && exp.tech_stack.length > 0 && (
-                <div className="exp-tech-row">
-                  {exp.tech_stack.map((tech, tIdx) => (
-                    <span key={tIdx} className="tech-badge-sm">
-                      {tech}
+              {/* Tech Stack */}
+              {exp.tech_stack && (
+                <div className="experience__tech">
+                  {exp.tech_stack.map((t, tIdx) => (
+                    <span key={tIdx} className="tech__chip">
+                      {t}
                     </span>
                   ))}
                 </div>
@@ -183,220 +163,206 @@ export default function Experience({ items = [] }: ExperienceProps) {
       </div>
 
       <style jsx>{`
-        .experience-section {
-          background: #f8fafc;
+        .experience__container {
+          max-width: 900px;
         }
 
-        .experience-stack {
+        .experience__timeline {
+          position: relative;
+          border-left: 2px solid rgba(255, 255, 255, 0.08);
+          padding-left: 2.2rem;
+          margin-left: 1rem;
           display: flex;
           flex-direction: column;
-          gap: 28px;
-          max-width: 900px;
-          margin: 0 auto;
+          gap: 2.5rem;
         }
 
-        .exp-card {
-          background: #ffffff;
-          border-radius: 20px;
-          padding: 32px 36px;
-          border: 1px solid #e2e8f0;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        .experience__card {
+          background-color: var(--box-color, rgb(22, 22, 29));
+          border: 1px solid var(--box-border);
+          border-radius: 1rem;
+          padding: 2rem;
+          position: relative;
           transition: all 0.3s ease;
         }
 
-        .exp-card:hover {
-          border-color: #cbd5e1;
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-          transform: translateY(-2px);
+        .experience__card:hover {
+          background-color: var(--box-color-hover, rgb(28, 28, 38));
+          border-color: var(--box-border-hover);
+          transform: translateX(6px);
         }
 
-        .exp-card.founder-highlight {
-          border-color: #93c5fd;
-          box-shadow: 0 8px 30px rgba(37, 99, 235, 0.1);
-          background: linear-gradient(180deg, #ffffff 0%, #f0f7ff 100%);
+        .experience__card.founder-card {
+          border-color: rgba(52, 130, 255, 0.4);
+          background: linear-gradient(180deg, rgb(22, 22, 29) 0%, rgba(27, 123, 226, 0.08) 100%);
         }
 
-        .exp-card.founder-highlight:hover {
-          border-color: #3b82f6;
-          box-shadow: 0 16px 40px rgba(37, 99, 235, 0.16);
+        .timeline__dot {
+          position: absolute;
+          left: -2.85rem;
+          top: 2rem;
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background-color: var(--skin-color, #3482ff);
+          border: 3px solid var(--body-color, rgb(10, 10, 15));
+          box-shadow: 0 0 10px var(--skin-color, #3482ff);
         }
 
-        .exp-top-row {
+        .experience__header {
           display: flex;
-          align-items: flex-start;
           justify-content: space-between;
-          gap: 20px;
-          margin-bottom: 18px;
-          padding-bottom: 18px;
-          border-bottom: 1px solid #f1f5f9;
+          align-items: flex-start;
+          gap: 1rem;
+          margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .exp-role-row {
+        .role__row {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 0.75rem;
           flex-wrap: wrap;
         }
 
-        .exp-role-title {
-          font-size: 22px;
-          font-weight: 700;
-          color: #0f172a;
-          margin: 0;
-          font-family: var(--font-heading, 'Ubuntu', sans-serif);
+        .experience__role {
+          font-size: 1.15rem;
+          color: var(--title-color, rgb(241, 241, 243));
+          font-weight: 600;
         }
 
-        .founder-badge {
-          background: #2563eb;
+        .founder__badge {
+          font-size: 0.75rem;
+          font-weight: 600;
           color: #ffffff;
-          font-size: 11.5px;
-          font-weight: 700;
-          padding: 3px 10px;
+          background-color: var(--skin-color, #3482ff);
+          padding: 0.2rem 0.6rem;
           border-radius: 100px;
           display: inline-flex;
           align-items: center;
-          gap: 6px;
-          box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+          gap: 0.35rem;
         }
 
-        .exp-company-info {
+        .company__row {
           display: flex;
           align-items: center;
-          gap: 8px;
-          margin-top: 6px;
-          font-size: 14.5px;
+          gap: 0.5rem;
+          margin-top: 0.35rem;
+          font-size: 0.9rem;
+        }
+
+        .company__name {
+          color: var(--skin-color, #3482ff);
           font-weight: 500;
         }
 
-        .exp-company-name {
-          color: #2563eb;
-          font-weight: 600;
+        .bullet-sep {
+          color: var(--text-muted);
         }
 
-        .dot-sep {
-          color: #cbd5e1;
+        .company__loc {
+          color: var(--text-muted);
         }
 
-        .exp-location {
-          color: #64748b;
-        }
-
-        .exp-meta-actions {
+        .date__actions {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 0.75rem;
           flex-shrink: 0;
         }
 
-        .exp-date-badge {
-          font-size: 12.5px;
-          font-weight: 600;
-          color: #475569;
-          background: #f1f5f9;
-          border: 1px solid #e2e8f0;
-          padding: 6px 12px;
-          border-radius: 8px;
+        .experience__date {
+          font-size: 0.82rem;
+          color: var(--text-muted);
+          background-color: rgba(255, 255, 255, 0.04);
+          padding: 0.4rem 0.8rem;
+          border-radius: 0.4rem;
+          border: 1px solid rgba(255, 255, 255, 0.05);
           white-space: nowrap;
-        }
-
-        .exp-visit-btn {
-          font-size: 12.5px;
-          font-weight: 600;
-          color: #2563eb;
-          background: rgba(37, 99, 235, 0.08);
-          border: 1px solid rgba(37, 99, 235, 0.2);
-          padding: 6px 12px;
-          border-radius: 8px;
-          text-decoration: none;
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 0.4rem;
+        }
+
+        .visit__link {
+          font-size: 0.82rem;
+          font-weight: 500;
+          color: var(--skin-color, #3482ff);
+          background-color: rgba(52, 130, 255, 0.1);
+          padding: 0.4rem 0.8rem;
+          border-radius: 0.4rem;
+          border: 1px solid rgba(52, 130, 255, 0.25);
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
           transition: all 0.2s ease;
         }
 
-        .exp-visit-btn:hover {
-          background: #2563eb;
+        .visit__link:hover {
+          background-color: var(--skin-color, #3482ff);
           color: #ffffff;
         }
 
-        .exp-description {
-          font-size: 15px;
+        .experience__desc {
+          font-size: 0.95rem;
           line-height: 1.7;
-          color: #475569;
-          margin-bottom: 20px;
+          color: var(--text-color, rgb(214, 214, 220));
+          margin-bottom: 1.2rem;
         }
 
-        .exp-highlights-box {
-          margin-bottom: 22px;
-        }
-
-        .highlights-title {
-          font-size: 12px;
-          font-weight: 700;
-          color: #334155;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          margin-bottom: 10px;
-        }
-
-        .highlights-list {
+        .experience__highlights {
           list-style: none;
-          padding: 0;
-          margin: 0;
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 0.6rem;
+          margin-bottom: 1.4rem;
         }
 
-        .highlight-item {
+        .highlight__item {
           display: flex;
           align-items: flex-start;
-          gap: 10px;
-          font-size: 14px;
+          gap: 0.6rem;
+          font-size: 0.9rem;
+          color: var(--text-color, rgb(214, 214, 220));
           line-height: 1.6;
-          color: #475569;
         }
 
         .check-icon {
-          font-size: 13px;
-          margin-top: 4px;
+          color: var(--skin-color, #3482ff);
+          font-size: 0.85rem;
+          margin-top: 0.3rem;
           flex-shrink: 0;
         }
 
-        .text-blue {
-          color: #2563eb;
-        }
-
-        .exp-tech-row {
+        .experience__tech {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
-          padding-top: 18px;
-          border-top: 1px solid #f1f5f9;
+          gap: 0.5rem;
         }
 
-        .tech-badge-sm {
-          font-size: 11.5px;
-          font-weight: 600;
-          color: #334155;
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
-          padding: 4px 10px;
-          border-radius: 6px;
+        .tech__chip {
+          font-size: 0.78rem;
+          font-weight: 500;
+          color: var(--title-color, rgb(241, 241, 243));
+          background-color: rgba(255, 255, 255, 0.05);
+          padding: 0.25rem 0.7rem;
+          border-radius: 0.35rem;
+          border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        @media (max-width: 768px) {
-          .exp-card {
-            padding: 24px 20px;
+        @media screen and (max-width: 768px) {
+          .experience__timeline {
+            padding-left: 1.5rem;
+            margin-left: 0.5rem;
           }
 
-          .exp-top-row {
+          .timeline__dot {
+            left: -2.15rem;
+          }
+
+          .experience__header {
             flex-direction: column;
-            gap: 12px;
-          }
-
-          .exp-role-title {
-            font-size: 19px;
           }
         }
       `}</style>

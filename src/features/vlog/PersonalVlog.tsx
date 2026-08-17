@@ -37,7 +37,7 @@ export default function PersonalVlog({ items = [] }: PersonalVlogProps) {
         "A video walkthrough of how I founded Pynimox, architected the multi-agent LLM pipeline, and built the client delivery infrastructure.",
       video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
       cover_image_url: "/projects/pynimox.jpg",
-      tags: ["AI Studio", "Venture", "Architecture", "Next.js"],
+      tags: ["AI Studio", "Venture", "Architecture"],
       content:
         "In this video log, I walk through the complete journey of launching Pynimox. We discuss handling real-time streaming LLM responses, managing client workflows, and creating production-ready microservices.",
     },
@@ -50,7 +50,7 @@ export default function PersonalVlog({ items = [] }: PersonalVlogProps) {
       summary:
         "Reflections on my dual-degree journey: Combining software engineering rigor (APIs, databases, React) with sensor robotics and hardware control.",
       cover_image_url: "/projects/unisphere.jpg",
-      tags: ["Mechatronics", "Engineering", "Robotics", "Full-Stack"],
+      tags: ["Mechatronics", "Engineering", "Robotics"],
       content:
         "Engineering intelligent physical systems requires strong foundations in both bits and atoms. My academic specialization in Mechatronics at Uva Wellassa University coupled with Information Technology at University of Moratuwa gives me a unique perspective on bridging software intelligence with mechanical actuators and sensor networks.",
     },
@@ -69,22 +69,9 @@ export default function PersonalVlog({ items = [] }: PersonalVlogProps) {
         "/projects/srmj.jpg",
         "/projects/unisphere.jpg",
       ],
-      tags: ["Hardware", "Circuits", "Lab Work", "University"],
+      tags: ["Hardware", "Circuits", "Lab Work"],
       content:
         "A photo collection documenting hands-on laboratory experiments, electronic circuitry design, sensor calibrations, and mechatronic prototypes.",
-    },
-    {
-      id: "vlog-4",
-      title: "Architecting High-Throughput E-Commerce on Next.js 15 & Supabase",
-      category: "article",
-      date: "Nov 2025",
-      read_time: "4 min read",
-      summary:
-        "Deep dive into state management, Stripe payment webhooks, database indexing, and server components for SRMJ Enterprises.",
-      cover_image_url: "/projects/srmj.jpg",
-      tags: ["Next.js 15", "Supabase", "Stripe", "Performance"],
-      content:
-        "When building SRMJ Enterprises, the priority was sub-second page loads and zero transaction drops. By leveraging Next.js 15 App Router server caching and PostgreSQL row-level security, we achieved exceptional performance.",
     },
   ]
 
@@ -95,35 +82,25 @@ export default function PersonalVlog({ items = [] }: PersonalVlogProps) {
       : vlogList.filter((item) => item.category === activeFilter)
 
   return (
-    <section id="vlog" className="section-wrapper vlog-section">
-      <div className="container">
-        {/* Section Header */}
-        <div className="section-header">
-          <div className="section-label">
-            <i className="fas fa-video" />
-            <span>Personal Vlog & Engineering Logs</span>
-          </div>
-          <h2 className="section-headline">
-            Behind the Code & Lab Moments
-          </h2>
-          <p className="section-subtext">
-            Personal video vlogs, engineering reflections, technical write-ups, and snapshots from my journey across AI engineering, startup building, and mechatronics.
-          </p>
-        </div>
+    <section className="vlog section" id="vlog">
+      <h2 className="section__title" data-heading="Behind the Code">
+        Personal Vlog & Logs
+      </h2>
 
+      <div className="vlog__container container">
         {/* Filter Tabs */}
-        <div className="filter-tabs-row">
+        <div className="vlog__filters">
           <button
             type="button"
             onClick={() => setActiveFilter("all")}
-            className={`filter-btn ${activeFilter === "all" ? "active" : ""}`}
+            className={`vlog__filter-btn ${activeFilter === "all" ? "active-filter" : ""}`}
           >
-            All Logs & Vlogs ({vlogList.length})
+            All Logs ({vlogList.length})
           </button>
           <button
             type="button"
             onClick={() => setActiveFilter("vlog")}
-            className={`filter-btn ${activeFilter === "vlog" ? "active" : ""}`}
+            className={`vlog__filter-btn ${activeFilter === "vlog" ? "active-filter" : ""}`}
           >
             <i className="fas fa-play" style={{ fontSize: "10px" }} />
             <span>Video Vlogs</span>
@@ -131,7 +108,7 @@ export default function PersonalVlog({ items = [] }: PersonalVlogProps) {
           <button
             type="button"
             onClick={() => setActiveFilter("article")}
-            className={`filter-btn ${activeFilter === "article" ? "active" : ""}`}
+            className={`vlog__filter-btn ${activeFilter === "article" ? "active-filter" : ""}`}
           >
             <i className="fas fa-newspaper" style={{ fontSize: "10px" }} />
             <span>Engineering Notes</span>
@@ -139,113 +116,97 @@ export default function PersonalVlog({ items = [] }: PersonalVlogProps) {
           <button
             type="button"
             onClick={() => setActiveFilter("gallery")}
-            className={`filter-btn ${activeFilter === "gallery" ? "active" : ""}`}
+            className={`vlog__filter-btn ${activeFilter === "gallery" ? "active-filter" : ""}`}
           >
             <i className="fas fa-camera" style={{ fontSize: "10px" }} />
-            <span>Photo & Lab Gallery</span>
+            <span>Photo Gallery</span>
           </button>
         </div>
 
-        {/* Logs Grid */}
-        <div className="vlogs-grid">
+        {/* Vlog Cards Grid */}
+        <div className="vlog__grid grid">
           {filteredList.map((item) => (
-            <div key={item.id} className="vlog-card">
-              <div className="vlog-card-body">
-                {/* Media Header */}
-                <div className="vlog-media-box">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={item.cover_image_url || "/projects/pynimox.jpg"}
-                    alt={item.title}
-                    className="vlog-cover-img"
-                  />
+            <div key={item.id} className="vlog__card">
+              {/* Media Box */}
+              <div className="vlog__img-box">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.cover_image_url || "/projects/pynimox.jpg"}
+                  alt={item.title}
+                  className="vlog__img"
+                />
 
-                  {/* Category Badge */}
-                  <span className={`vlog-cat-badge ${item.category}`}>
-                    <i
-                      className={`fas ${
-                        item.category === "vlog"
-                          ? "fa-play"
-                          : item.category === "article"
-                          ? "fa-pen-fancy"
-                          : "fa-images"
-                      }`}
-                      style={{ fontSize: "9px" }}
-                    />
-                    <span>
-                      {item.category === "vlog"
-                        ? "Video Vlog"
+                <span className={`vlog__cat-pill ${item.category}`}>
+                  <i
+                    className={`fas ${
+                      item.category === "vlog"
+                        ? "fa-play"
                         : item.category === "article"
-                        ? "Engineering Note"
-                        : "Photo Gallery"}
-                    </span>
+                        ? "fa-pen-fancy"
+                        : "fa-images"
+                    }`}
+                  />
+                  <span>
+                    {item.category === "vlog"
+                      ? "Video Vlog"
+                      : item.category === "article"
+                      ? "Engineering Note"
+                      : "Photo Gallery"}
                   </span>
+                </span>
 
-                  {/* Video Play Overlay */}
-                  {item.category === "vlog" && item.video_url && (
-                    <button
-                      type="button"
-                      onClick={() => setSelectedVideo(item.video_url || null)}
-                      className="vlog-play-btn"
-                      aria-label="Play video"
-                    >
-                      <i className="fas fa-play" style={{ marginLeft: "2px" }} />
-                    </button>
-                  )}
-                </div>
-
-                {/* Content Box */}
-                <div className="vlog-info">
-                  <div className="vlog-meta-row">
-                    <span>{item.date}</span>
-                    <span>{item.read_time}</span>
-                  </div>
-
-                  <h3 className="vlog-title">{item.title}</h3>
-                  <p className="vlog-summary">{item.summary}</p>
-
-                  {item.tags && (
-                    <div className="vlog-tags-row">
-                      {item.tags.map((tag, tIdx) => (
-                        <span key={tIdx} className="vlog-tag">
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Action Button at bottom */}
-              <div className="vlog-card-action">
-                {item.category === "vlog" && item.video_url ? (
+                {item.category === "vlog" && item.video_url && (
                   <button
                     type="button"
                     onClick={() => setSelectedVideo(item.video_url || null)}
-                    className="vlog-action-btn vlog-btn"
+                    className="vlog__play-btn"
+                    aria-label="Play video"
                   >
-                    <i className="fas fa-play" style={{ fontSize: "10px" }} />
-                    <span>Watch Video Vlog</span>
-                  </button>
-                ) : item.category === "gallery" ? (
-                  <button
-                    type="button"
-                    onClick={() => setSelectedImage(item.cover_image_url || "/projects/pynimox.jpg")}
-                    className="vlog-action-btn gallery-btn"
-                  >
-                    <i className="fas fa-images" style={{ fontSize: "10px" }} />
-                    <span>View Photo Gallery</span>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setActiveArticle(item)}
-                    className="vlog-action-btn article-btn"
-                  >
-                    <i className="fas fa-book-open" style={{ fontSize: "10px" }} />
-                    <span>Read Full Note</span>
+                    <i className="fas fa-play" />
                   </button>
                 )}
+              </div>
+
+              {/* Data Content */}
+              <div className="vlog__data">
+                <div className="vlog__meta">
+                  <span>{item.date}</span>
+                  <span>{item.read_time}</span>
+                </div>
+
+                <h3 className="vlog__card-title">{item.title}</h3>
+                <p className="vlog__card-desc">{item.summary}</p>
+
+                <div className="vlog__actions">
+                  {item.category === "vlog" && item.video_url ? (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedVideo(item.video_url || null)}
+                      className="vlog__btn-link"
+                    >
+                      <span>Watch Video</span>
+                      <i className="fas fa-play" style={{ fontSize: "10px" }} />
+                    </button>
+                  ) : item.category === "gallery" ? (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedImage(item.cover_image_url || "/projects/pynimox.jpg")}
+                      className="vlog__btn-link"
+                    >
+                      <span>View Gallery</span>
+                      <i className="fas fa-images" style={{ fontSize: "10px" }} />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setActiveArticle(item)}
+                      className="vlog__btn-link"
+                    >
+                      <span>Read Note</span>
+                      <i className="fas fa-arrow-right" style={{ fontSize: "10px" }} />
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))}
@@ -254,23 +215,17 @@ export default function PersonalVlog({ items = [] }: PersonalVlogProps) {
 
       {/* Video Modal Player */}
       {selectedVideo && (
-        <div className="modal-backdrop" onClick={() => setSelectedVideo(null)}>
-          <div className="modal-video-card" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <span className="modal-title">Personal Video Vlog Player</span>
-              <button
-                type="button"
-                onClick={() => setSelectedVideo(null)}
-                className="modal-close-btn"
-              >
-                <i className="fas fa-times" />
-              </button>
+        <div className="vlog__modal" onClick={() => setSelectedVideo(null)}>
+          <div className="vlog__modal-video" onClick={(e) => e.stopPropagation()}>
+            <div className="vlog__modal-header">
+              <span>Personal Video Vlog</span>
+              <i className="fas fa-times close-icon" onClick={() => setSelectedVideo(null)} />
             </div>
-            <div className="modal-video-frame">
+            <div className="vlog__iframe-wrapper">
               <iframe
                 src={selectedVideo}
-                title="Personal Video Vlog"
-                className="iframe-player"
+                title="Personal Video"
+                className="vlog__iframe"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
@@ -279,406 +234,297 @@ export default function PersonalVlog({ items = [] }: PersonalVlogProps) {
         </div>
       )}
 
-      {/* Image Lightbox Modal */}
+      {/* Image Lightbox */}
       {selectedImage && (
-        <div className="modal-backdrop" onClick={() => setSelectedImage(null)}>
-          <div className="modal-lightbox-card" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              onClick={() => setSelectedImage(null)}
-              className="lightbox-close"
-            >
-              <i className="fas fa-times" />
-            </button>
+        <div className="vlog__modal" onClick={() => setSelectedImage(null)}>
+          <div className="vlog__modal-lightbox" onClick={(e) => e.stopPropagation()}>
+            <i className="fas fa-times lightbox-close" onClick={() => setSelectedImage(null)} />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={selectedImage} alt="Full view" className="lightbox-img" />
           </div>
         </div>
       )}
 
-      {/* Article Detail Modal */}
+      {/* Article Modal */}
       {activeArticle && (
-        <div className="modal-backdrop" onClick={() => setActiveArticle(null)}>
-          <div className="modal-article-card" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header-simple">
-              <span className="article-tag-label">Engineering Note · {activeArticle.date}</span>
-              <button
-                type="button"
-                onClick={() => setActiveArticle(null)}
-                className="modal-close-btn"
-                style={{ color: "#64748b" }}
-              >
-                <i className="fas fa-times" />
-              </button>
+        <div className="vlog__modal" onClick={() => setActiveArticle(null)}>
+          <div className="vlog__modal-article" onClick={(e) => e.stopPropagation()}>
+            <div className="vlog__modal-header">
+              <span style={{ color: "var(--skin-color)" }}>Engineering Note · {activeArticle.date}</span>
+              <i className="fas fa-times close-icon" onClick={() => setActiveArticle(null)} />
             </div>
-            <h3 className="article-modal-title">{activeArticle.title}</h3>
-            <p className="article-modal-content">
-              {activeArticle.content || activeArticle.summary}
-            </p>
-            <div style={{ paddingTop: "16px", borderTop: "1px solid #f1f5f9", textAlign: "right" }}>
-              <button
-                type="button"
-                onClick={() => setActiveArticle(null)}
-                className="btn-secondary"
-              >
-                Close Note
-              </button>
-            </div>
+            <h3 className="article-title">{activeArticle.title}</h3>
+            <p className="article-body">{activeArticle.content || activeArticle.summary}</p>
           </div>
         </div>
       )}
 
       <style jsx>{`
-        .vlog-section {
-          background: #f8fafc;
-          border-bottom: 1px solid #e2e8f0;
-        }
-
-        .filter-tabs-row {
+        .vlog__filters {
           display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.75rem;
+          margin-bottom: 2.8rem;
           flex-wrap: wrap;
-          gap: 10px;
-          margin-bottom: 36px;
-          padding-bottom: 16px;
-          border-bottom: 1px solid #e2e8f0;
         }
 
-        .filter-btn {
-          font-size: 13px;
-          font-weight: 600;
-          padding: 8px 16px;
-          border-radius: 8px;
-          border: 1px solid #e2e8f0;
-          background: #ffffff;
-          color: #475569;
-          cursor: pointer;
+        .vlog__filter-btn {
+          padding: 0.5rem 1.2rem;
+          color: var(--title-color, rgb(241, 241, 243));
+          font-weight: var(--font-medium, 500);
+          font-size: 0.9rem;
+          border-radius: 0.5rem;
+          background-color: var(--box-color, rgb(22, 22, 29));
+          border: 1px solid var(--box-border);
+          transition: all 0.3s ease;
           display: inline-flex;
           align-items: center;
-          gap: 6px;
-          transition: all 0.2s ease;
+          gap: 0.4rem;
         }
 
-        .filter-btn:hover {
-          background: #f1f5f9;
-          color: #0f172a;
+        .vlog__filter-btn:hover {
+          color: var(--skin-color, #3482ff);
+          background-color: var(--box-color-hover, rgb(28, 28, 38));
+          border-color: var(--box-border-hover);
         }
 
-        .filter-btn.active {
-          background: #0f172a;
+        .vlog__filter-btn.active-filter {
+          background-color: var(--skin-color, #3482ff);
           color: #ffffff;
-          border-color: #0f172a;
+          border-color: var(--skin-color, #3482ff);
+          box-shadow: 0 4px 15px rgba(52, 130, 255, 0.35);
         }
 
-        .vlogs-grid {
-          display: grid;
+        .vlog__grid {
           grid-template-columns: repeat(3, 1fr);
-          gap: 28px;
+          gap: 2rem;
         }
 
-        .vlog-card {
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          border-radius: 18px;
+        .vlog__card {
+          background-color: var(--box-color, rgb(22, 22, 29));
+          border: 1px solid var(--box-border);
+          border-radius: 1.25rem;
           overflow: hidden;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+          transition: all 0.35s ease;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          transition: all 0.3s ease;
         }
 
-        .vlog-card:hover {
-          border-color: #93c5fd;
-          box-shadow: 0 12px 30px rgba(37, 99, 235, 0.08);
-          transform: translateY(-4px);
+        .vlog__card:hover {
+          transform: translateY(-6px);
+          border-color: var(--skin-color, #3482ff);
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
         }
 
-        .vlog-media-box {
+        .vlog__img-box {
           position: relative;
           aspect-ratio: 16 / 9;
-          background: #0f172a;
           overflow: hidden;
+          background-color: #000000;
         }
 
-        .vlog-cover-img {
+        .vlog__img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          display: block;
-          transition: transform 0.4s ease;
+          transition: transform 0.5s ease;
         }
 
-        .vlog-card:hover .vlog-cover-img {
-          transform: scale(1.05);
+        .vlog__card:hover .vlog__img {
+          transform: scale(1.06);
         }
 
-        .vlog-cat-badge {
+        .vlog__cat-pill {
           position: absolute;
-          top: 12px;
-          left: 12px;
-          font-size: 11px;
-          font-weight: 700;
-          color: #ffffff;
-          padding: 4px 10px;
-          border-radius: 6px;
+          top: 1rem;
+          left: 1rem;
+          font-size: 0.72rem;
+          font-weight: 600;
+          padding: 0.2rem 0.65rem;
+          border-radius: 100px;
           display: inline-flex;
           align-items: center;
-          gap: 6px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          gap: 0.35rem;
+          background-color: rgba(10, 10, 15, 0.85);
+          backdrop-filter: blur(6px);
+          color: var(--skin-color, #3482ff);
+          border: 1px solid rgba(52, 130, 255, 0.3);
         }
 
-        .vlog-cat-badge.vlog { background: #2563eb; }
-        .vlog-cat-badge.article { background: #4f46e5; }
-        .vlog-cat-badge.gallery { background: #10b981; }
-
-        .vlog-play-btn {
+        .vlog__play-btn {
           position: absolute;
           inset: 0;
           margin: auto;
-          width: 48px;
-          height: 48px;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.95);
-          color: #2563eb;
-          border: none;
+          background-color: var(--skin-color, #3482ff);
+          color: #ffffff;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 16px;
-          cursor: pointer;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-          transition: transform 0.2s ease;
+          font-size: 1rem;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+          transition: transform 0.25s ease;
         }
 
-        .vlog-play-btn:hover {
+        .vlog__play-btn:hover {
           transform: scale(1.15);
         }
 
-        .vlog-info {
-          padding: 20px 24px;
-        }
-
-        .vlog-meta-row {
+        .vlog__data {
+          padding: 1.5rem;
           display: flex;
-          align-items: center;
+          flex-direction: column;
+          flex-grow: 1;
           justify-content: space-between;
-          font-size: 12px;
-          color: #64748b;
-          font-weight: 500;
-          margin-bottom: 8px;
         }
 
-        .vlog-title {
-          font-size: 17px;
-          font-weight: 700;
-          color: #0f172a;
-          margin-bottom: 10px;
-          line-height: 1.35;
-          font-family: var(--font-heading, 'Ubuntu', sans-serif);
-        }
-
-        .vlog-summary {
-          font-size: 13.5px;
-          line-height: 1.6;
-          color: #64748b;
-          margin-bottom: 14px;
-        }
-
-        .vlog-tags-row {
+        .vlog__meta {
           display: flex;
-          flex-wrap: wrap;
-          gap: 6px;
+          justify-content: space-between;
+          font-size: 0.8rem;
+          color: var(--text-muted);
+          margin-bottom: 0.6rem;
         }
 
-        .vlog-tag {
-          font-size: 11px;
+        .vlog__card-title {
+          font-size: 1.1rem;
+          color: var(--title-color, rgb(241, 241, 243));
+          line-height: 1.35;
+          margin-bottom: 0.6rem;
+        }
+
+        .vlog__card-desc {
+          font-size: 0.88rem;
+          color: var(--text-color, rgb(214, 214, 220));
+          line-height: 1.6;
+          margin-bottom: 1.2rem;
+        }
+
+        .vlog__actions {
+          padding-top: 0.85rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .vlog__btn-link {
+          background: none;
+          color: var(--skin-color, #3482ff);
+          font-size: 0.88rem;
           font-weight: 600;
-          color: #475569;
-          background: #f1f5f9;
-          padding: 2px 8px;
-          border-radius: 4px;
-        }
-
-        .vlog-card-action {
-          padding: 16px 24px;
-          border-top: 1px solid #f1f5f9;
-        }
-
-        .vlog-action-btn {
-          width: 100%;
-          border: none;
-          padding: 10px;
-          border-radius: 8px;
-          font-size: 13px;
-          font-weight: 600;
-          cursor: pointer;
           display: inline-flex;
           align-items: center;
-          justify-content: center;
-          gap: 8px;
-          transition: all 0.2s ease;
+          gap: 0.45rem;
+          transition: gap 0.2s ease;
         }
 
-        .vlog-btn {
-          background: #eff6ff;
-          color: #2563eb;
+        .vlog__btn-link:hover {
+          gap: 0.7rem;
         }
-        .vlog-btn:hover { background: #2563eb; color: #ffffff; }
 
-        .gallery-btn {
-          background: #ecfdf5;
-          color: #059669;
-        }
-        .gallery-btn:hover { background: #059669; color: #ffffff; }
-
-        .article-btn {
-          background: #f8fafc;
-          color: #334155;
-          border: 1px solid #e2e8f0;
-        }
-        .article-btn:hover { background: #0f172a; color: #ffffff; }
-
-        /* Modals */
-        .modal-backdrop {
+        /* Modal Styles */
+        .vlog__modal {
           position: fixed;
           inset: 0;
-          z-index: 1000;
-          background: rgba(15, 23, 42, 0.85);
+          background-color: rgba(0, 0, 0, 0.85);
           backdrop-filter: blur(8px);
+          z-index: var(--z-modal, 10000);
           display: flex;
-          align-items: center;
           justify-content: center;
-          padding: 20px;
+          align-items: center;
+          padding: 1.5rem;
         }
 
-        .modal-video-card {
+        .vlog__modal-video {
+          background-color: var(--box-color, rgb(22, 22, 29));
+          border-radius: 1rem;
+          overflow: hidden;
           width: 100%;
           max-width: 800px;
-          background: #0f172a;
-          border-radius: 18px;
-          overflow: hidden;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-          border: 1px solid #334155;
+          border: 1px solid var(--box-border);
         }
 
-        .modal-header {
+        .vlog__modal-header {
           display: flex;
-          align-items: center;
           justify-content: space-between;
-          padding: 14px 20px;
-          background: #1e293b;
-          color: #ffffff;
-        }
-
-        .modal-title {
-          font-size: 14px;
+          align-items: center;
+          padding: 1rem 1.5rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          color: var(--title-color, rgb(241, 241, 243));
           font-weight: 600;
         }
 
-        .modal-close-btn {
-          background: none;
-          border: none;
-          color: #94a3b8;
-          font-size: 18px;
+        .close-icon {
           cursor: pointer;
+          font-size: 1.2rem;
+          color: var(--skin-color, #3482ff);
         }
 
-        .modal-close-btn:hover { color: #ffffff; }
-
-        .modal-video-frame {
+        .vlog__iframe-wrapper {
           aspect-ratio: 16 / 9;
           width: 100%;
         }
 
-        .iframe-player {
+        .vlog__iframe {
           width: 100%;
           height: 100%;
           border: none;
         }
 
-        .modal-lightbox-card {
+        .vlog__modal-lightbox {
           position: relative;
           max-width: 900px;
           max-height: 85vh;
-          background: #ffffff;
-          border-radius: 16px;
-          overflow: hidden;
-          padding: 8px;
         }
 
         .lightbox-close {
           position: absolute;
-          top: 16px;
-          right: 16px;
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background: rgba(15, 23, 42, 0.8);
+          top: -2.5rem;
+          right: 0;
+          font-size: 1.5rem;
           color: #ffffff;
-          border: none;
           cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 16px;
         }
 
         .lightbox-img {
           max-height: 80vh;
-          width: auto;
-          display: block;
-          border-radius: 10px;
+          border-radius: 0.75rem;
         }
 
-        .modal-article-card {
+        .vlog__modal-article {
+          background-color: var(--box-color, rgb(22, 22, 29));
+          border: 1px solid var(--box-border);
+          border-radius: 1rem;
+          padding: 2rem;
+          max-width: 600px;
           width: 100%;
-          max-width: 650px;
-          background: #ffffff;
-          border-radius: 20px;
-          padding: 32px;
-          max-height: 85vh;
+          max-height: 80vh;
           overflow-y: auto;
-          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
         }
 
-        .modal-header-simple {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 14px;
+        .article-title {
+          font-size: 1.35rem;
+          color: var(--title-color, rgb(241, 241, 243));
+          margin: 1rem 0;
         }
 
-        .article-tag-label {
-          font-size: 12px;
-          font-weight: 700;
-          color: #2563eb;
-          text-transform: uppercase;
-        }
-
-        .article-modal-title {
-          font-size: 24px;
-          font-weight: 700;
-          color: #0f172a;
-          margin-bottom: 16px;
-          line-height: 1.3;
-        }
-
-        .article-modal-content {
-          font-size: 15px;
-          line-height: 1.8;
-          color: #475569;
-          margin-bottom: 24px;
+        .article-body {
+          font-size: 0.95rem;
+          color: var(--text-color, rgb(214, 214, 220));
+          line-height: 1.7;
           white-space: pre-line;
         }
 
-        @media (max-width: 992px) {
-          .vlogs-grid {
+        @media screen and (max-width: 1024px) {
+          .vlog__grid {
             grid-template-columns: repeat(2, 1fr);
           }
         }
 
-        @media (max-width: 600px) {
-          .vlogs-grid {
+        @media screen and (max-width: 600px) {
+          .vlog__grid {
             grid-template-columns: 1fr;
           }
         }

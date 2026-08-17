@@ -1,55 +1,63 @@
+/* =========================================================
+   REVAN JOSH DESIGN SYSTEM — DESIGN TOKENS
+   Dark Minimalist Aesthetic with Electric Blue Accents
+   ========================================================= */
+
 :root {
-  /* =========================================
-     World-Class Light Theme Palette (Linear / Stripe / Vercel Aesthetic)
-     ========================================= */
-  --bg-primary: #f8fafc;
-  --bg-surface: #ffffff;
-  --bg-surface-elevated: #ffffff;
-  --bg-subtle: #f1f5f9;
-  --bg-muted: #e2e8f0;
-
-  /* Accent & Electric Blues */
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-subtle: rgba(37, 99, 235, 0.08);
-  --primary-border: rgba(37, 99, 235, 0.2);
-
-  /* Deep Slate & Neutral Text */
-  --secondary-color: #0f172a;
-  --text-dark: #0f172a;
-  --text-muted: #475569;
-  --text-light: #64748b;
-  --text-faint: #94a3b8;
-
-  /* Accent Highlight Colors */
-  --accent-color: #14b1ff;
-  --accent-indigo: #4f46e5;
-  --accent-emerald: #10b981;
-  --accent-amber: #f59e0b;
-  --accent-purple: #8b5cf6;
-
-  /* Borders & Hairlines */
-  --border-light: #e2e8f0;
-  --border-subtle: rgba(226, 232, 240, 0.8);
-  --border-focus: rgba(37, 99, 235, 0.4);
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
-  --shadow-xl: 0 20px 35px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
-  --shadow-glow: 0 10px 30px -5px rgba(37, 99, 235, 0.18);
+  /* Colors */
+  --blue-90: #1b7be2;
+  --blue-75: #3482ff;
+  --skin-color: #3482ff;
+  --skin-color-hover: #1b7be2;
+  --title-color: rgb(241, 241, 243);
+  --text-color: rgb(214, 214, 220);
+  --text-muted: rgb(155, 155, 168);
+  --body-color: rgb(10, 10, 15);
+  --box-color: rgb(22, 22, 29);
+  --box-color-hover: rgb(28, 28, 38);
+  --box-border: rgba(255, 255, 255, 0.07);
+  --box-border-hover: rgba(52, 130, 255, 0.4);
+  --bullet-color: rgb(90, 90, 90);
+  --scroll-bar-color: rgb(86, 85, 109);
+  --scroll-thumb-color: rgb(59, 58, 74);
 
   /* Typography */
-  --font-heading: 'Ubuntu', var(--font-ubuntu), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Poppins', var(--font-poppins), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, monospace;
+  --body-font: 'Poppins', sans-serif;
+  --biggest-font-size: 3rem;
+  --h1-font-size: 2.25rem;
+  --h2-font-size: 1.5rem;
+  --h3-font-size: 1.25rem;
+  --normal-font-size: 1rem;
+  --small-font-size: .875rem;
+  --smaller-font-size: .813rem;
 
-  /* Layout */
-  --container-max-width: 1200px;
-  --header-height: 72px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
+  /* Font Weight */
+  --font-medium: 500;
+  --font-bold: 600;
+
+  /* Margins */
+  --mb-0-25: .25rem;
+  --mb-0-5: .5rem;
+  --mb-0-75: .75rem;
+  --mb-1: 1rem;
+  --mb-1-5: 1.5rem;
+  --mb-2: 2rem;
+  --mb-2-5: 2.5rem;
+  --mb-3: 3rem;
+
+  /* Z Index */
+  --z-fixed: 100;
+  --z-modal: 10000;
+}
+
+@media screen and (max-width: 1024px) {
+  :root {
+    --biggest-font-size: 2.2rem;
+    --h1-font-size: 1.6rem;
+    --h2-font-size: 1.3rem;
+    --h3-font-size: 1.125rem;
+    --normal-font-size: .938rem;
+    --small-font-size: .813rem;
+    --smaller-font-size: .75rem;
+  }
 }

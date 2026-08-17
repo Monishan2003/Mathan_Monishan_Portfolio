@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 
 export interface EducationItem {
   id: string | number
@@ -17,10 +17,12 @@ interface EducationProps {
 }
 
 export default function Education({ items = [] }: EducationProps) {
+  const [activeTab, setActiveTab] = useState<"education" | "certifications">("education")
+
   const defaultEducation: EducationItem[] = [
     {
       id: 1,
-      title: "BSc (Hons) in Science & Technology (Mechatronics Specialization)",
+      title: "BSc (Hons) in Science & Technology (Mechatronics)",
       institution: "Uva Wellassa University of Sri Lanka",
       year: "2023 – Present",
       status: "present",
@@ -50,182 +52,302 @@ export default function Education({ items = [] }: EducationProps) {
     },
   ]
 
+  const certifications = [
+    {
+      id: 1,
+      title: "Meta Front-End Developer Professional Certificate",
+      issuer: "Meta & Coursera",
+      date: "Verified Professional Credential",
+      link: "https://coursera.org/verify/professional-cert/5R8M460E7EFP",
+      icon: "fab fa-react",
+      desc: "9-course specialization covering React, Advanced JS, UI/UX, and Front-End Capstone.",
+    },
+    {
+      id: 2,
+      title: "Project Management Foundations & Agile Delivery",
+      issuer: "Uki & Vocational Institute",
+      date: "2024",
+      icon: "fas fa-tasks",
+      desc: "Structured certification in project scoping, Scrum sprint cycles, and risk management.",
+    },
+    {
+      id: 3,
+      title: "Python for Data Science & Systems Programming",
+      issuer: "Uki Tech Institute",
+      date: "2024",
+      icon: "fab fa-python",
+      desc: "Certification in Python OOP, automation scripts, and REST APIs.",
+    },
+    {
+      id: 4,
+      title: "Artificial Intelligence & Machine Learning Specialization",
+      issuer: "NoviTech R&D Pvt Ltd",
+      date: "2024",
+      icon: "fas fa-brain",
+      desc: "Training on neural networks, computer vision fundamentals, and AI algorithms.",
+    },
+  ]
+
   const eduList = items.length > 0 ? items : defaultEducation
 
   return (
-    <section id="education" className="section-wrapper education-section">
-      <div className="container">
-        {/* Section Header */}
-        <div className="section-header">
-          <div className="section-label">
+    <section className="education section" id="education">
+      <h2 className="section__title" data-heading="Academic Rigor">
+        Education & Certifications
+      </h2>
+
+      <div className="education__container container">
+        {/* Toggle Tabs */}
+        <div className="qualification__tabs">
+          <button
+            type="button"
+            onClick={() => setActiveTab("education")}
+            className={`qualification__button ${activeTab === "education" ? "qualification__active" : ""}`}
+          >
             <i className="fas fa-graduation-cap" />
-            <span>Academic Background</span>
-          </div>
-          <h2 className="section-headline">
-            Education & Degrees
-          </h2>
-          <p className="section-subtext">
-            Formal dual-degree university engineering studies spanning Mechatronics and Information Technology.
-          </p>
+            <span>Education Degrees</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab("certifications")}
+            className={`qualification__button ${activeTab === "certifications" ? "qualification__active" : ""}`}
+          >
+            <i className="fas fa-certificate" />
+            <span>Verified Certifications</span>
+          </button>
         </div>
 
-        {/* 3-Column Education Grid */}
-        <div className="education-grid">
-          {eduList.map((item) => {
-            const isPresent = item.status === "present" || item.year.toLowerCase().includes("present")
-            return (
-              <div key={item.id} className="edu-card">
-                <div>
-                  {/* Top Meta */}
-                  <div className="edu-card-top">
-                    <div className="edu-icon-box">
-                      <i className={item.icon || "fas fa-university"} />
+        {/* Content Section */}
+        <div className="qualification__sections">
+          {activeTab === "education" ? (
+            <div className="qualification__content grid">
+              {eduList.map((edu) => (
+                <div key={edu.id} className="qualification__card">
+                  <div className="qualification__header">
+                    <div className="qualification__icon-box">
+                      <i className={edu.icon || "fas fa-university"} />
                     </div>
-                    <span className={`edu-status-badge ${isPresent ? "present" : "completed"}`}>
-                      {isPresent ? "Present / In Progress" : "Completed"}
+                    <span className="qualification__status">
+                      {edu.status === "present" ? "Present" : "Completed"}
                     </span>
                   </div>
 
-                  {/* Degree Title */}
-                  <h3 className="edu-title">{item.title}</h3>
+                  <h3 className="qualification__title">{edu.title}</h3>
+                  <span className="qualification__subtitle">{edu.institution}</span>
+                  <p className="qualification__desc">{edu.description}</p>
 
-                  {/* Institution */}
-                  <div className="edu-institution">
-                    <i className="fas fa-university" style={{ fontSize: "11px" }} />
-                    <span>{item.institution}</span>
+                  <div className="qualification__calendar">
+                    <i className="far fa-calendar-alt" /> {edu.year}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="qualification__content grid">
+              {certifications.map((cert) => (
+                <div key={cert.id} className="qualification__card">
+                  <div className="qualification__header">
+                    <div className="qualification__icon-box">
+                      <i className={cert.icon} />
+                    </div>
+                    <span className="qualification__status verified">
+                      <i className="fas fa-check-circle" /> Verified
+                    </span>
                   </div>
 
-                  {/* Description */}
-                  <p className="edu-desc">{item.description}</p>
-                </div>
+                  <h3 className="qualification__title">{cert.title}</h3>
+                  <span className="qualification__subtitle">{cert.issuer}</span>
+                  <p className="qualification__desc">{cert.desc}</p>
 
-                {/* Timeline Footer */}
-                <div className="edu-card-footer">
-                  <span className="edu-year">
-                    <i className="far fa-calendar-alt" style={{ marginRight: "6px" }} />
-                    {item.year}
-                  </span>
+                  <div className="qualification__footer-row">
+                    <div className="qualification__calendar">
+                      <i className="far fa-calendar-alt" /> {cert.date}
+                    </div>
+                    {cert.link && (
+                      <a
+                        href={cert.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="verify__link"
+                      >
+                        <span>Verify Credential</span>
+                        <i className="fas fa-external-link-alt" style={{ fontSize: "10px" }} />
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
       <style jsx>{`
-        .education-section {
-          background: #ffffff;
-          border-bottom: 1px solid #e2e8f0;
+        .education__container {
+          max-width: 950px;
         }
 
-        .education-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 24px;
+        .qualification__tabs {
+          display: flex;
+          justify-content: center;
+          gap: 1.5rem;
+          margin-bottom: 3rem;
         }
 
-        .edu-card {
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 18px;
-          padding: 28px 24px;
+        .qualification__button {
+          font-size: var(--h3-font-size, 1.25rem);
+          font-weight: var(--font-medium, 500);
+          color: var(--title-color, rgb(241, 241, 243));
+          cursor: pointer;
+          background: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          padding: 0.5rem 1rem;
+          transition: all 0.3s ease;
+          position: relative;
+        }
+
+        .qualification__button:hover {
+          color: var(--skin-color, #3482ff);
+        }
+
+        .qualification__button.qualification__active {
+          color: var(--skin-color, #3482ff);
+        }
+
+        .qualification__button.qualification__active::after {
+          content: "";
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background-color: var(--skin-color, #3482ff);
+          box-shadow: 0 0 8px var(--skin-color, #3482ff);
+        }
+
+        .qualification__content {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 2rem;
+        }
+
+        .qualification__card {
+          background-color: var(--box-color, rgb(22, 22, 29));
+          border: 1px solid var(--box-border);
+          border-radius: 1.25rem;
+          padding: 2rem;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           transition: all 0.3s ease;
         }
 
-        .edu-card:hover {
-          background: #ffffff;
-          border-color: #93c5fd;
-          box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
-          transform: translateY(-3px);
+        .qualification__card:hover {
+          background-color: var(--box-color-hover, rgb(28, 28, 38));
+          border-color: var(--box-border-hover);
+          transform: translateY(-4px);
         }
 
-        .edu-card-top {
+        .qualification__header {
           display: flex;
-          align-items: center;
           justify-content: space-between;
-          margin-bottom: 18px;
+          align-items: center;
+          margin-bottom: 1.2rem;
         }
 
-        .edu-icon-box {
+        .qualification__icon-box {
           width: 42px;
           height: 42px;
           border-radius: 10px;
-          background: rgba(37, 99, 235, 0.08);
-          color: #2563eb;
+          background-color: rgba(52, 130, 255, 0.12);
+          color: var(--skin-color, #3482ff);
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 16px;
+          font-size: 1.2rem;
         }
 
-        .edu-status-badge {
-          font-size: 11px;
-          font-weight: 700;
-          padding: 3px 10px;
-          border-radius: 100px;
-        }
-
-        .edu-status-badge.present {
-          background: #ecfdf5;
-          color: #065f46;
-          border: 1px solid #a7f3d0;
-        }
-
-        .edu-status-badge.completed {
-          background: #f1f5f9;
-          color: #475569;
-          border: 1px solid #e2e8f0;
-        }
-
-        .edu-title {
-          font-size: 17px;
-          font-weight: 700;
-          color: #0f172a;
-          line-height: 1.35;
-          margin-bottom: 8px;
-          font-family: var(--font-heading, 'Ubuntu', sans-serif);
-        }
-
-        .edu-institution {
-          font-size: 13px;
+        .qualification__status {
+          font-size: 0.75rem;
           font-weight: 600;
-          color: #2563eb;
+          padding: 0.25rem 0.65rem;
+          border-radius: 100px;
+          background-color: rgba(255, 255, 255, 0.05);
+          color: var(--text-color, rgb(214, 214, 220));
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .qualification__status.verified {
+          background-color: rgba(16, 185, 129, 0.15);
+          color: #10b981;
+          border-color: rgba(16, 185, 129, 0.3);
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+        }
+
+        .qualification__title {
+          font-size: 1.15rem;
+          color: var(--title-color, rgb(241, 241, 243));
+          margin-bottom: 0.4rem;
+          line-height: 1.35;
+        }
+
+        .qualification__subtitle {
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: var(--skin-color, #3482ff);
+          display: block;
+          margin-bottom: 1rem;
+        }
+
+        .qualification__desc {
+          font-size: 0.88rem;
+          line-height: 1.6;
+          color: var(--text-color, rgb(214, 214, 220));
+          margin-bottom: 1.5rem;
+        }
+
+        .qualification__calendar {
+          font-size: 0.82rem;
+          color: var(--text-muted);
           display: flex;
           align-items: center;
-          gap: 6px;
-          margin-bottom: 14px;
+          gap: 0.45rem;
         }
 
-        .edu-desc {
-          font-size: 13.5px;
-          line-height: 1.6;
-          color: #64748b;
-          margin-bottom: 20px;
+        .qualification__footer-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-top: 1rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .edu-card-footer {
-          padding-top: 14px;
-          border-top: 1px solid #e2e8f0;
+        .verify__link {
+          font-size: 0.82rem;
+          font-weight: 500;
+          color: var(--skin-color, #3482ff);
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
         }
 
-        .edu-year {
-          font-size: 12px;
-          font-weight: 600;
-          color: #475569;
+        .verify__link:hover {
+          text-decoration: underline;
         }
 
-        @media (max-width: 992px) {
-          .education-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (max-width: 600px) {
-          .education-grid {
+        @media screen and (max-width: 768px) {
+          .qualification__content {
             grid-template-columns: 1fr;
+          }
+
+          .qualification__tabs {
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
           }
         }
       `}</style>
